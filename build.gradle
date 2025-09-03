@@ -20,14 +20,6 @@ repositories {
 	}
 
 	maven {
-		url = "https://maven.pkg.github.com/ImyvmCircle/HoKi"
-		credentials {
-			username = System.getenv("GITHUB_USERNAME")
-			password = System.getenv("GITHUB_TOKEN")
-		}
-	}
-
-	maven {
 		name = 'Fabric'
 		url = 'https://maven.fabricmc.net/'
 	}
@@ -63,6 +55,7 @@ dependencies {
 
 	// ImyvmCircle Projects.
 	modImplementation("com.imyvm:imyvm-hoki:${project.imyvm_hoki_version}")
+	modImplementation("com.imyvm:ImyvmWorldGeo:${project.imyvm_world_geo_version}")
 }
 
 processResources {
