@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "community",
+	"version": "${version}",
+	"name": "WorldGeo-CommunityAddon",
+	"description": "An extension mod for ImyvmWorldGeo to provide community features.",
+	"authors": [
+		"Doohaey Re"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "GPL-3",
+	"icon": "assets/community/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "com.imyvm.community.WorldGeoCommunityAddon",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"community.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
