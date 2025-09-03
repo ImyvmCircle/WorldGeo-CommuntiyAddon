@@ -1,13 +1,12 @@
-package com.imyvm.community
-
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.CommunityJoinPolicy
+import com.imyvm.community.domain.CommunityRole
 import net.fabricmc.loader.api.FabricLoader
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.IOException
 import java.nio.file.Path
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CommunityDatabase {
     @Throws(IOException::class)
@@ -16,24 +15,8 @@ class CommunityDatabase {
         DataOutputStream(file.toFile().outputStream()).use { stream ->
             stream.writeInt(communities.size)
             for (community in communities) {
-                stream.writeUTF(community.name)
+
                 stream.writeInt(community.id)
-
-                if (community.owner == null) {
-                    stream.writeBoolean(false)
-                } else {
-                    stream.writeBoolean(true)
-                    stream.writeUTF(community.owner.toString())
-                }
-
-                if (community.members == null) {
-                    stream.writeInt(0)
-                } else {
-                    stream.writeInt(community.members!!.size)
-                    for (m in community.members!!) {
-                        stream.writeUTF(m.toString())
-                    }
-                }
 
                 if (community.regionNumberId == null) {
                     stream.writeBoolean(false)
@@ -41,6 +24,14 @@ class CommunityDatabase {
                     stream.writeBoolean(true)
                     stream.writeInt(community.regionNumberId!!)
                 }
+
+                stream.writeInt(community.member.size)
+                for ((uuid, role) in community.member) {
+                    stream.writeUTF(uuid.toString())
+                    stream.writeInt(role.value)
+                }
+
+                stream.writeInt(community.joinPolicy.value)
             }
         }
     }
@@ -59,23 +50,22 @@ class CommunityDatabase {
             for (i in 0 until size) {
                 val community = Community()
 
-                community.name = stream.readUTF()
                 community.id = stream.readInt()
-
-                if (stream.readBoolean()) {
-                    community.owner = UUID.fromString(stream.readUTF())
-                }
-
-                val memberCount = stream.readInt()
-                val memberList = mutableListOf<UUID>()
-                for (j in 0 until memberCount) {
-                    memberList.add(UUID.fromString(stream.readUTF()))
-                }
-                community.members = memberList
 
                 if (stream.readBoolean()) {
                     community.regionNumberId = stream.readInt()
                 }
+
+                val memberCount = stream.readInt()
+                val memberMap = HashMap<UUID, CommunityRole>(memberCount)
+                for (j in 0 until memberCount) {
+                    val uuid = UUID.fromString(stream.readUTF())
+                    val role = CommunityRole.fromValue(stream.readInt())
+                    memberMap[uuid] = role
+                }
+                community.member = memberMap
+
+                community.joinPolicy = CommunityJoinPolicy.fromValue(stream.readInt())
 
                 communities.add(community)
             }
