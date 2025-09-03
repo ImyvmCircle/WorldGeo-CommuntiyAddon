@@ -85,7 +85,7 @@ class CommunityDatabase {
     private fun getDatabasePath(): Path {
         return FabricLoader.getInstance().gameDir
             .resolve("world")
-            .resolve(CommunityDatabase.DATABASE_FILENAME)
+            .resolve(DATABASE_FILENAME)
     }
 
     companion object {

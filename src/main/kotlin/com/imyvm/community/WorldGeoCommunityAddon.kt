@@ -1,23 +1,22 @@
 package com.imyvm.community
 
-import com.imyvm.iwg.RegionDatabase
-import com.imyvm.iwg.domain.PlayerRegionChecker
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
-import net.minecraft.util.math.BlockPos
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 class WorldGeoCommunityAddon : ModInitializer {
 
 	override fun onInitialize() {
+		CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, _ ->
+			register(dispatcher, registryAccess)
+		}
 
 		dataLoad()
 		dataSave()
 
-		logger.info("$MOD_ID initialized.")
+		logger.info("$MOD_ID initialized successfully.")
 
 	}
 
