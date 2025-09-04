@@ -1,6 +1,7 @@
 package com.imyvm.community
 
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.CommunityStatus
 import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.application.resetSelection
 import com.imyvm.iwg.application.startSelection
@@ -92,8 +93,10 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
     val community = Community(
         id = 0,
         regionNumberId = ImyvmWorldGeo.data.getRegionList().lastOrNull()?.numberID,
+        foundingTimeSeconds = System.currentTimeMillis() / 1000,
         member = hashMapOf(player.uuid to com.imyvm.community.domain.CommunityRole.OWNER),
-        joinPolicy = com.imyvm.community.domain.CommunityJoinPolicy.OPEN
+        joinPolicy = com.imyvm.community.domain.CommunityJoinPolicy.OPEN,
+        status = CommunityStatus.PENDING
     )
     WorldGeoCommunityAddon.data.addCommunity(community)
 

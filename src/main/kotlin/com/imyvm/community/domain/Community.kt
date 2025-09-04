@@ -4,10 +4,12 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class Community(
-    var id: Int,
-    var regionNumberId: Int?,
+    val id: Int,
+    val regionNumberId: Int?,
+    val foundingTimeSeconds: Long,
     var member: HashMap<UUID, CommunityRole>,
     var joinPolicy: CommunityJoinPolicy,
+    var status: CommunityStatus
 ) {
 
 }
@@ -35,6 +37,18 @@ enum class CommunityJoinPolicy(val value: Int) {
         fun fromValue(value: Int): CommunityJoinPolicy {
             return entries.firstOrNull { it.value == value }
                 ?: throw IllegalArgumentException("Invalid CommunityJoinPolicy value: $value")
+        }
+    }
+}
+
+enum class CommunityStatus(val value: Int) {
+    PENDING(0),
+    ACTIVE(1),
+    REVOKED(2);
+    companion object {
+        fun fromValue(value: Int): CommunityStatus {
+            return CommunityStatus.entries.firstOrNull { it.value == value }
+                ?: throw IllegalArgumentException("Invalid CommunityStatus value: $value")
         }
     }
 }

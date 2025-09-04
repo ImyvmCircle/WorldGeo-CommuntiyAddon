@@ -1,6 +1,7 @@
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityJoinPolicy
 import com.imyvm.community.domain.CommunityRole
+import com.imyvm.community.domain.CommunityStatus
 import net.fabricmc.loader.api.FabricLoader
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -9,6 +10,7 @@ import java.nio.file.Path
 import java.util.*
 
 class CommunityDatabase {
+
     @Throws(IOException::class)
     fun save() {
         val file = this.getDatabasePath()
@@ -21,8 +23,10 @@ class CommunityDatabase {
                     stream.writeBoolean(false)
                 } else {
                     stream.writeBoolean(true)
-                    stream.writeInt(community.regionNumberId!!)
+                    stream.writeInt(community.regionNumberId)
                 }
+
+                stream.writeLong(community.foundingTimeSeconds)
 
                 stream.writeInt(community.member.size)
                 for ((uuid, role) in community.member) {
@@ -31,6 +35,8 @@ class CommunityDatabase {
                 }
 
                 stream.writeInt(community.joinPolicy.value)
+
+                stream.writeInt(community.status.value)
             }
         }
     }
@@ -55,6 +61,8 @@ class CommunityDatabase {
                     null
                 }
 
+                val foundingTimeSeconds = stream.readLong()
+
                 val memberCount = stream.readInt()
                 val memberMap = HashMap<UUID, CommunityRole>(memberCount)
                 for (j in 0 until memberCount) {
@@ -64,12 +72,15 @@ class CommunityDatabase {
                 }
 
                 val joinPolicy = CommunityJoinPolicy.fromValue(stream.readInt())
+                val status = CommunityStatus.fromValue(stream.readInt())
 
                 val community = Community(
                     id = id,
                     regionNumberId = regionNumberId,
+                    foundingTimeSeconds = foundingTimeSeconds,
                     member = memberMap,
-                    joinPolicy = joinPolicy
+                    joinPolicy = joinPolicy,
+                    status = status
                 )
 
                 communities.add(community)
