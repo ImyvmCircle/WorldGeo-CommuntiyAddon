@@ -86,19 +86,22 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
     val player = context.source.player ?: return 0
     val name = StringArgumentType.getString(context, "name")
     val shapeName = StringArgumentType.getString(context, "shapeType").uppercase(Locale.getDefault())
+
     if (createRegion(player, name, shapeName) == 0) {
         player.sendMessage(Text.of("Failed to create community, while creating region."))
+        return 0
+    } else {
+        val community = Community(
+            id = 0,
+            regionNumberId = ImyvmWorldGeo.data.getRegionList().lastOrNull()?.numberID,
+            foundingTimeSeconds = System.currentTimeMillis() / 1000,
+            member = hashMapOf(player.uuid to com.imyvm.community.domain.CommunityRole.OWNER),
+            joinPolicy = com.imyvm.community.domain.CommunityJoinPolicy.OPEN,
+            status = CommunityStatus.PENDING
+        )
+        WorldGeoCommunityAddon.data.addCommunity(community)
+        player.sendMessage(Text.of("Community creation request sent successfully with ID: ${community.id}"))
+
+        return 1
     }
-
-    val community = Community(
-        id = 0,
-        regionNumberId = ImyvmWorldGeo.data.getRegionList().lastOrNull()?.numberID,
-        foundingTimeSeconds = System.currentTimeMillis() / 1000,
-        member = hashMapOf(player.uuid to com.imyvm.community.domain.CommunityRole.OWNER),
-        joinPolicy = com.imyvm.community.domain.CommunityJoinPolicy.OPEN,
-        status = CommunityStatus.PENDING
-    )
-    WorldGeoCommunityAddon.data.addCommunity(community)
-
-    return 1
 }
