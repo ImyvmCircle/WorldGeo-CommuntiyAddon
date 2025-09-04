@@ -15,7 +15,6 @@ class CommunityDatabase {
         DataOutputStream(file.toFile().outputStream()).use { stream ->
             stream.writeInt(communities.size)
             for (community in communities) {
-
                 stream.writeInt(community.id)
 
                 if (community.regionNumberId == null) {
@@ -48,12 +47,12 @@ class CommunityDatabase {
             val size = stream.readInt()
             communities = ArrayList(size)
             for (i in 0 until size) {
-                val community = Community()
+                val id = stream.readInt()
 
-                community.id = stream.readInt()
-
-                if (stream.readBoolean()) {
-                    community.regionNumberId = stream.readInt()
+                val regionNumberId = if (stream.readBoolean()) {
+                    stream.readInt()
+                } else {
+                    null
                 }
 
                 val memberCount = stream.readInt()
@@ -63,9 +62,15 @@ class CommunityDatabase {
                     val role = CommunityRole.fromValue(stream.readInt())
                     memberMap[uuid] = role
                 }
-                community.member = memberMap
 
-                community.joinPolicy = CommunityJoinPolicy.fromValue(stream.readInt())
+                val joinPolicy = CommunityJoinPolicy.fromValue(stream.readInt())
+
+                val community = Community(
+                    id = id,
+                    regionNumberId = regionNumberId,
+                    member = memberMap,
+                    joinPolicy = joinPolicy
+                )
 
                 communities.add(community)
             }

@@ -1,15 +1,15 @@
 package com.imyvm.community.domain
 
-import com.imyvm.community.WorldGeoCommunityAddon
 import java.util.*
 import kotlin.collections.HashMap
 
-class Community {
-    var id: Int = 0
-    var regionNumberId: Int? = null
+class Community(
+    var id: Int,
+    var regionNumberId: Int?,
+    var member: HashMap<UUID, CommunityRole>,
+    var joinPolicy: CommunityJoinPolicy,
+) {
 
-    var member: HashMap<UUID, CommunityRole> = HashMap()
-    var joinPolicy: CommunityJoinPolicy = CommunityJoinPolicy.OPEN
 }
 
 enum class CommunityRole(val value: Int) {
