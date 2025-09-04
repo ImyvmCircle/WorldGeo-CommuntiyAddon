@@ -77,6 +77,10 @@ class CommunityDatabase {
         }
     }
 
+    fun addCommunity(community: Community) {
+        communities.add(community)
+    }
+
     private fun getDatabasePath(): Path {
         return FabricLoader.getInstance().gameDir
             .resolve("world")

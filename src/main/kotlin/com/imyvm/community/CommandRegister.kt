@@ -1,9 +1,12 @@
 package com.imyvm.community
 
+import com.imyvm.community.domain.Community
+import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.application.resetSelection
 import com.imyvm.iwg.application.startSelection
 import com.imyvm.iwg.application.stopSelection
 import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi.createRegion
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -12,6 +15,7 @@ import net.minecraft.command.CommandRegistryAccess
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.text.Text
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
@@ -78,7 +82,20 @@ private fun runResetSelect(context: CommandContext<ServerCommandSource>): Int {
 }
 
 private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
     val name = StringArgumentType.getString(context, "name")
+    val shapeName = StringArgumentType.getString(context, "shapeType").uppercase(Locale.getDefault())
+    if (createRegion(player, name, shapeName) == 0) {
+        player.sendMessage(Text.of("Failed to create community, while creating region."))
+    }
 
-    TODO()
+    val community = Community(
+        id = 0,
+        regionNumberId = ImyvmWorldGeo.data.getRegionList().lastOrNull()?.numberID,
+        member = hashMapOf(player.uuid to com.imyvm.community.domain.CommunityRole.OWNER),
+        joinPolicy = com.imyvm.community.domain.CommunityJoinPolicy.OPEN
+    )
+    WorldGeoCommunityAddon.data.addCommunity(community)
+
+    return 1
 }

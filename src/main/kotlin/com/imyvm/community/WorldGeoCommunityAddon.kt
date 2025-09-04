@@ -1,5 +1,6 @@
 package com.imyvm.community
 
+import CommunityDatabase
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
