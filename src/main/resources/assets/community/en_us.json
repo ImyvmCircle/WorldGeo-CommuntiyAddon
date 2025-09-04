@@ -1,0 +1,4 @@
+{
+  "community.create.error.region": "Error creating community: Invalid region specified.",
+  "community.create.success": "Community with name {0} and id {1} created successfully!",
+}

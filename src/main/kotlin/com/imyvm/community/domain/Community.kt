@@ -42,9 +42,12 @@ enum class CommunityJoinPolicy(val value: Int) {
 }
 
 enum class CommunityStatus(val value: Int) {
-    PENDING(0),
-    ACTIVE(1),
-    REVOKED(2);
+    PENDING_MANOR(0),
+    PENDING_REALM(1),
+    ACTIVE_MANOR(2),
+    ACTIVE_REALM(3),
+    REVOKED_MANOR(4),
+    REVOKED_REALM(5);
     companion object {
         fun fromValue(value: Int): CommunityStatus {
             return CommunityStatus.entries.firstOrNull { it.value == value }
