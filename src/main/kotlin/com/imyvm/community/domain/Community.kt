@@ -1,5 +1,7 @@
 package com.imyvm.community.domain
 
+import com.imyvm.iwg.ImyvmWorldGeo
+import com.imyvm.iwg.domain.Region
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -11,6 +13,12 @@ class Community(
     var joinPolicy: CommunityJoinPolicy,
     var status: CommunityStatus
 ) {
+    fun getRegion(): Region? {
+        val targetRegion = ImyvmWorldGeo.data.getRegionList().find {
+            it.numberID == id
+        } ?: return null
+        return targetRegion
+    }
 
 }
 

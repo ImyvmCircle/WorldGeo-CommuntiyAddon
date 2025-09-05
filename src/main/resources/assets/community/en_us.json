@@ -10,5 +10,5 @@
 
   "community.join.error.notfound.name": "Community with name {0} not found.",
   "community.join.error.notfound.id": "Community with id {0} not found.",
-  "community.join.error.full": "Community is full for it is a manor which can contain up tp {0} members."
+  "community.join.error.full": "Community {0} is full for it is a manor which can contain up tp {1} members."
 }

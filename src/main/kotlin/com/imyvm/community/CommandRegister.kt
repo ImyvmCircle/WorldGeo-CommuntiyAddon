@@ -185,7 +185,8 @@ private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int
                 return 0
             }
             targetCommunity.member[player.uuid] = com.imyvm.community.domain.CommunityRole.APPLICANT
-            player.sendMessage(Translator.tr("community.join.applied", targetCommunity.id))
+            player.sendMessage(targetCommunity.getRegion()
+                ?.let { Translator.tr("community.join.applied", it.name ,targetCommunity.id) })
             return 1
         }
         com.imyvm.community.domain.CommunityJoinPolicy.INVITE_ONLY -> {
