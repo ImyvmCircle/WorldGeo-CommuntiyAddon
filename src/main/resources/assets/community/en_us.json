@@ -1,4 +1,6 @@
 {
-  "community.create.error.region": "Error creating community: Invalid region specified.",
-  "community.create.success": "Community with name {0} and id {1} created successfully!",
+  "community.create.money.checked": "You to payed {0} for creating a community.",
+  "community.create.money.error": "You have not enough money for creating a community, which charges {0} for type you choose.",
+  "community.create.region.error": "Error creating community: Invalid region specified.",
+  "community.create.success": "Community request with name {0} and id {1} created successfully! Waiting for approval."
 }

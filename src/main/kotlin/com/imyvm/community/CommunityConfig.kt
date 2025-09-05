@@ -10,20 +10,20 @@ class CommunityConfig : HokiConfig("Community.conf") {
         @ConfigOption
         val PRICE_MANOR = Option(
             "economy.price_manor",
-            10000.0,
+            1500000L,
             "the price to create a manor."
         ) { obj, path ->
-            obj.getDouble(path)
+            obj.getLong(path)
         }
 
         @JvmField
         @ConfigOption
         val PRICE_REALM = Option(
             "economy.price_realm",
-            20000.0,
+            3000000L,
             "the price to create a realm."
         ) { obj, path ->
-            obj.getDouble(path)
+            obj.getLong(path)
         }
     }
 }

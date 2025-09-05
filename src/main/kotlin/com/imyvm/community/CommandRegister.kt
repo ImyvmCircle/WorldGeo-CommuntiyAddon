@@ -2,12 +2,14 @@ package com.imyvm.community
 
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityStatus
+import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.application.resetSelection
 import com.imyvm.iwg.application.startSelection
 import com.imyvm.iwg.application.stopSelection
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi.createRegion
+import com.imyvm.economy.PlayerData
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -23,6 +25,11 @@ private val SHAPE_TYPE_SUGGESTION_PROVIDER: SuggestionProvider<ServerCommandSour
     Region.Companion.GeoShapeType.entries
         .filter { it != Region.Companion.GeoShapeType.UNKNOWN }
         .forEach { builder.suggest(it.name.lowercase(Locale.getDefault())) }
+    CompletableFuture.completedFuture(builder.build())
+}
+
+private val COMMUNITY_TYPE_PROVIDER: SuggestionProvider<ServerCommandSource> = SuggestionProvider { _, builder ->
+    listOf("manor", "realm").forEach { builder.suggest(it) }
     CompletableFuture.completedFuture(builder.build())
 }
 
@@ -54,8 +61,12 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
                         argument("shapeType", StringArgumentType.word())
                             .suggests(SHAPE_TYPE_SUGGESTION_PROVIDER)
                             .then(
-                                argument("name", StringArgumentType.word())
-                                    .executes { runCreateCommunity(it) }
+                                argument("communityType", StringArgumentType.word())
+                                    .suggests(COMMUNITY_TYPE_PROVIDER)
+                                    .then(
+                                        argument("name", StringArgumentType.greedyString())
+                                            .executes { runCreateCommunity(it) }
+                                    )
                             )
                     )
             )
@@ -83,12 +94,29 @@ private fun runResetSelect(context: CommandContext<ServerCommandSource>): Int {
 
 private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): Int {
     val player = context.source.player ?: return 0
+
+    val communityType = StringArgumentType.getString(context, "communityType").lowercase(Locale.getDefault())
+    val accountThreshold = when (communityType.lowercase()) {
+        "manor" -> CommunityConfig.PRICE_MANOR.value
+        "realm" -> CommunityConfig.PRICE_REALM.value
+        else -> return 0
+    }
+    val playerAccount = EconomyMod.data.getOrCreate(player)
+    if (playerAccount.money >= accountThreshold){
+        playerAccount.addMoney((-accountThreshold))
+        player.sendMessage(Translator.tr("community.create.money.checked", accountThreshold))
+    } else {
+        player.sendMessage(Translator.tr("community.create.money.error", accountThreshold))
+        return 0
+    }
+
     val name = StringArgumentType.getString(context, "name")
     val shapeName = StringArgumentType.getString(context, "shapeType").uppercase(Locale.getDefault())
     if (createRegion(player, name, shapeName) == 0) {
-        player.sendMessage(Translator.tr("community.create.error.region"))
+        player.sendMessage(Translator.tr("community.create.region.error"))
         return 0
     } else {
+
         val community = Community(
             id = 0,
             regionNumberId = ImyvmWorldGeo.data.getRegionList().lastOrNull()?.numberID,
@@ -97,10 +125,11 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
             joinPolicy = com.imyvm.community.domain.CommunityJoinPolicy.OPEN,
             status = CommunityStatus.PENDING_MANOR
         )
-        WorldGeoCommunityAddon.data.addCommunity(community)
+        WorldGeoCommunityAddon.communityData.addCommunity(community)
         player.sendMessage(
-            Translator.tr("community.create.success", name, community.id)
+            Translator.tr("community.create.request.success", name, community.id)
         )
         return 1
     }
+
 }
