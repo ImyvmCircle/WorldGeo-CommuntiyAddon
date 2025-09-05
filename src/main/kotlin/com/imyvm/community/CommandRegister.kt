@@ -3,6 +3,9 @@ package com.imyvm.community
 import com.imyvm.community.CommunityConfig.Companion.APPLICATION_EXPIRE_HOURS
 import com.imyvm.community.CommunityConfig.Companion.MIN_NUMBER_MEMBER_REALM
 import com.imyvm.community.WorldGeoCommunityAddon.Companion.pendingOperations
+import com.imyvm.community.application.chargeFromApplicator
+import com.imyvm.community.application.handleApplicationBranches
+import com.imyvm.community.application.initialApplication
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityStatus
 import com.imyvm.community.domain.PendingOperationType
@@ -99,50 +102,16 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
     val player = context.source.player ?: return 0
 
     val communityType = StringArgumentType.getString(context, "communityType").lowercase(Locale.getDefault())
-    val accountThreshold = when (communityType.lowercase()) {
-        "manor" -> CommunityConfig.PRICE_MANOR.value
-        "realm" -> CommunityConfig.PRICE_REALM.value
-        else -> return 0
-    }
-    val playerAccount = EconomyMod.data.getOrCreate(player)
-    if (playerAccount.money >= accountThreshold){
-        playerAccount.addMoney((-accountThreshold))
-        player.sendMessage(Translator.tr("community.create.money.checked", accountThreshold))
-    } else {
-        player.sendMessage(Translator.tr("community.create.money.error", accountThreshold))
-        return 0
-    }
+    if (chargeFromApplicator(player, communityType) == 0) return 0
 
     val name = StringArgumentType.getString(context, "name")
     val shapeName = StringArgumentType.getString(context, "shapeType").uppercase(Locale.getDefault())
     if (createRegion(player, name, shapeName) == 0) {
         player.sendMessage(Translator.tr("community.create.region.error"))
         return 0
-    } else {
-
-        val community = Community(
-            id = 0,
-            regionNumberId = ImyvmWorldGeo.data.getRegionList().lastOrNull()?.numberID,
-            foundingTimeSeconds = System.currentTimeMillis() / 1000,
-            member = hashMapOf(player.uuid to com.imyvm.community.domain.CommunityRole.OWNER),
-            joinPolicy = com.imyvm.community.domain.CommunityJoinPolicy.OPEN,
-            status = CommunityStatus.PENDING_MANOR
-        )
-        WorldGeoCommunityAddon.communityData.addCommunity(community)
-        player.sendMessage(
-            Translator.tr("community.create.request.initial.success", name, community.id)
-        )
-
-        if (communityType == "manor") {
-            player.sendMessage(Translator.tr("community.create.request.sent"))
-        } else if (communityType == "realm") {
-            player.sendMessage(Translator.tr("community.create.request.recruitment", MIN_NUMBER_MEMBER_REALM.value))
-            pendingOperations[player.uuid] = com.imyvm.community.domain.PendingOperation(
-                expireAt = System.currentTimeMillis() + APPLICATION_EXPIRE_HOURS.value * 3600 * 1000,
-                type = PendingOperationType.CREATE_COMMUNITY_RECRUITMENT
-            )
-        }
-        return 1
     }
+    initialApplication(player, name)
+    handleApplicationBranches(player, communityType)
+    return 1
 
 }
