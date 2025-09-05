@@ -1,5 +1,6 @@
 package com.imyvm.community.application
 
+import CommunityDatabase.Companion.communities
 import com.imyvm.community.CommunityConfig
 import com.imyvm.community.Translator
 import com.imyvm.community.WorldGeoCommunityAddon
@@ -7,6 +8,7 @@ import com.imyvm.community.domain.*
 import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.ImyvmWorldGeo
 import net.minecraft.server.network.ServerPlayerEntity
+import java.util.UUID
 
 fun chargeFromApplicator(player: ServerPlayerEntity, communityType: String): Int {
     val accountThreshold = when (communityType.lowercase()) {
@@ -49,5 +51,20 @@ fun handleApplicationBranches(player: ServerPlayerEntity, communityType: String)
             expireAt = System.currentTimeMillis() + CommunityConfig.APPLICATION_EXPIRE_HOURS.value * 3600 * 1000,
             type = PendingOperationType.CREATE_COMMUNITY_RECRUITMENT
         )
+    }
+}
+
+fun removeExpiredApplication(uuid: UUID) {
+    for (community in communities) {
+        for (member in community.member) {
+            if (member.value == com.imyvm.community.domain.CommunityRole.OWNER && member.key == uuid) {
+                community.status = when(community.status) {
+                    CommunityStatus.PENDING_MANOR -> CommunityStatus.REVOKED_MANOR
+                    CommunityStatus.PENDING_REALM -> CommunityStatus.REVOKED_REALM
+                    else -> community.status
+                }
+                WorldGeoCommunityAddon.logger.info("Community ${community.id} recruitment expired and revoked.")
+            }
+        }
     }
 }

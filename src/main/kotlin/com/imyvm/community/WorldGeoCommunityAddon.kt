@@ -2,6 +2,7 @@ package com.imyvm.community
 
 import CommunityDatabase
 import CommunityDatabase.Companion.communities
+import com.imyvm.community.application.removeExpiredApplication
 import com.imyvm.community.domain.CommunityStatus
 import com.imyvm.community.domain.PendingOperation
 import net.fabricmc.api.ModInitializer
@@ -70,18 +71,7 @@ class WorldGeoCommunityAddon : ModInitializer {
 						val operationType = operation.type
 						when(operationType) {
 							com.imyvm.community.domain.PendingOperationType.CREATE_COMMUNITY_RECRUITMENT -> {
-								for (community in communities) {
-									for (member in community.member) {
-										if (member.value == com.imyvm.community.domain.CommunityRole.OWNER && member.key == uuid) {
-											community.status = when(community.status) {
-												CommunityStatus.PENDING_MANOR -> CommunityStatus.REVOKED_MANOR
-												CommunityStatus.PENDING_REALM -> CommunityStatus.REVOKED_REALM
-												else -> community.status
-											}
-											logger.info("Community ${community.id} recruitment expired and revoked.")
-										}
-									}
-								}
+								removeExpiredApplication(uuid)
 							}
 							else -> {
 								logger.info("Unhandled expired operation type: $operationType for player $uuid")
