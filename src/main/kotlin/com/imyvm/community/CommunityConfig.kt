@@ -70,8 +70,8 @@ class CommunityConfig : HokiConfig("Community.conf") {
         @ConfigOption
         val APPLICATION_EXPIRE_HOURS = Option(
             "community.application_expire_hours",
-            86400,
-            "the number of seconds after which a community application expires."
+            48,
+            "the number of hours after which a community application expires."
         ) { obj, path ->
             obj.getInt(path)
         }
