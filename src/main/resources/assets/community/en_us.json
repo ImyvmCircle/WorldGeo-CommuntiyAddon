@@ -1,6 +1,10 @@
 {
+  "pending.expired": "Your pending request {0} has expired.",
+
   "community.create.money.checked": "You to payed {0} for creating a community.",
   "community.create.money.error": "You have not enough money for creating a community, which charges {0} for type you choose.",
   "community.create.region.error": "Error creating community: Invalid region specified.",
-  "community.create.success": "Community request with name {0} and id {1} created successfully! Waiting for approval."
+  "community.create.request.initial.success": "Community request with name {0} and id {1} initialed successfully!",
+  "community.create.request.sent": "Waiting for approval from an admin.",
+  "community.create.request.recruitment" : "Now recruiting enough members ({0}) to initial a realm!"
 }

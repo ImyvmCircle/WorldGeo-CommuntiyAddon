@@ -55,5 +55,25 @@ class CommunityConfig : HokiConfig("Community.conf") {
         ) { obj, path ->
             obj.getBoolean(path)
         }
+
+        @JvmField
+        @ConfigOption
+        val MIN_NUMBER_MEMBER_REALM = Option(
+            "community.min_number_member_realm",
+            4,
+            "the minimum number of members required to create a realm."
+        ) { obj, path ->
+            obj.getInt(path)
+        }
+
+        @JvmField
+        @ConfigOption
+        val APPLICATION_EXPIRE_HOURS = Option(
+            "community.application_expire_hours",
+            86400,
+            "the number of seconds after which a community application expires."
+        ) { obj, path ->
+            obj.getInt(path)
+        }
     }
 }

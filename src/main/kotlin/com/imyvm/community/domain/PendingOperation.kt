@@ -1,5 +1,23 @@
 package com.imyvm.community.domain
 
-class PendingOperation {
-    val expireAt: Long = System.currentTimeMillis() + 60 * 1000
+
+class PendingOperation(
+    val expireAt: Long,
+    val type: PendingOperationType
+)
+
+enum class PendingOperationType(val value: Int) {
+    CREATE_COMMUNITY_RECRUITMENT(0),
+    DELETE_COMMUNITY(1),
+    LEAVE_COMMUNITY(2),
+    JOIN_COMMUNITY(3),
+    CHANGE_ROLE(4),
+    CHANGE_JOIN_POLICY(5);
+
+    companion object {
+        fun fromValue(value: Int): PendingOperationType {
+            return entries.firstOrNull { it.value == value }
+                ?: throw IllegalArgumentException("Invalid PendingOperationType value: $value")
+        }
+    }
 }
