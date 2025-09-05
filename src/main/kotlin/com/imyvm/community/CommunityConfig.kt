@@ -51,7 +51,7 @@ class CommunityConfig : HokiConfig("Community.conf") {
         val IS_CHECKING_DEVELOPMENT = Option(
             "development.is_checking",
             false,
-            "whether to enable development mode."
+            "whether to enable development checking."
         ) { obj, path ->
             obj.getBoolean(path)
         }
@@ -72,6 +72,26 @@ class CommunityConfig : HokiConfig("Community.conf") {
             "community.application_expire_hours",
             86400,
             "the number of seconds after which a community application expires."
+        ) { obj, path ->
+            obj.getInt(path)
+        }
+
+        @JvmField
+        @ConfigOption
+        val IS_CHECKING_MANOR_MEMBER_SIZE = Option(
+            "community.is_checking_manor_member_size",
+            true,
+            "whether to check the number of members in a manor ."
+        ) { obj, path ->
+            obj.getBoolean(path)
+        }
+
+        @JvmField
+        @ConfigOption
+        val MAX_MEMBER_MANOR = Option(
+            "community.max_member_manor",
+            5,
+            "the maximum number of members in a manor."
         ) { obj, path ->
             obj.getInt(path)
         }

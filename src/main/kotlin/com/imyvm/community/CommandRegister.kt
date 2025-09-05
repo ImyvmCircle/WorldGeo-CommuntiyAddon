@@ -1,6 +1,8 @@
 package com.imyvm.community
 
+import CommunityDatabase.Companion.communities
 import com.imyvm.community.CommunityConfig.Companion.APPLICATION_EXPIRE_HOURS
+import com.imyvm.community.CommunityConfig.Companion.IS_CHECKING_MANOR_MEMBER_SIZE
 import com.imyvm.community.CommunityConfig.Companion.MIN_NUMBER_MEMBER_REALM
 import com.imyvm.community.WorldGeoCommunityAddon.Companion.pendingOperations
 import com.imyvm.community.application.chargeFromApplicator
@@ -17,6 +19,7 @@ import com.imyvm.iwg.application.stopSelection
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi.createRegion
 import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.SuggestionProvider
@@ -24,6 +27,7 @@ import net.minecraft.command.CommandRegistryAccess
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
@@ -76,6 +80,17 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
                             )
                     )
             )
+            .then(
+                literal("join")
+                    .then(
+                        argument("name", StringArgumentType.greedyString())
+                            .executes{ runJoinByName(it) }
+                    )
+                    .then(
+                        argument("id", IntegerArgumentType.integer())
+                            .executes{ runJoinById(it) }
+                    )
+            )
     )
 }
 
@@ -114,4 +129,68 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
     handleApplicationBranches(player, communityType)
     return 1
 
+}
+
+private fun runJoinByName(context: CommandContext<ServerCommandSource>): Int{
+    val player = context.source.player ?: return 0
+
+    val name = StringArgumentType.getString(context, "name")
+    val targetRegion = ImyvmWorldGeo.data.getRegionList().find {
+        it.name.equals(name, ignoreCase = true)
+    } ?: run {
+        player.sendMessage(Translator.tr("community.join.error.notfound.name", name))
+        return 0
+    }
+    val targetCommunity = communities.find {
+        it.regionNumberId == targetRegion.numberID
+    } ?:run {
+        player.sendMessage(Translator.tr("community.join.error.notfound.name", name))
+        return 0
+    }
+
+    return runJoin(player, targetCommunity)
+}
+
+private fun runJoinById(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+
+    val id = IntegerArgumentType.getInteger(context, "id")
+    val targetCommunity = communities.find {
+        it.id == id
+    } ?: run {
+        player.sendMessage(Translator.tr("community.join.error.notfound.id", id))
+        return 0
+    }
+    return runJoin(player, targetCommunity)
+}
+
+private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int{
+    if (IS_CHECKING_MANOR_MEMBER_SIZE.value) {
+        if ((targetCommunity.status == CommunityStatus.ACTIVE_MANOR  || targetCommunity.status == CommunityStatus.PENDING_MANOR) &&
+            targetCommunity.member.count { it.value != com.imyvm.community.domain.CommunityRole.APPLICANT } >= MIN_NUMBER_MEMBER_REALM.value) {
+            player.sendMessage(Translator.tr("community.join.error.full", MIN_NUMBER_MEMBER_REALM.value))
+            return 0
+        }
+    }
+
+    when (targetCommunity.joinPolicy) {
+        com.imyvm.community.domain.CommunityJoinPolicy.OPEN -> {
+            targetCommunity.member[player.uuid] = com.imyvm.community.domain.CommunityRole.MEMBER
+            player.sendMessage(Translator.tr("community.join.success", targetCommunity.id))
+            return 1
+        }
+        com.imyvm.community.domain.CommunityJoinPolicy.APPLICATION -> {
+            if (targetCommunity.member.containsKey(player.uuid)) {
+                player.sendMessage(Translator.tr("community.join.error.already_applied", targetCommunity.id))
+                return 0
+            }
+            targetCommunity.member[player.uuid] = com.imyvm.community.domain.CommunityRole.APPLICANT
+            player.sendMessage(Translator.tr("community.join.applied", targetCommunity.id))
+            return 1
+        }
+        com.imyvm.community.domain.CommunityJoinPolicy.INVITE_ONLY -> {
+            player.sendMessage(Translator.tr("community.join.error.invite_only", targetCommunity.id))
+            return 0
+        }
+    }
 }

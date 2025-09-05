@@ -6,5 +6,9 @@
   "community.create.region.error": "Error creating community: Invalid region specified.",
   "community.create.request.initial.success": "Community request with name {0} and id {1} initialed successfully!",
   "community.create.request.sent": "Waiting for approval from an admin.",
-  "community.create.request.recruitment" : "Now recruiting enough members ({0}) to initial a realm!"
+  "community.create.request.recruitment": "Now recruiting enough members ({0}) to initial a realm!",
+
+  "community.join.error.notfound.name": "Community with name {0} not found.",
+  "community.join.error.notfound.id": "Community with id {0} not found.",
+  "community.join.error.full": "Community is full for it is a manor which can contain up tp {0} members."
 }
