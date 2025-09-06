@@ -1,14 +1,10 @@
 package com.imyvm.community
 
-import CommunityDatabase.Companion.communities
 import com.imyvm.community.CommunityConfig.Companion.IS_CHECKING_MANOR_MEMBER_SIZE
 import com.imyvm.community.CommunityConfig.Companion.MIN_NUMBER_MEMBER_REALM
-import com.imyvm.community.application.chargeFromApplicator
-import com.imyvm.community.application.handleApplicationBranches
-import com.imyvm.community.application.initialApplication
+import com.imyvm.community.application.*
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityStatus
-import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.application.resetSelection
 import com.imyvm.iwg.application.startSelection
 import com.imyvm.iwg.application.stopSelection
@@ -36,6 +32,11 @@ private val SHAPE_TYPE_SUGGESTION_PROVIDER: SuggestionProvider<ServerCommandSour
 
 private val COMMUNITY_TYPE_PROVIDER: SuggestionProvider<ServerCommandSource> = SuggestionProvider { _, builder ->
     listOf("manor", "realm").forEach { builder.suggest(it) }
+    CompletableFuture.completedFuture(builder.build())
+}
+
+private val BINARY_CHOICE_SUGGESTION_PROVIDER: SuggestionProvider<ServerCommandSource> = SuggestionProvider { _, builder ->
+    listOf("yes", "no").forEach { builder.suggest(it) }
     CompletableFuture.completedFuture(builder.build())
 }
 
@@ -87,6 +88,21 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
                             .executes{ runJoinById(it) }
                     )
             )
+            .then(
+                literal("audit")
+                    .then(
+                        argument("choice", StringArgumentType.word())
+                            .suggests(BINARY_CHOICE_SUGGESTION_PROVIDER)
+                            .then(
+                            argument("name", StringArgumentType.greedyString())
+                                .executes{ runAuditByName(it) }
+                        )
+                            .then(
+                                argument("id", IntegerArgumentType.integer())
+                                    .executes{ runAuditById(it) }
+                            )
+                    )
+            )
     )
 }
 
@@ -129,35 +145,30 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
 
 private fun runJoinByName(context: CommandContext<ServerCommandSource>): Int{
     val player = context.source.player ?: return 0
-
-    val name = StringArgumentType.getString(context, "name")
-    val targetRegion = ImyvmWorldGeo.data.getRegionList().find {
-        it.name.equals(name, ignoreCase = true)
-    } ?: run {
-        player.sendMessage(Translator.tr("community.join.error.notfound.name", name))
-        return 0
-    }
-    val targetCommunity = communities.find {
-        it.regionNumberId == targetRegion.numberID
-    } ?:run {
-        player.sendMessage(Translator.tr("community.join.error.notfound.name", name))
-        return 0
-    }
+    val targetCommunity = getCommunityByName(context) ?: return 0
 
     return runJoin(player, targetCommunity)
 }
 
 private fun runJoinById(context: CommandContext<ServerCommandSource>): Int {
     val player = context.source.player ?: return 0
-
-    val id = IntegerArgumentType.getInteger(context, "id")
-    val targetCommunity = communities.find {
-        it.id == id
-    } ?: run {
-        player.sendMessage(Translator.tr("community.join.error.notfound.id", id))
-        return 0
-    }
+    val targetCommunity = getCommunityById(context) ?: return 0
     return runJoin(player, targetCommunity)
+}
+
+private fun runAuditByName(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val choice = StringArgumentType.getString(context, "choice").lowercase(Locale.getDefault())
+    val targetCommunity = getCommunityByName(context) ?: return 0
+
+    return runAudit(player, choice, targetCommunity)
+}
+
+private fun runAuditById(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val choice = StringArgumentType.getString(context, "choice").lowercase(Locale.getDefault())
+    val targetCommunity = getCommunityById(context) ?: return 0
+    return runAudit(player, choice, targetCommunity)
 }
 
 private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int{
@@ -191,3 +202,8 @@ private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int
         }
     }
 }
+private fun runAudit(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int {
+    TODO()
+}
+
+

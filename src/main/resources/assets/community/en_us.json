@@ -1,6 +1,9 @@
 {
   "pending.expired": "Your pending request {0} has expired.",
 
+  "community.notfound.name": "Community with name {0} not found.",
+  "community.notfound.id": "Community with id {0} not found.",
+
   "community.create.money.checked": "You to payed {0} for creating a community.",
   "community.create.money.error": "You have not enough money for creating a community, which charges {0} for type you choose.",
   "community.create.region.error": "Error creating community: Invalid region specified.",
@@ -10,5 +13,9 @@
 
   "community.join.error.notfound.name": "Community with name {0} not found.",
   "community.join.error.notfound.id": "Community with id {0} not found.",
-  "community.join.error.full": "Community {0} is full for it is a manor which can contain up tp {1} members."
+  "community.join.error.full": "Community {0} is full for it is a manor which can contain up tp {1} members.",
+  "community.join.success": "You have successfully joined the community with ID {0}.",
+  "community.join.error.already_applied": "You have already applied to join the community with ID {0}.",
+  "community.join.applied": "Your application to join community {0} (ID {1}) has been submitted.",
+  "community.join.error.invite_only": "The community with ID {0} is invite-only. You cannot join without an invitation."
 }

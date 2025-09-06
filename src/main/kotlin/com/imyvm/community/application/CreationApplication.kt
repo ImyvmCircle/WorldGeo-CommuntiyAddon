@@ -8,7 +8,6 @@ import com.imyvm.community.WorldGeoCommunityAddon.Companion.logger
 import com.imyvm.community.domain.*
 import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.ImyvmWorldGeo
-import net.minecraft.block.entity.VaultBlockEntity.Server
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
@@ -75,11 +74,20 @@ fun checkMemberNumber(uuid: UUID, iterator:  MutableIterator<MutableMap.MutableE
                     .count { it.value != com.imyvm.community.domain.CommunityRole.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value
                     && community.status == CommunityStatus.PENDING_REALM) {
                     iterator.remove()
-                    addAuditingApplication(uuid, community)
+                    addAuditingApplicationRealm(uuid, community)
                 }
             }
         }
     }
+}
+
+private fun addAuditingApplicationRealm(uuid: UUID, community: Community) {
+    WorldGeoCommunityAddon.pendingOperations[uuid] = PendingOperation(
+        expireAt = System.currentTimeMillis() + CommunityConfig.AUDITING_EXPIRE_HOURS.value * 3600 * 1000,
+        type = PendingOperationType.AUDITING_COMMUNITY_APPLICATION
+    )
+    community.status = CommunityStatus.PENDING_REALM
+    logger.info("Community application from player $uuid moved to auditing stage.")
 }
 
 fun removeExpiredApplication(uuid: UUID, server: MinecraftServer) {
@@ -97,15 +105,6 @@ fun removeExpiredApplication(uuid: UUID, server: MinecraftServer) {
             }
         }
     }
-}
-
-fun addAuditingApplication(uuid: UUID, community: Community) {
-    WorldGeoCommunityAddon.pendingOperations[uuid] = PendingOperation(
-        expireAt = System.currentTimeMillis() + CommunityConfig.AUDITING_EXPIRE_HOURS.value * 3600 * 1000,
-        type = PendingOperationType.AUDITING_COMMUNITY_APPLICATION
-    )
-    community.status = CommunityStatus.PENDING_REALM
-    logger.info("Community application from player $uuid moved to auditing stage.")
 }
 
 private fun refundNotCreated(player: ServerPlayerEntity, community: Community) {
