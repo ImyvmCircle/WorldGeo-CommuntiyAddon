@@ -172,36 +172,10 @@ private fun runAuditById(context: CommandContext<ServerCommandSource>): Int {
 }
 
 private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int{
-    if (IS_CHECKING_MANOR_MEMBER_SIZE.value) {
-        if ((targetCommunity.status == CommunityStatus.ACTIVE_MANOR  || targetCommunity.status == CommunityStatus.PENDING_MANOR) &&
-            targetCommunity.member.count { it.value != com.imyvm.community.domain.CommunityRole.APPLICANT } >= MIN_NUMBER_MEMBER_REALM.value) {
-            player.sendMessage(Translator.tr("community.join.error.full", MIN_NUMBER_MEMBER_REALM.value))
-            return 0
-        }
-    }
-
-    when (targetCommunity.joinPolicy) {
-        com.imyvm.community.domain.CommunityJoinPolicy.OPEN -> {
-            targetCommunity.member[player.uuid] = com.imyvm.community.domain.CommunityRole.MEMBER
-            player.sendMessage(Translator.tr("community.join.success", targetCommunity.id))
-            return 1
-        }
-        com.imyvm.community.domain.CommunityJoinPolicy.APPLICATION -> {
-            if (targetCommunity.member.containsKey(player.uuid)) {
-                player.sendMessage(Translator.tr("community.join.error.already_applied", targetCommunity.id))
-                return 0
-            }
-            targetCommunity.member[player.uuid] = com.imyvm.community.domain.CommunityRole.APPLICANT
-            player.sendMessage(targetCommunity.getRegion()
-                ?.let { Translator.tr("community.join.applied", it.name ,targetCommunity.id) })
-            return 1
-        }
-        com.imyvm.community.domain.CommunityJoinPolicy.INVITE_ONLY -> {
-            player.sendMessage(Translator.tr("community.join.error.invite_only", targetCommunity.id))
-            return 0
-        }
-    }
+    if (!checkMemberNumberManor(player, targetCommunity)) return 0
+    return tryJoinByPolicy(player, targetCommunity)
 }
+
 private fun runAudit(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int {
     TODO()
 }
