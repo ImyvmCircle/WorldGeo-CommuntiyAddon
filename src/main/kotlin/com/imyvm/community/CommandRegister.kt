@@ -94,9 +94,9 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
                         argument("choice", StringArgumentType.word())
                             .suggests(BINARY_CHOICE_SUGGESTION_PROVIDER)
                             .then(
-                            argument("name", StringArgumentType.greedyString())
+                                argument("name", StringArgumentType.greedyString())
                                 .executes{ runAuditByName(it) }
-                        )
+                            )
                             .then(
                                 argument("id", IntegerArgumentType.integer())
                                     .executes{ runAuditById(it) }
@@ -177,7 +177,8 @@ private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int
 }
 
 private fun runAudit(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int {
-    TODO()
+    if(!checkPendingPreAuditing(player, targetCommunity)) return 0
+    return handleAuditingChoices(player, choice, targetCommunity)
 }
 
 
