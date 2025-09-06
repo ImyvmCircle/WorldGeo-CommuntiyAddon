@@ -73,7 +73,7 @@ class WorldGeoCommunityAddon : ModInitializer {
 						when(operationType) {
 							com.imyvm.community.domain.PendingOperationType.CREATE_COMMUNITY_RECRUITMENT -> {
 								checkMemberNumber(uuid, iterator)
-								removeExpiredApplication(uuid)
+								removeExpiredApplication(uuid, server)
 							}
 							else -> {
 								logger.info("Unhandled expired operation type: $operationType for player $uuid")

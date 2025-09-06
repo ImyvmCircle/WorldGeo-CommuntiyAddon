@@ -4,9 +4,12 @@ import CommunityDatabase.Companion.communities
 import com.imyvm.community.CommunityConfig
 import com.imyvm.community.Translator
 import com.imyvm.community.WorldGeoCommunityAddon
+import com.imyvm.community.WorldGeoCommunityAddon.Companion.logger
 import com.imyvm.community.domain.*
 import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.ImyvmWorldGeo
+import net.minecraft.block.entity.VaultBlockEntity.Server
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 
@@ -79,7 +82,7 @@ fun checkMemberNumber(uuid: UUID, iterator:  MutableIterator<MutableMap.MutableE
     }
 }
 
-fun removeExpiredApplication(uuid: UUID) {
+fun removeExpiredApplication(uuid: UUID, server: MinecraftServer) {
     for (community in communities) {
         for (member in community.member) {
             if (member.value == com.imyvm.community.domain.CommunityRole.OWNER && member.key == uuid) {
@@ -87,7 +90,10 @@ fun removeExpiredApplication(uuid: UUID) {
                     CommunityStatus.RECRUITING_REALM -> CommunityStatus.REVOKED_REALM
                     else -> community.status
                 }
-                WorldGeoCommunityAddon.logger.info("Community ${community.id} recruitment expired and revoked.")
+                logger.info("Community ${community.id} recruitment expired and revoked.")
+
+                val player = server.playerManager?.getPlayer(uuid) ?: return
+                refundNotCreated(player, community)
             }
         }
     }
@@ -99,5 +105,15 @@ fun addAuditingApplication(uuid: UUID, community: Community) {
         type = PendingOperationType.AUDITING_COMMUNITY_APPLICATION
     )
     community.status = CommunityStatus.PENDING_REALM
-    WorldGeoCommunityAddon.logger.info("Community application from player $uuid moved to auditing stage.")
+    logger.info("Community application from player $uuid moved to auditing stage.")
+}
+
+private fun refundNotCreated(player: ServerPlayerEntity, community: Community) {
+    val price = when (community.status) {
+        CommunityStatus.REVOKED_REALM -> CommunityConfig.PRICE_REALM.value
+        else -> CommunityConfig.PRICE_MANOR.value
+    }
+    val playerAccount = EconomyMod.data.getOrCreate(player)
+    playerAccount.addMoney(price)
+    logger.info("Refunded $price to player ${player.uuid} for community ${community.id} expiration.")
 }
