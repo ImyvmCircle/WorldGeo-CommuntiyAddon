@@ -12,7 +12,8 @@ enum class PendingOperationType(val value: Int) {
     LEAVE_COMMUNITY(2),
     JOIN_COMMUNITY(3),
     CHANGE_ROLE(4),
-    CHANGE_JOIN_POLICY(5);
+    CHANGE_JOIN_POLICY(5),
+    AUDITING_COMMUNITY_APPLICATION(6);
 
     companion object {
         fun fromValue(value: Int): PendingOperationType {

@@ -78,6 +78,16 @@ class CommunityConfig : HokiConfig("Community.conf") {
 
         @JvmField
         @ConfigOption
+        val AUDITING_EXPIRE_HOURS = Option(
+            "community.auditing_expire_hours",
+            8760,
+            "the number of hours after which a community auditing expires."
+        ) { obj, path ->
+            obj.getInt(path)
+        }
+
+        @JvmField
+        @ConfigOption
         val IS_CHECKING_MANOR_MEMBER_SIZE = Option(
             "community.is_checking_manor_member_size",
             true,

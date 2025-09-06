@@ -2,6 +2,7 @@ package com.imyvm.community
 
 import CommunityDatabase
 import CommunityDatabase.Companion.communities
+import com.imyvm.community.application.checkMemberNumber
 import com.imyvm.community.application.removeExpiredApplication
 import com.imyvm.community.domain.CommunityStatus
 import com.imyvm.community.domain.PendingOperation
@@ -71,6 +72,7 @@ class WorldGeoCommunityAddon : ModInitializer {
 						val operationType = operation.type
 						when(operationType) {
 							com.imyvm.community.domain.PendingOperationType.CREATE_COMMUNITY_RECRUITMENT -> {
+								checkMemberNumber(uuid, iterator)
 								removeExpiredApplication(uuid)
 							}
 							else -> {

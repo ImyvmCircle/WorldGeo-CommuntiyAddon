@@ -1,17 +1,13 @@
 package com.imyvm.community
 
 import CommunityDatabase.Companion.communities
-import com.imyvm.community.CommunityConfig.Companion.APPLICATION_EXPIRE_HOURS
 import com.imyvm.community.CommunityConfig.Companion.IS_CHECKING_MANOR_MEMBER_SIZE
 import com.imyvm.community.CommunityConfig.Companion.MIN_NUMBER_MEMBER_REALM
-import com.imyvm.community.WorldGeoCommunityAddon.Companion.pendingOperations
 import com.imyvm.community.application.chargeFromApplicator
 import com.imyvm.community.application.handleApplicationBranches
 import com.imyvm.community.application.initialApplication
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityStatus
-import com.imyvm.community.domain.PendingOperationType
-import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.application.resetSelection
 import com.imyvm.iwg.application.startSelection
@@ -125,7 +121,7 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
         player.sendMessage(Translator.tr("community.create.region.error"))
         return 0
     }
-    initialApplication(player, name)
+    initialApplication(player, name, communityType)
     handleApplicationBranches(player, communityType)
     return 1
 
