@@ -17,5 +17,14 @@
   "community.join.success": "You have successfully joined the community with ID {0}.",
   "community.join.error.already_applied": "You have already applied to join the community with ID {0}.",
   "community.join.applied": "Your application to join community {0} (ID {1}) has been submitted.",
-  "community.join.error.invite_only": "The community with ID {0} is invite-only. You cannot join without an invitation."
+  "community.join.error.invite_only": "The community with ID {0} is invite-only. You cannot join without an invitation.",
+
+  "community.audit.error.no_owner": "Community {0} has no owner.",
+  "community.audit.error.no_pending": "Community {0} has no pending auditing request.",
+  "community.audit.error.invalid_status": "Community {0} is not in a valid pending status.",
+  "community.audit.approved": "Community {0} has been approved.",
+  "community.audit.denied": "Community {0} has been denied.",
+  "community.audit.error.invalid_choice": "Invalid auditing choice: {0}.",
+  "community.audit.manor.activated": "Community {0} has been promoted to an Active Manor.",
+  "community.audit.realm.activated": "Community {0} has been promoted to an Active Realm."
 }

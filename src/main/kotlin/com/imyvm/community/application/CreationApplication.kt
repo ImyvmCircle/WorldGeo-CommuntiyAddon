@@ -180,5 +180,5 @@ private fun refundNotCreated(player: ServerPlayerEntity, community: Community) {
     }
     val playerAccount = EconomyMod.data.getOrCreate(player)
     playerAccount.addMoney(price)
-    logger.info("Refunded $price to player ${player.uuid} for community ${community.id} expiration.")
+    logger.info("Refunded $price to player ${player.uuid} for community ${community.id} expiration or rejection.")
 }
