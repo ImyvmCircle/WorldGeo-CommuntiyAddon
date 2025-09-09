@@ -119,7 +119,11 @@ private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
 }
 
 private fun runListCommand(context: CommandContext<ServerCommandSource>, isAudit: Boolean): Int {
-    TODO()
+    if (isAudit) {
+        return listPendingAuditingCommunities(context.source.player ?: return 0)
+    } else {
+        return listAllCommunities(context.source.player ?: return 0)
+    }
 }
 
 private fun runStartSelect(context: CommandContext<ServerCommandSource>): Int {
