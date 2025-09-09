@@ -15,6 +15,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.SuggestionProvider
+import kotlinx.coroutines.flow.internal.NoOpContinuation.context
 import net.minecraft.command.CommandRegistryAccess
 import net.minecraft.server.command.CommandManager.argument
 import net.minecraft.server.command.CommandManager.literal
@@ -22,6 +23,7 @@ import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 private val SHAPE_TYPE_SUGGESTION_PROVIDER: SuggestionProvider<ServerCommandSource> = SuggestionProvider { _, builder ->
     Region.Companion.GeoShapeType.entries
@@ -46,6 +48,14 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
             .then(
                 literal("help")
                     .executes{ runHelpCommand(it) }
+            )
+            .then(
+                literal("list")
+                    .executes{context -> runListCommand(context, false)}
+                    .then(
+                        literal("auditing")
+                            .executes{context -> runListCommand(context, true)}
+                )
             )
             .then(
                 literal("select")
@@ -107,6 +117,10 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
 }
 
 private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
+    TODO()
+}
+
+private fun runListCommand(context: CommandContext<ServerCommandSource>, isAudit: Boolean): Int {
     TODO()
 }
 
@@ -180,5 +194,3 @@ private fun runAudit(player: ServerPlayerEntity, choice: String, targetCommunity
     if(!checkPendingPreAuditing(player, targetCommunity)) return 0
     return handleAuditingChoices(player, choice, targetCommunity)
 }
-
-
