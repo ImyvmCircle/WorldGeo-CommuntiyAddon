@@ -1,6 +1,7 @@
 package com.imyvm.community
 
 import com.imyvm.community.WorldGeoCommunityAddon.Companion.MOD_ID
+import com.imyvm.community.util.TextParser
 import com.imyvm.hoki.i18n.HokiLanguage
 import com.imyvm.hoki.i18n.HokiTranslator
 import com.imyvm.iwg.ModConfig
@@ -15,8 +16,14 @@ object Translator : HokiTranslator() {
         }
     }
 
-    fun tr(key: String?, vararg args: Any?): Text {
-        return translate(languageInstance, key, *args)
+    fun tr(key: String?, vararg args: Any?): Text? {
+        val raw = key?.let { languageInstance.get(it) }
+        val formatted = if (args.isNotEmpty()) {
+            java.text.MessageFormat.format(raw, *args)
+        } else {
+            raw
+        }
+        return formatted?.let { TextParser.parse(it) }
     }
 
     private fun createLanguage(languageId: String) = HokiLanguage.create(
