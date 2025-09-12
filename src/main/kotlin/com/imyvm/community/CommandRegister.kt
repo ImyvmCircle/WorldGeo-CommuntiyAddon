@@ -1,10 +1,7 @@
 package com.imyvm.community
 
-import com.imyvm.community.CommunityConfig.Companion.IS_CHECKING_MANOR_MEMBER_SIZE
-import com.imyvm.community.CommunityConfig.Companion.MIN_NUMBER_MEMBER_REALM
 import com.imyvm.community.application.*
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.CommunityStatus
 import com.imyvm.iwg.application.resetSelection
 import com.imyvm.iwg.application.startSelection
 import com.imyvm.iwg.application.stopSelection
@@ -22,6 +19,11 @@ import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 import java.util.concurrent.CompletableFuture
+
+private val LIST_TYPE_PROVIDER: SuggestionProvider<ServerCommandSource> = SuggestionProvider { _, builder ->
+    listOf("recruiting", "auditing", "active", "all").forEach { builder.suggest(it) }
+    CompletableFuture.completedFuture(builder.build())
+}
 
 private val SHAPE_TYPE_SUGGESTION_PROVIDER: SuggestionProvider<ServerCommandSource> = SuggestionProvider { _, builder ->
     Region.Companion.GeoShapeType.entries
@@ -49,10 +51,9 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
             )
             .then(
                 literal("list")
-                    .executes{context -> runListCommand(context, false)}
                     .then(
-                        literal("auditing")
-                            .executes{context -> runListCommand(context, true)}
+                        argument("communityType", StringArgumentType.word())
+                            .executes{ runListCommand(it) }
                 )
             )
             .then(
@@ -118,12 +119,17 @@ private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
     TODO()
 }
 
-private fun runListCommand(context: CommandContext<ServerCommandSource>, isAudit: Boolean): Int {
-    if (isAudit) {
-        return listPendingAuditingCommunities(context.source.player ?: return 0)
-    } else {
-        return listAllCommunities(context.source.player ?: return 0)
+private fun runListCommand(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val type = StringArgumentType.getString(context, "communityType")
+    when(type){
+        "RECRUITING" -> listRecruitingCommunities(player)
+        "AUDITING" -> listPendingAuditingCommunities(player)
+        "ACTIVE" -> listActiveCommunities(player)
+        "ALL" -> listAllCommunities(player)
     }
+
+    return 1
 }
 
 private fun runStartSelect(context: CommandContext<ServerCommandSource>): Int {
