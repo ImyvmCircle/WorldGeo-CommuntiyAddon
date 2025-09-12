@@ -1,8 +1,12 @@
 package com.imyvm.community.domain
 
+import com.imyvm.community.Translator
 import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import org.apache.logging.log4j.core.jmx.Server
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -21,23 +25,14 @@ class Community(
         return targetRegion
     }
 
-    fun getCommunityText(): Text{
-        val regionName = this.getRegion()?.name ?: "N/A"
-        val memberCount = this.member.size
-        val roleCounts = this.member.values.groupingBy { it }.eachCount()
-        val ownerCount = roleCounts[CommunityRole.OWNER] ?: 0
-        val adminCount = roleCounts[CommunityRole.ADMIN] ?: 0
-        val memberOnlyCount = roleCounts[CommunityRole.MEMBER] ?: 0
-        val applicantCount = roleCounts[CommunityRole.APPLICANT] ?: 0
-
-        return Text.literal("Community ID: $id\n")
-            .append(Text.literal("Region: $regionName\n"))
-            .append(Text.literal("Founded: ${Date(foundingTimeSeconds * 1000)}\n"))
-            .append(Text.literal("Status: ${status.name}\n"))
-            .append(Text.literal("Join Policy: ${joinPolicy.name}\n"))
-            .append(Text.literal("Members: $memberCount (Owners: $ownerCount, Admins: $adminCount, Members: $memberOnlyCount, Applicants: $applicantCount)\n"))
+    fun sendCommunityDescription(player: ServerPlayerEntity) {
+        val region = getRegion()
+        if(region != null){
+            ImyvmWorldGeoApi.queryRegionInfo(player, region)
+        } else {
+            player.sendMessage(Translator.tr("community.description.no_region", id))
+        }
     }
-
 }
 
 enum class CommunityRole(val value: Int) {
