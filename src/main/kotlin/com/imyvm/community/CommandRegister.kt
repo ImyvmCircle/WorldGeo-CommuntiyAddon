@@ -53,6 +53,7 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
                 literal("list")
                     .then(
                         argument("communityType", StringArgumentType.word())
+                            .suggests(LIST_TYPE_PROVIDER)
                             .executes{ runListCommand(it) }
                 )
             )
