@@ -1,11 +1,13 @@
 package com.imyvm.community
 
+import com.imyvm.community.CommunityDatabase.Companion.communities
 import com.imyvm.community.application.*
 import com.imyvm.community.domain.Community
 import com.imyvm.iwg.application.resetSelection
 import com.imyvm.iwg.application.startSelection
 import com.imyvm.iwg.application.stopSelection
 import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi
 import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi.createRegion
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -45,18 +47,6 @@ private val BINARY_CHOICE_SUGGESTION_PROVIDER: SuggestionProvider<ServerCommandS
 fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess: CommandRegistryAccess) {
     dispatcher.register(
         literal("community")
-            .then(
-                literal("help")
-                    .executes{ runHelpCommand(it) }
-            )
-            .then(
-                literal("list")
-                    .then(
-                        argument("communityType", StringArgumentType.word())
-                            .suggests(LIST_TYPE_PROVIDER)
-                            .executes{ runListCommand(it) }
-                )
-            )
             .then(
                 literal("select")
                     .then(
@@ -113,24 +103,30 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registryAccess:
                             )
                     )
             )
+            .then(
+                literal("help")
+                    .executes{ runHelpCommand(it) }
+            )
+            .then(
+                literal("list")
+                    .then(
+                        argument("communityType", StringArgumentType.word())
+                            .suggests(LIST_TYPE_PROVIDER)
+                            .executes{ runListCommand(it) }
+                    )
+            )
+            .then(
+                literal("query")
+                    .then(
+                        argument("name", StringArgumentType.word())
+                            .executes{ runQueryCommunityByName(it) }
+                    )
+                    .then(
+                        argument("id", IntegerArgumentType.integer())
+                            .executes{ runQueryCommunityById(it) }
+                    )
+            )
     )
-}
-
-private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
-    TODO()
-}
-
-private fun runListCommand(context: CommandContext<ServerCommandSource>): Int {
-    val player = context.source.player ?: return 0
-    val type = StringArgumentType.getString(context, "communityType")
-    when(type){
-        "RECRUITING" -> listRecruitingCommunities(player)
-        "AUDITING" -> listPendingAuditingCommunities(player)
-        "ACTIVE" -> listActiveCommunities(player)
-        "ALL" -> listAllCommunities(player)
-    }
-
-    return 1
 }
 
 private fun runStartSelect(context: CommandContext<ServerCommandSource>): Int {
@@ -202,4 +198,38 @@ private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int
 private fun runAudit(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int {
     if(!checkPendingPreAuditing(player, targetCommunity)) return 0
     return handleAuditingChoices(player, choice, targetCommunity)
+}
+
+private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
+    TODO()
+}
+
+private fun runListCommand(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val type = StringArgumentType.getString(context, "communityType")
+    when(type){
+        "RECRUITING" -> listRecruitingCommunities(player)
+        "AUDITING" -> listPendingAuditingCommunities(player)
+        "ACTIVE" -> listActiveCommunities(player)
+        "ALL" -> listAllCommunities(player)
+    }
+
+    return 1
+}
+
+private fun runQueryCommunityByName(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val targetCommunity = getCommunityByName(context) ?: return 0
+    return runQueryRegion(player, targetCommunity.getRegion() ?: return 0)
+}
+
+private fun runQueryCommunityById(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val targetCommunity = getCommunityById(context) ?: return 0
+    return runQueryRegion(player, targetCommunity.getRegion() ?: return 0)
+}
+
+private fun runQueryRegion(player: ServerPlayerEntity, region: Region): Int {
+    ImyvmWorldGeoApi.queryRegionInfo(player, region)
+    return 1
 }
