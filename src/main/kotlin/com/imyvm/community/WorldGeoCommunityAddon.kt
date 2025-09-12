@@ -1,10 +1,7 @@
 package com.imyvm.community
 
-import CommunityDatabase
-import CommunityDatabase.Companion.communities
 import com.imyvm.community.application.checkMemberNumber
 import com.imyvm.community.application.removeExpiredApplication
-import com.imyvm.community.domain.CommunityStatus
 import com.imyvm.community.domain.PendingOperation
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback

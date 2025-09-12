@@ -1,3 +1,5 @@
+package com.imyvm.community
+
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityJoinPolicy
 import com.imyvm.community.domain.CommunityRole

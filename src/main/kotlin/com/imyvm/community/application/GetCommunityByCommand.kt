@@ -1,6 +1,6 @@
 package com.imyvm.community.application
 
-import CommunityDatabase.Companion.communities
+import com.imyvm.community.CommunityDatabase.Companion.communities
 import com.imyvm.community.Translator
 import com.imyvm.community.domain.Community
 import com.imyvm.iwg.ImyvmWorldGeo
