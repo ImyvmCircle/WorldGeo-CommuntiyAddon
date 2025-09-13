@@ -189,17 +189,6 @@ private fun runAuditById(context: CommandContext<ServerCommandSource>): Int {
     val targetCommunity = getCommunityById(context) ?: return 0
     return runAudit(player, choice, targetCommunity)
 }
-
-private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int{
-    if (!checkMemberNumberManor(player, targetCommunity)) return 0
-    return tryJoinByPolicy(player, targetCommunity)
-}
-
-private fun runAudit(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int {
-    if(!checkPendingPreAuditing(player, targetCommunity)) return 0
-    return handleAuditingChoices(player, choice, targetCommunity)
-}
-
 private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
     TODO()
 }
@@ -227,6 +216,16 @@ private fun runQueryCommunityById(context: CommandContext<ServerCommandSource>):
     val player = context.source.player ?: return 0
     val targetCommunity = getCommunityById(context) ?: return 0
     return runQueryRegion(player, targetCommunity.getRegion() ?: return 0)
+}
+private fun runJoin(player: ServerPlayerEntity, targetCommunity: Community): Int{
+    if (!checkPlayerMembership(player, targetCommunity)) return 0
+    if (!checkMemberNumberManor(player, targetCommunity)) return 0
+    return tryJoinByPolicy(player, targetCommunity)
+}
+
+private fun runAudit(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int {
+    if(!checkPendingPreAuditing(player, targetCommunity)) return 0
+    return handleAuditingChoices(player, choice, targetCommunity)
 }
 
 private fun runQueryRegion(player: ServerPlayerEntity, region: Region): Int {

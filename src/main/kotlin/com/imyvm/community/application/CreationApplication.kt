@@ -81,15 +81,6 @@ fun checkMemberNumber(uuid: UUID, iterator:  MutableIterator<MutableMap.MutableE
     }
 }
 
-private fun addAuditingApplicationRealm(uuid: UUID, community: Community) {
-    WorldGeoCommunityAddon.pendingOperations[uuid] = PendingOperation(
-        expireAt = System.currentTimeMillis() + CommunityConfig.AUDITING_EXPIRE_HOURS.value * 3600 * 1000,
-        type = PendingOperationType.AUDITING_COMMUNITY_APPLICATION
-    )
-    community.status = CommunityStatus.PENDING_REALM
-    logger.info("Community application from player $uuid moved to auditing stage.")
-}
-
 fun removeExpiredApplication(uuid: UUID, server: MinecraftServer) {
     for (community in communities) {
         for (member in community.member) {
@@ -149,6 +140,15 @@ fun handleAuditingChoices(player: ServerPlayerEntity, choice: String, targetComm
             return 0
         }
     }
+}
+
+private fun addAuditingApplicationRealm(uuid: UUID, community: Community) {
+    WorldGeoCommunityAddon.pendingOperations[uuid] = PendingOperation(
+        expireAt = System.currentTimeMillis() + CommunityConfig.AUDITING_EXPIRE_HOURS.value * 3600 * 1000,
+        type = PendingOperationType.AUDITING_COMMUNITY_APPLICATION
+    )
+    community.status = CommunityStatus.PENDING_REALM
+    logger.info("Community application from player $uuid moved to auditing stage.")
 }
 
 private fun promoteToActiveManor(player: ServerPlayerEntity, targetCommunity: Community) {
