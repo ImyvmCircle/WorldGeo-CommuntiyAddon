@@ -1,7 +1,6 @@
-package com.imyvm.community
+package com.imyvm.community.util
 
 import com.imyvm.community.WorldGeoCommunityAddon.Companion.MOD_ID
-import com.imyvm.community.util.TextParser
 import com.imyvm.hoki.i18n.HokiLanguage
 import com.imyvm.hoki.i18n.HokiTranslator
 import com.imyvm.iwg.ModConfig

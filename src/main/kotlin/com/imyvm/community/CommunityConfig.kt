@@ -8,6 +8,16 @@ class CommunityConfig : HokiConfig("Community.conf") {
     companion object {
         @JvmField
         @ConfigOption
+        val PENDING_CHECK_INTERVAL_SECONDS = Option(
+            "pending.check_interval_ticks",
+            10,
+            "the interval in seconds to check for expired pending operations."
+        ) { obj, path ->
+            obj.getInt(path)
+        }
+
+        @JvmField
+        @ConfigOption
         val PRICE_MANOR = Option(
             "economy.price_manor",
             1500000L,

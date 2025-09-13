@@ -1,8 +1,8 @@
 package com.imyvm.community
 
-import com.imyvm.community.CommunityDatabase.Companion.communities
 import com.imyvm.community.application.*
 import com.imyvm.community.domain.Community
+import com.imyvm.community.util.Translator
 import com.imyvm.iwg.application.resetSelection
 import com.imyvm.iwg.application.startSelection
 import com.imyvm.iwg.application.stopSelection
@@ -165,7 +165,6 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
 private fun runJoinByName(context: CommandContext<ServerCommandSource>): Int{
     val player = context.source.player ?: return 0
     val targetCommunity = getCommunityByName(context) ?: return 0
-
     return runJoin(player, targetCommunity)
 }
 
@@ -179,7 +178,6 @@ private fun runAuditByName(context: CommandContext<ServerCommandSource>): Int {
     val player = context.source.player ?: return 0
     val choice = StringArgumentType.getString(context, "choice").lowercase(Locale.getDefault())
     val targetCommunity = getCommunityByName(context) ?: return 0
-
     return runAudit(player, choice, targetCommunity)
 }
 
@@ -202,7 +200,6 @@ private fun runListCommand(context: CommandContext<ServerCommandSource>): Int {
         "ACTIVE" -> listActiveCommunities(player)
         "ALL" -> listAllCommunities(player)
     }
-
     return 1
 }
 

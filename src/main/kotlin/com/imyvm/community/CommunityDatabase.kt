@@ -10,6 +10,7 @@ import java.io.DataOutputStream
 import java.io.IOException
 import java.nio.file.Path
 import java.util.*
+import kotlin.collections.HashMap
 
 class CommunityDatabase {
 
@@ -20,24 +21,10 @@ class CommunityDatabase {
             stream.writeInt(communities.size)
             for (community in communities) {
                 stream.writeInt(community.id)
-
-                if (community.regionNumberId == null) {
-                    stream.writeBoolean(false)
-                } else {
-                    stream.writeBoolean(true)
-                    stream.writeInt(community.regionNumberId)
-                }
-
+                saveCommunityRegionNumberId(stream,community)
                 stream.writeLong(community.foundingTimeSeconds)
-
-                stream.writeInt(community.member.size)
-                for ((uuid, role) in community.member) {
-                    stream.writeUTF(uuid.toString())
-                    stream.writeInt(role.value)
-                }
-
+                saveCommunityMember(stream,community)
                 stream.writeInt(community.joinPolicy.value)
-
                 stream.writeInt(community.status.value)
             }
         }
@@ -56,23 +43,10 @@ class CommunityDatabase {
             communities = ArrayList(size)
             for (i in 0 until size) {
                 val id = stream.readInt()
-
-                val regionNumberId = if (stream.readBoolean()) {
-                    stream.readInt()
-                } else {
-                    null
-                }
-
+                val regionNumberId = loadCommunityRegionNumberId(stream)
                 val foundingTimeSeconds = stream.readLong()
-
                 val memberCount = stream.readInt()
-                val memberMap = HashMap<UUID, CommunityRole>(memberCount)
-                for (j in 0 until memberCount) {
-                    val uuid = UUID.fromString(stream.readUTF())
-                    val role = CommunityRole.fromValue(stream.readInt())
-                    memberMap[uuid] = role
-                }
-
+                val memberMap = loadMemberMap(stream, memberCount)
                 val joinPolicy = CommunityJoinPolicy.fromValue(stream.readInt())
                 val status = CommunityStatus.fromValue(stream.readInt())
 
@@ -84,7 +58,6 @@ class CommunityDatabase {
                     joinPolicy = joinPolicy,
                     status = status
                 )
-
                 communities.add(community)
             }
         }
@@ -98,6 +71,41 @@ class CommunityDatabase {
         return FabricLoader.getInstance().gameDir
             .resolve("world")
             .resolve(DATABASE_FILENAME)
+    }
+
+    private fun saveCommunityRegionNumberId(stream: DataOutputStream, community: Community){
+        if (community.regionNumberId == null) {
+            stream.writeBoolean(false)
+        } else {
+            stream.writeBoolean(true)
+            stream.writeInt(community.regionNumberId)
+        }
+    }
+
+    private fun saveCommunityMember(stream: DataOutputStream, community: Community){
+        stream.writeInt(community.member.size)
+        for ((uuid, role) in community.member) {
+            stream.writeUTF(uuid.toString())
+            stream.writeInt(role.value)
+        }
+    }
+
+    private fun loadCommunityRegionNumberId(stream: DataInputStream): Int? {
+        return if (stream.readBoolean()) {
+            stream.readInt()
+        } else {
+            null
+        }
+    }
+
+    private fun loadMemberMap(stream: DataInputStream, memberCount: Int): HashMap<UUID, CommunityRole> {
+        val memberMap = HashMap<UUID, CommunityRole>(memberCount)
+        for (j in 0 until memberCount) {
+            val uuid = UUID.fromString(stream.readUTF())
+            val role = CommunityRole.fromValue(stream.readInt())
+            memberMap[uuid] = role
+        }
+        return memberMap
     }
 
     companion object {

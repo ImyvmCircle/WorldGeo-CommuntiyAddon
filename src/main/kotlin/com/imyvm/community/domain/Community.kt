@@ -1,12 +1,10 @@
 package com.imyvm.community.domain
 
-import com.imyvm.community.Translator
+import com.imyvm.community.util.Translator
 import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
-import org.apache.logging.log4j.core.jmx.Server
 import java.util.*
 import kotlin.collections.HashMap
 

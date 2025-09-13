@@ -2,7 +2,7 @@ package com.imyvm.community.application
 
 import com.imyvm.community.CommunityDatabase.Companion.communities
 import com.imyvm.community.CommunityConfig
-import com.imyvm.community.Translator
+import com.imyvm.community.util.Translator
 import com.imyvm.community.WorldGeoCommunityAddon
 import com.imyvm.community.WorldGeoCommunityAddon.Companion.logger
 import com.imyvm.community.domain.*

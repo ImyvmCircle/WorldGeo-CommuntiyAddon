@@ -2,7 +2,7 @@ package com.imyvm.community.application
 
 import com.imyvm.community.CommunityConfig
 import com.imyvm.community.CommunityDatabase.Companion.communities
-import com.imyvm.community.Translator
+import com.imyvm.community.util.Translator
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityRole
 import com.imyvm.community.domain.CommunityStatus

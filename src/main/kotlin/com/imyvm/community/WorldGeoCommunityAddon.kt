@@ -3,6 +3,8 @@ package com.imyvm.community
 import com.imyvm.community.application.checkMemberNumber
 import com.imyvm.community.application.removeExpiredApplication
 import com.imyvm.community.domain.PendingOperation
+import com.imyvm.community.domain.PendingOperationType
+import com.imyvm.community.util.Translator
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -14,17 +16,11 @@ import java.util.*
 class WorldGeoCommunityAddon : ModInitializer {
 
 	override fun onInitialize() {
-		CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, _ ->
-			register(dispatcher, registryAccess)
-		}
-
+		CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, _ -> register(dispatcher, registryAccess) }
 		dataLoad()
 		dataSave()
-
 		registerExpireCheck()
-
 		logger.info("$MOD_ID initialized successfully.")
-
 	}
 
 	companion object {
@@ -55,11 +51,9 @@ class WorldGeoCommunityAddon : ModInitializer {
 
 	private fun registerExpireCheck() {
 		var tickCounter = 0
-
 		ServerTickEvents.END_SERVER_TICK.register {server ->
 			tickCounter++
-
-			if (tickCounter >= 20 * 10) {
+			if (tickCounter >= CommunityConfig.PENDING_CHECK_INTERVAL_SECONDS.value * 20 ) {
 				tickCounter = 0
 				val now = System.currentTimeMillis()
 				val iterator = pendingOperations.iterator()
@@ -68,7 +62,7 @@ class WorldGeoCommunityAddon : ModInitializer {
 					if (operation.expireAt <= now) {
 						val operationType = operation.type
 						when(operationType) {
-							com.imyvm.community.domain.PendingOperationType.CREATE_COMMUNITY_RECRUITMENT -> {
+							PendingOperationType.CREATE_COMMUNITY_RECRUITMENT -> {
 								checkMemberNumber(uuid, iterator)
 								removeExpiredApplication(uuid, server)
 							}
