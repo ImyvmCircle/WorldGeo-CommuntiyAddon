@@ -1,12 +1,29 @@
-package com.imyvm.community.application
+package com.imyvm.community.application.interaction
 
 import com.imyvm.community.CommunityDatabase.Companion.communities
 import com.imyvm.community.util.Translator
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityStatus
+import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun listRecruitingCommunities(player: ServerPlayerEntity): Int{
+fun onListCommunities(player: ServerPlayerEntity, type: String) : Int {
+    when(type){
+        "RECRUITING" -> listRecruitingCommunities(player)
+        "AUDITING" -> listPendingAuditingCommunities(player)
+        "ACTIVE" -> listActiveCommunities(player)
+        "ALL" -> listAllCommunities(player)
+    }
+    return 1
+}
+
+fun runQueryCommunityRegion(player: ServerPlayerEntity, region: Region): Int {
+    PlayerInteractionApi.queryRegionInfo(player, region)
+    return 1
+}
+
+private fun listRecruitingCommunities(player: ServerPlayerEntity): Int{
     player.sendMessage(Translator.tr("community.list.header.recruiting"))
     for (community in communities) {
         if (community.status == CommunityStatus.RECRUITING_REALM) {
@@ -16,7 +33,7 @@ fun listRecruitingCommunities(player: ServerPlayerEntity): Int{
     return 1
 }
 
-fun listPendingAuditingCommunities(player: ServerPlayerEntity): Int{
+private fun listPendingAuditingCommunities(player: ServerPlayerEntity): Int{
     player.sendMessage(Translator.tr("community.list.header.pending"))
     for (community in communities) {
         if (community.status == CommunityStatus.PENDING_MANOR
@@ -27,7 +44,7 @@ fun listPendingAuditingCommunities(player: ServerPlayerEntity): Int{
     return 1
 }
 
-fun listActiveCommunities(player: ServerPlayerEntity): Int{
+private fun listActiveCommunities(player: ServerPlayerEntity): Int{
     player.sendMessage(Translator.tr("community.list.header.active"))
     for (community in communities) {
         if (community.status == CommunityStatus.ACTIVE_MANOR
@@ -38,7 +55,7 @@ fun listActiveCommunities(player: ServerPlayerEntity): Int{
     return 1
 }
 
-fun listAllCommunities(player: ServerPlayerEntity): Int{
+private fun listAllCommunities(player: ServerPlayerEntity): Int{
     player.sendMessage(Translator.tr("community.list.header.all"))
     for (community in communities) {
         displayCommunityEntry(player, community)
@@ -52,7 +69,7 @@ private fun displayCommunityEntry(player: ServerPlayerEntity, community: Communi
             Translator.tr(
                 "community.list.entry",
                 it.name,
-                community.id,
+                community.regionNumberId,
                 community.foundingTimeSeconds,
                 community.status.name.lowercase(),
                 community.joinPolicy.name.lowercase(),

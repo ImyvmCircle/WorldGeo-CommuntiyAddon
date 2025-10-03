@@ -20,7 +20,6 @@ class CommunityDatabase {
         DataOutputStream(file.toFile().outputStream()).use { stream ->
             stream.writeInt(communities.size)
             for (community in communities) {
-                stream.writeInt(community.id)
                 saveCommunityRegionNumberId(stream,community)
                 stream.writeLong(community.foundingTimeSeconds)
                 saveCommunityMember(stream,community)
@@ -42,7 +41,6 @@ class CommunityDatabase {
             val size = stream.readInt()
             communities = ArrayList(size)
             for (i in 0 until size) {
-                val id = stream.readInt()
                 val regionNumberId = loadCommunityRegionNumberId(stream)
                 val foundingTimeSeconds = stream.readLong()
                 val memberCount = stream.readInt()
@@ -51,7 +49,6 @@ class CommunityDatabase {
                 val status = CommunityStatus.fromValue(stream.readInt())
 
                 val community = Community(
-                    id = id,
                     regionNumberId = regionNumberId,
                     foundingTimeSeconds = foundingTimeSeconds,
                     member = memberMap,

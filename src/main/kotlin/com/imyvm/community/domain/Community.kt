@@ -1,7 +1,6 @@
 package com.imyvm.community.domain
 
 import com.imyvm.community.util.Translator
-import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.queryRegionInfo
 import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
@@ -10,7 +9,6 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class Community(
-    val id: Int,
     val regionNumberId: Int?,
     val foundingTimeSeconds: Long,
     var member: HashMap<UUID, CommunityRole>,
@@ -19,7 +17,7 @@ class Community(
 ) {
     fun getRegion(): Region? {
         val targetRegion = getRegionList().find {
-            it.numberID == id
+            it.numberID == regionNumberId
         } ?: return null
         return targetRegion
     }
@@ -29,7 +27,7 @@ class Community(
         if(region != null){
             queryRegionInfo(player, region)
         } else {
-            player.sendMessage(Translator.tr("community.description.no_region", id))
+            player.sendMessage(Translator.tr("community.description.no_region", regionNumberId))
         }
     }
 }

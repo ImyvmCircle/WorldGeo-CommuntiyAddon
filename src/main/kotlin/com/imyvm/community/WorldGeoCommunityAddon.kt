@@ -1,9 +1,10 @@
 package com.imyvm.community
 
-import com.imyvm.community.application.checkMemberNumber
-import com.imyvm.community.application.removeExpiredApplication
+import com.imyvm.community.application.pending.checkMemberNumber
+import com.imyvm.community.application.pending.removeExpiredApplication
 import com.imyvm.community.domain.PendingOperation
 import com.imyvm.community.domain.PendingOperationType
+import com.imyvm.community.inter.register
 import com.imyvm.community.util.Translator
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
@@ -16,7 +17,7 @@ import java.util.*
 class WorldGeoCommunityAddon : ModInitializer {
 
 	override fun onInitialize() {
-		CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, _ -> register(dispatcher, registryAccess) }
+		CommandRegistrationCallback.EVENT.register { dispatcher, _, _ -> register(dispatcher) }
 		dataLoad()
 		dataSave()
 		registerExpireCheck()
