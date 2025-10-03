@@ -3,7 +3,7 @@ package com.imyvm.community.application
 import com.imyvm.community.CommunityDatabase.Companion.communities
 import com.imyvm.community.util.Translator
 import com.imyvm.community.domain.Community
-import com.imyvm.iwg.ImyvmWorldGeo
+import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -13,7 +13,7 @@ fun getCommunityByName(context: CommandContext<ServerCommandSource>): Community?
     val player = context.source.player ?: return null
 
     val name = StringArgumentType.getString(context, "name")
-    val targetRegion = ImyvmWorldGeo.data.getRegionList().find {
+    val targetRegion = getRegionList().find {
         it.name.equals(name, ignoreCase = true)
     } ?: run {
         player.sendMessage(Translator.tr("community.notfound.name", name))

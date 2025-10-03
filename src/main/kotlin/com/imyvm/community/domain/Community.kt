@@ -3,7 +3,8 @@ package com.imyvm.community.domain
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.ImyvmWorldGeo
 import com.imyvm.iwg.domain.Region
-import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi
+import com.imyvm.iwg.inter.api.PlayerInteractionApi.queryRegionInfo
+import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 import kotlin.collections.HashMap
@@ -17,7 +18,7 @@ class Community(
     var status: CommunityStatus
 ) {
     fun getRegion(): Region? {
-        val targetRegion = ImyvmWorldGeo.data.getRegionList().find {
+        val targetRegion = getRegionList().find {
             it.numberID == id
         } ?: return null
         return targetRegion
@@ -26,7 +27,7 @@ class Community(
     fun sendCommunityDescription(player: ServerPlayerEntity) {
         val region = getRegion()
         if(region != null){
-            ImyvmWorldGeoApi.queryRegionInfo(player, region)
+            queryRegionInfo(player, region)
         } else {
             player.sendMessage(Translator.tr("community.description.no_region", id))
         }

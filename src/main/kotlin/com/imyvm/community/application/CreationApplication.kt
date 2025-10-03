@@ -7,7 +7,7 @@ import com.imyvm.community.WorldGeoCommunityAddon
 import com.imyvm.community.WorldGeoCommunityAddon.Companion.logger
 import com.imyvm.community.domain.*
 import com.imyvm.economy.EconomyMod
-import com.imyvm.iwg.ImyvmWorldGeo
+import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
@@ -32,7 +32,7 @@ fun chargeFromApplicator(player: ServerPlayerEntity, communityType: String): Int
 fun initialApplication(player: ServerPlayerEntity, name: String, communityType: String) {
     val community = Community(
         id = 0,
-        regionNumberId = ImyvmWorldGeo.data.getRegionList().lastOrNull()?.numberID,
+        regionNumberId = getRegionList().lastOrNull()?.numberID,
         foundingTimeSeconds = System.currentTimeMillis() / 1000,
         member = hashMapOf(player.uuid to CommunityRole.OWNER),
         joinPolicy = CommunityJoinPolicy.OPEN,

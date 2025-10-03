@@ -7,7 +7,7 @@ import com.imyvm.community.domain.CommunityStatus
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun listRecruitingCommunities(player: ServerPlayerEntity): Int{
-    player.sendMessage(Translator.tr("community.list.header.recruting"))
+    player.sendMessage(Translator.tr("community.list.header.recruiting"))
     for (community in communities) {
         if (community.status == CommunityStatus.RECRUITING_REALM) {
             displayCommunityEntry(player, community)

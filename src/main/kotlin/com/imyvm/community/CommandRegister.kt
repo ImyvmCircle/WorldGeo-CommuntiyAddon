@@ -3,12 +3,12 @@ package com.imyvm.community
 import com.imyvm.community.application.*
 import com.imyvm.community.domain.Community
 import com.imyvm.community.util.Translator
-import com.imyvm.iwg.application.resetSelection
-import com.imyvm.iwg.application.startSelection
-import com.imyvm.iwg.application.stopSelection
 import com.imyvm.iwg.domain.Region
-import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi
-import com.imyvm.iwg.inter.api.ImyvmWorldGeoApi.createRegion
+import com.imyvm.iwg.inter.api.PlayerInteractionApi.createRegion
+import com.imyvm.iwg.inter.api.PlayerInteractionApi.queryRegionInfo
+import com.imyvm.iwg.inter.api.PlayerInteractionApi.resetSelection
+import com.imyvm.iwg.inter.api.PlayerInteractionApi.startSelection
+import com.imyvm.iwg.inter.api.PlayerInteractionApi.stopSelection
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
@@ -226,6 +226,6 @@ private fun runAudit(player: ServerPlayerEntity, choice: String, targetCommunity
 }
 
 private fun runQueryRegion(player: ServerPlayerEntity, region: Region): Int {
-    ImyvmWorldGeoApi.queryRegionInfo(player, region)
+    queryRegionInfo(player, region)
     return 1
 }
