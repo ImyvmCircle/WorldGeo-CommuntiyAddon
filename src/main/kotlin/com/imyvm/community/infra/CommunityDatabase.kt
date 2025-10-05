@@ -1,4 +1,4 @@
-package com.imyvm.community
+package com.imyvm.community.infra
 
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityJoinPolicy

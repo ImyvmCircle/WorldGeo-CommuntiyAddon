@@ -4,6 +4,8 @@ import com.imyvm.community.application.pending.checkMemberNumber
 import com.imyvm.community.application.pending.removeExpiredApplication
 import com.imyvm.community.domain.PendingOperation
 import com.imyvm.community.domain.PendingOperationType
+import com.imyvm.community.infra.CommunityConfig
+import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.inter.register
 import com.imyvm.community.util.Translator
 import net.fabricmc.api.ModInitializer

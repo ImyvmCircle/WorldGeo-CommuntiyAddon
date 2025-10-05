@@ -1,6 +1,6 @@
 package com.imyvm.community.inter.helper
 
-import com.imyvm.community.CommunityDatabase.Companion.communities
+import com.imyvm.community.infra.CommunityDatabase.Companion.communities
 import com.imyvm.community.util.Translator
 import com.imyvm.community.domain.Community
 import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList

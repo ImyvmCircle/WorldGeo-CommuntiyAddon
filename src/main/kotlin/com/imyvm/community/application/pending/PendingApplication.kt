@@ -1,7 +1,7 @@
 package com.imyvm.community.application.pending
 
-import com.imyvm.community.CommunityConfig
-import com.imyvm.community.CommunityDatabase
+import com.imyvm.community.infra.CommunityConfig
+import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.WorldGeoCommunityAddon
 import com.imyvm.community.application.helper.refundNotCreated
 import com.imyvm.community.domain.Community
