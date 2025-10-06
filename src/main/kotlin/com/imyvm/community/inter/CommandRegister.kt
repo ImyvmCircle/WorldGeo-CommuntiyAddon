@@ -57,6 +57,7 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
                             .suggests(BINARY_CHOICE_SUGGESTION_PROVIDER)
                             .then(
                                 argument("communityIdentifier", StringArgumentType.greedyString())
+                                    .suggests(PENDING_COMMUNITY_PROVIDER)
                                     .executes{ runAudit(it) }
                             )
                     )
@@ -65,6 +66,7 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
                 literal("join")
                     .then(
                         argument("communityIdentifier", StringArgumentType.greedyString())
+                            .suggests(JOINABLE_COMMUNITY_PROVIDER)
                             .executes{ runJoin(it) }
                     )
             )
@@ -84,6 +86,7 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
                 literal("query")
                     .then(
                         argument("communityIdentifier", StringArgumentType.word())
+                            .suggests(ALL_COMMUNITY_PROVIDER)
                             .executes{ runQueryCommunityRegion(it) }
                     )
             )
