@@ -14,33 +14,40 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.component.DataComponentTypes
 
-class MainMenuHandler(syncId: Int, playerInventory: net.minecraft.entity.player.PlayerInventory)
-    : ScreenHandler(ScreenHandlerType.GENERIC_9X3, syncId) {
+class MainMenuHandler(
+    syncId: Int,
+    playerInventory: net.minecraft.entity.player.PlayerInventory
+) : ScreenHandler(ScreenHandlerType.GENERIC_9X3, syncId) {
 
-    private val listStr = Translator.tr("ui.main.button.list")?.string
-    private val createStr = Translator.tr("ui.main.button.create")?.string
-    private val closeStr = Translator.tr("ui.main.button.close")?.string
+    private val listText: Text = Translator.tr("ui.main.button.list") ?: Text.literal("List")
+    private val createText: Text = Translator.tr("ui.main.button.create") ?: Text.literal("Create")
+    private val closeText: Text = Translator.tr("ui.main.button.close") ?: Text.literal("Close")
 
     private val inventory = SimpleInventory(27)
 
     init {
         for (i in 0 until 27) {
-            inventory.setStack(i, createItem(" ", Items.GRAY_STAINED_GLASS_PANE))
+            inventory.setStack(i, createItem(Text.literal(" "), Items.GRAY_STAINED_GLASS_PANE))
         }
 
-        inventory.setStack(10, listStr?.let { createItem(it, Items.WRITABLE_BOOK) })
-        inventory.setStack(13, createStr?.let { createItem(it, Items.OAK_DOOR) })
-        inventory.setStack(26, closeStr?.let { createItem(it, Items.BARRIER) })
+        inventory.setStack(10, createItem(listText, Items.WRITABLE_BOOK))
+        inventory.setStack(13, createItem(createText, Items.OAK_DOOR))
+        inventory.setStack(26, createItem(closeText, Items.BARRIER))
 
         for (i in 0 until inventory.size()) {
-            addSlot(Slot(inventory, i, 0, 0))
+            addSlot(ReadOnlySlot(inventory, i, 0, 0))
         }
     }
 
-    private fun createItem(name: String, item: Item): ItemStack {
+    private fun createItem(name: Text, item: Item): ItemStack {
         val stack = ItemStack(item)
-        stack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(name))
+        stack.set(DataComponentTypes.CUSTOM_NAME, name)
         return stack
+    }
+
+    class ReadOnlySlot(inv: SimpleInventory, index: Int, x: Int, y: Int) : Slot(inv, index, x, y) {
+        override fun canTakeItems(player: PlayerEntity) = false
+        override fun canInsert(stack: ItemStack) = false
     }
 
     override fun canUse(player: PlayerEntity) = true
@@ -54,14 +61,14 @@ class MainMenuHandler(syncId: Int, playerInventory: net.minecraft.entity.player.
         val itemName = nameComponent?.string ?: return
 
         when (itemName) {
-            closeStr -> {
+            closeText.string -> {
                 (player as? ServerPlayerEntity)?.closeHandledScreen()
                 player.sendMessage(Translator.tr("ui.main.button.close.feedback"))
             }
-            listStr -> {
+            listText.string -> {
                 player.sendMessage(Text.literal("打开聚落列表（未实现）"))
             }
-            createStr -> {
+            createText.string -> {
                 player.sendMessage(Text.literal("创建聚落（未实现）"))
             }
         }
