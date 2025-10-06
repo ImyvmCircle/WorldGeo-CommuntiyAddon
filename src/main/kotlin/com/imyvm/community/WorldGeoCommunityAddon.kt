@@ -6,7 +6,7 @@ import com.imyvm.community.domain.PendingOperation
 import com.imyvm.community.domain.PendingOperationType
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityDatabase
-import com.imyvm.community.inter.register
+import com.imyvm.community.inter.command.register
 import com.imyvm.community.util.Translator
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback

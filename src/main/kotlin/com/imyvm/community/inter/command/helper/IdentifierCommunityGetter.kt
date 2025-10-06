@@ -1,4 +1,4 @@
-package com.imyvm.community.inter.helper
+package com.imyvm.community.inter.command.helper
 
 import com.imyvm.community.infra.CommunityDatabase.Companion.communities
 import com.imyvm.community.util.Translator

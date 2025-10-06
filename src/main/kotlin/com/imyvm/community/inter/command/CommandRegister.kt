@@ -1,10 +1,11 @@
-package com.imyvm.community.inter
+package com.imyvm.community.inter.command
 
 import com.imyvm.community.application.interaction.onAudit
 import com.imyvm.community.application.interaction.onCreateCommunity
 import com.imyvm.community.application.interaction.onJoinCommunity
 import com.imyvm.community.application.interaction.onListCommunities
-import com.imyvm.community.inter.helper.*
+import com.imyvm.community.inter.command.CommandMenuOpener.openCommunityMenu
+import com.imyvm.community.inter.command.helper.*
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.resetSelection
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.startSelection
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.stopSelection
@@ -20,6 +21,7 @@ import java.util.*
 fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
     dispatcher.register(
         literal("community")
+            .executes{ runInitialUI(it) }
             .then(
                 literal("select")
                     .then(
@@ -91,6 +93,12 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
                     )
             )
     )
+}
+
+private fun runInitialUI(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    openCommunityMenu(player)
+    return 1
 }
 
 private fun runStartSelect(context: CommandContext<ServerCommandSource>): Int {
