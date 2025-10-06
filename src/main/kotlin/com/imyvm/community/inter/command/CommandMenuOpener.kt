@@ -1,7 +1,7 @@
 package com.imyvm.community.inter.command
 
 import com.imyvm.community.inter.screen.MainMenuHandler
-import com.imyvm.iwg.application.ui.text.Translator
+import com.imyvm.community.util.Translator
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.server.network.ServerPlayerEntity

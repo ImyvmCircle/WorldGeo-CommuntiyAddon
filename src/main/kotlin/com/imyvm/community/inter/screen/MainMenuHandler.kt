@@ -1,6 +1,6 @@
 package com.imyvm.community.inter.screen
 
-import com.imyvm.iwg.application.ui.text.Translator
+import com.imyvm.community.util.Translator
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.Item

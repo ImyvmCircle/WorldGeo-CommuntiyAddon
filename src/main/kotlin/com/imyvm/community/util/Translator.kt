@@ -1,16 +1,16 @@
 package com.imyvm.community.util
 
 import com.imyvm.community.WorldGeoCommunityAddon.Companion.MOD_ID
+import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.hoki.i18n.HokiLanguage
 import com.imyvm.hoki.i18n.HokiTranslator
-import com.imyvm.iwg.infra.ModConfig
 import net.minecraft.text.Text
 
 object Translator : HokiTranslator() {
-    private var languageInstance = createLanguage(ModConfig.LANGUAGE.value)
+    private var languageInstance = createLanguage(CommunityConfig.LANGUAGE.value)
 
     init {
-        ModConfig.LANGUAGE.changeEvents.register { option, _, _ ->
+        CommunityConfig.LANGUAGE.changeEvents.register { option, _, _ ->
             languageInstance = createLanguage(option.value)
         }
     }

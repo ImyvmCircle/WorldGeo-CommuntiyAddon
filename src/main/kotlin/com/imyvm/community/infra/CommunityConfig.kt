@@ -8,6 +8,16 @@ class CommunityConfig : HokiConfig("Community.conf") {
     companion object {
         @JvmField
         @ConfigOption
+        val LANGUAGE = Option(
+            "language",
+            "en_us",
+            "the language of the mod. (e.g., en_us, zh_cn)"
+        ) { obj, path ->
+            obj.getString(path)
+        }
+
+        @JvmField
+        @ConfigOption
         val PENDING_CHECK_INTERVAL_SECONDS = Option(
             "pending.check_interval_ticks",
             10,
