@@ -1,8 +1,9 @@
 package com.imyvm.community.inter.command
 
 import com.imyvm.community.application.interaction.command.*
+import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.inter.command.helper.*
-import com.imyvm.community.inter.screen.MainMenuHandler
+import com.imyvm.community.inter.screen.MainMenu
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.resetSelection
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.startSelection
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.stopSelection
@@ -94,7 +95,7 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
 
 private fun runInitialUI(context: CommandContext<ServerCommandSource>): Int {
     val player = context.source.player ?: return 0
-    CommandMenuOpener.open(player) { syncId -> MainMenuHandler(syncId) }
+    CommunityMenuOpener.open(player) { syncId, _ -> MainMenu(syncId) }
     return 1
 }
 

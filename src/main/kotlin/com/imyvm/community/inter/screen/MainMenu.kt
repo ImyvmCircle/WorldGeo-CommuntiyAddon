@@ -1,6 +1,5 @@
 package com.imyvm.community.inter.screen
 
-import com.imyvm.community.application.interaction.screen.runClose
 import com.imyvm.community.application.interaction.screen.runCreate
 import com.imyvm.community.application.interaction.screen.runList
 import com.imyvm.community.application.interaction.screen.runMyCommunity
@@ -8,8 +7,8 @@ import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
 import net.minecraft.text.Text
 
-class MainMenuHandler(syncId: Int) :
-    AbstractMenuHandler(
+class MainMenu(syncId: Int) :
+    AbstractMenu(
         syncId,
         menuTitle = Translator.tr("ui.main.title") ?: Text.literal("Community Main Menu")
     ) {
@@ -18,6 +17,5 @@ class MainMenuHandler(syncId: Int) :
         addButton(slot = 10, name = Translator.tr("ui.main.button.list")?.string ?: "List", item = Items.WRITABLE_BOOK) { runList(it) }
         addButton(slot = 13, name = Translator.tr("ui.main.button.create")?.string ?: "Create", item = Items.DIAMOND_PICKAXE) { runCreate(it) }
         addButton(slot = 16, name = Translator.tr("ui.main.button.my")?.string ?: "My Village", item = Items.RED_BED) { runMyCommunity(it) }
-        addButton(slot = 53, name = Translator.tr("ui.main.button.close")?.string ?: "Close", item = Items.BARRIER) { runClose(it) }
     }
 }

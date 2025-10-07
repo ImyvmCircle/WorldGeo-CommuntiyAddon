@@ -2,6 +2,7 @@ package com.imyvm.community.inter.screen
 
 import com.imyvm.community.inter.screen.component.MenuButton
 import com.imyvm.community.inter.screen.component.ReadOnlySlot
+import com.imyvm.community.util.Translator
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.SimpleInventory
@@ -14,12 +15,13 @@ import net.minecraft.screen.slot.SlotActionType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-abstract class AbstractMenuHandler(
+abstract class AbstractMenu(
     syncId: Int,
     rows: Int = 6,
     private val defaultBackground: Item = Items.GRAY_STAINED_GLASS_PANE,
     private val defaultBackgroundName: String = " ",
-    val menuTitle: Text = Text.literal("Menu")
+    val menuTitle: Text = Text.literal("Menu"),
+    val context: Any? = null
 ) : ScreenHandler(ScreenHandlerType.GENERIC_9X6, syncId) {
 
     private val inventory = SimpleInventory(rows * 9)
@@ -28,6 +30,7 @@ abstract class AbstractMenuHandler(
     init {
         fillBackground()
         setupSlots()
+        addDefaultCloseButton()
     }
 
     private fun fillBackground() {
@@ -51,6 +54,21 @@ abstract class AbstractMenuHandler(
         val stack = ItemStack(item)
         stack.set(DataComponentTypes.CUSTOM_NAME, name)
         return stack
+    }
+
+    private fun addDefaultCloseButton() {
+        addButton(
+            slot = 53,
+            name = Translator.tr("ui.button.close")?.string ?: "Close",
+            item = Items.BARRIER
+        ) { player ->
+            runClose(player)
+        }
+    }
+
+    protected fun runClose(player: ServerPlayerEntity) {
+        player.closeHandledScreen()
+        player.sendMessage(Translator.tr("ui.button.close.feedback"))
     }
 
     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {

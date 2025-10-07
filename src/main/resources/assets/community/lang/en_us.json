@@ -39,6 +39,7 @@
   "ui.main.button.list": "List Communities",
   "ui.main.button.create": "Create Community",
   "ui.main.button.my": "My Community",
-  "ui.main.button.close": "Close",
-  "ui.main.button.close.feedback" : "Closed the community management interface."
+
+  "ui.button.close": "Close",
+  "ui.button.close.feedback" : "Closed the community management interface."
 }
