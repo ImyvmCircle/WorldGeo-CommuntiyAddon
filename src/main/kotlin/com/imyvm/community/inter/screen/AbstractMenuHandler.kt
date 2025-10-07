@@ -16,11 +16,11 @@ import net.minecraft.text.Text
 
 abstract class AbstractMenuHandler(
     syncId: Int,
-    rows: Int = 3,
+    rows: Int = 6,
     private val defaultBackground: Item = Items.GRAY_STAINED_GLASS_PANE,
     private val defaultBackgroundName: String = " ",
     val menuTitle: Text = Text.literal("Menu")
-) : ScreenHandler(ScreenHandlerType.GENERIC_9X3, syncId) {
+) : ScreenHandler(ScreenHandlerType.GENERIC_9X6, syncId) {
 
     private val inventory = SimpleInventory(rows * 9)
     private val buttons = mutableListOf<MenuButton>()

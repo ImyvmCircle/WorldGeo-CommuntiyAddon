@@ -34,7 +34,7 @@
   "community.list.header.all": "Current communities:\n",
   "community.list.entry": "- {0} (ID: {1}), Founding time: {2}, Status: {3}, Join Policy: {4}, Member Size: {5}\n",
 
-  "ui.main.title": "Community Management",
+  "ui.main.title": "Community Main Menu",
   "ui.main.button.list": "List Communities",
   "ui.main.button.create": "Create Community",
   "ui.main.button.my": "My Community",
