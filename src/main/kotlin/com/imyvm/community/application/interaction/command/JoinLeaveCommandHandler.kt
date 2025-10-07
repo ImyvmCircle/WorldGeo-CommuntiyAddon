@@ -1,4 +1,4 @@
-package com.imyvm.community.application.interaction
+package com.imyvm.community.application.interaction.command
 
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityDatabase.Companion.communities

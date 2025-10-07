@@ -1,9 +1,6 @@
 package com.imyvm.community.inter.command
 
-import com.imyvm.community.application.interaction.onAudit
-import com.imyvm.community.application.interaction.onCreateCommunity
-import com.imyvm.community.application.interaction.onJoinCommunity
-import com.imyvm.community.application.interaction.onListCommunities
+import com.imyvm.community.application.interaction.command.*
 import com.imyvm.community.inter.command.helper.*
 import com.imyvm.community.inter.screen.MainMenuHandler
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.resetSelection
@@ -152,6 +149,6 @@ private fun runQueryCommunityRegion(context: CommandContext<ServerCommandSource>
     val communityIdentifier = StringArgumentType.getString(context, "communityIdentifier")
     return identifierHandler(player, communityIdentifier) { targetCommunity ->
         val region = targetCommunity.getRegion() ?: return@identifierHandler
-        com.imyvm.community.application.interaction.runQueryCommunityRegion(player, region)
+        onQueryCommunityRegion(player, region)
     }
 }
