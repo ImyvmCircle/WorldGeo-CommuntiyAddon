@@ -1,4 +1,4 @@
-package com.imyvm.community.application.interaction
+package com.imyvm.community.application.interaction.common
 
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityStatus

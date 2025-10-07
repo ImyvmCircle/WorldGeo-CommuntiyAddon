@@ -1,6 +1,6 @@
 package com.imyvm.community.application.interaction.command
 
-import com.imyvm.community.application.interaction.filterCommunitiesByType
+import com.imyvm.community.application.interaction.common.filterCommunitiesByType
 import com.imyvm.community.util.Translator
 import com.imyvm.community.domain.Community
 import com.imyvm.iwg.domain.Region
