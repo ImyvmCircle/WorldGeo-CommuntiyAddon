@@ -5,7 +5,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 fun runList(player: ServerPlayerEntity){
-    CommunityMenuOpener.open(player, "ALL") { syncId, context -> CommunityListMenu(syncId, context) }
+    CommunityMenuOpener.open(player, "ALL") { syncId, content -> CommunityListMenu(syncId, content) }
 }
 
 fun runCreate(player: ServerPlayerEntity){

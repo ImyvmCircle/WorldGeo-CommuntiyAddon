@@ -10,15 +10,15 @@ import net.minecraft.text.Text
 object CommunityMenuOpener {
     fun open(
         player: ServerPlayerEntity,
-        context: Any? = null,
+        content: Any? = null,
         handlerFactory: (Int, Any?) -> AbstractMenu
     ) {
         player.openHandledScreen(object : NamedScreenHandlerFactory {
             override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) =
-                handlerFactory(syncId, context)
+                handlerFactory(syncId, content)
 
             override fun getDisplayName(): Text =
-                handlerFactory(0, context).menuTitle
+                handlerFactory(0, content).menuTitle
         })
     }
 }

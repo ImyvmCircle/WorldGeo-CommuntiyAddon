@@ -40,6 +40,16 @@
   "ui.main.button.create": "Create Community",
   "ui.main.button.my": "My Community",
 
+  "ui.list.title": "Community List",
+  "ui.list.button.all": "Current Mode: ALL",
+  "ui.list.button.recruiting": "Current Mode: RECRUITING",
+  "ui.list.button.auditing": "Current Mode: AUDITING",
+  "ui.list.button.active": "Current Mode: ACTIVE",
+  "ui.list.button.all.alter": "Switched to ALL mode.",
+  "ui.list.button.recruiting.alter": "Switched to RECRUITING mode.",
+  "ui.list.button.auditing.alter": "Switched to AUDITING mode.",
+  "ui.list.button.active.alter": "Switched to ACTIVE mode.",
+
   "ui.button.close": "Close",
   "ui.button.close.feedback" : "Closed the community management interface."
 }
