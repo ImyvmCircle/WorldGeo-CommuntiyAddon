@@ -1,18 +1,24 @@
 package com.imyvm.community.application.interaction.command
 
-import com.imyvm.community.infra.CommunityConfig
-import com.imyvm.community.util.Translator
 import com.imyvm.community.WorldGeoCommunityAddon
 import com.imyvm.community.domain.*
+import com.imyvm.community.infra.CommunityConfig
+import com.imyvm.community.util.Translator
 import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun onCreateCommunity(player: ServerPlayerEntity, communityType: String, name: String, shapeName: String): Int {
-    if (chargeFromApplicator(player, communityType) == 0) return 0
     if (PlayerInteractionApi.createRegion(player, name, shapeName) == 0) {
         player.sendMessage(Translator.tr("community.create.region.error"))
+        return 0
+    }
+    if (chargeFromApplicator(player, communityType) == 0) {
+        val regionDelete = getRegionList().lastOrNull()
+        if (regionDelete != null) {
+            PlayerInteractionApi.deleteRegion(player, regionDelete)
+        }
         return 0
     }
     initialApplication(player, name, communityType)
