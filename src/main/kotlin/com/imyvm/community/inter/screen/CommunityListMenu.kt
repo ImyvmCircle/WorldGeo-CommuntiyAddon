@@ -1,5 +1,6 @@
 package com.imyvm.community.inter.screen
 
+import com.imyvm.community.application.interaction.common.filterCommunitiesByType
 import com.imyvm.community.application.interaction.screen.runSwitchMode
 import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
@@ -10,7 +11,7 @@ class CommunityListMenu(syncId: Int, content: Any? = null) :
 
     init {
         addButtonMode(content)
-        addButtonCommunityList()
+        addButtonCommunityList(content)
     }
 
     private fun addButtonMode(content: Any? = null) {
@@ -46,8 +47,11 @@ class CommunityListMenu(syncId: Int, content: Any? = null) :
             item = Items.CYAN_WOOL) { runSwitchMode(it, "ACTIVE") }
     }
 
-    private fun addButtonCommunityList() {
-
+    private fun addButtonCommunityList(content: Any? = null) {
+        val communityList = filterCommunitiesByType(content as? String ?: "ALL")
+        if (communityList.isNotEmpty()) {
+            TODO()
+        }
     }
 
 }
