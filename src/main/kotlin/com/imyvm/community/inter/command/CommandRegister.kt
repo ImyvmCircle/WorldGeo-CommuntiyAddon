@@ -76,6 +76,7 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
             )
             .then(
                 literal("list")
+                    .executes{ runListCommand(it) }
                     .then(
                         argument("communityType", StringArgumentType.word())
                             .suggests(LIST_TYPE_PROVIDER)
@@ -141,7 +142,11 @@ private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
 
 private fun runListCommand(context: CommandContext<ServerCommandSource>): Int {
     val player = context.source.player ?: return 0
-    val type = StringArgumentType.getString(context, "communityType")
+    val type = try {
+        StringArgumentType.getString(context, "communityType").uppercase()
+    } catch (e: IllegalArgumentException) {
+        "ALL"
+    }
     return onListCommunities(player, type)
 }
 
