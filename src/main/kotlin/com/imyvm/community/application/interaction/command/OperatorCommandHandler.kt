@@ -8,34 +8,26 @@ import com.imyvm.community.util.Translator
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun onAudit(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int {
-    if(!checkPendingPreAuditing(player, targetCommunity)) return 0
+    if (!checkPendingPreAuditing(player, targetCommunity)) return 0
     return handleAuditingChoices(player, choice, targetCommunity)
 }
 
-private fun checkPendingPreAuditing(player: ServerPlayerEntity, targetCommunity: Community): Boolean{
-    val uuidOwner = targetCommunity.member.filter { it.value == com.imyvm.community.domain.CommunityRole.OWNER }.keys.firstOrNull()
-        ?: run {
-            player.sendMessage(Translator.tr("community.audit.error.no_owner", targetCommunity.regionNumberId))
-            return false
-        }
-    if (WorldGeoCommunityAddon.pendingOperations[uuidOwner] == null) {
-        player.sendMessage(Translator.tr("community.audit.error.no_pending", targetCommunity.regionNumberId))
+private fun checkPendingPreAuditing(player: ServerPlayerEntity, targetCommunity: Community): Boolean {
+    val regionId = targetCommunity.regionNumberId
+    if (WorldGeoCommunityAddon.pendingOperations[regionId] == null) {
+        player.sendMessage(Translator.tr("community.audit.error.no_pending", regionId))
         return false
     }
-    WorldGeoCommunityAddon.pendingOperations.remove(uuidOwner)
+    WorldGeoCommunityAddon.pendingOperations.remove(regionId)
     return true
 }
 
-private fun handleAuditingChoices(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int{
-    when (choice) {
+private fun handleAuditingChoices(player: ServerPlayerEntity, choice: String, targetCommunity: Community): Int {
+    when (choice.lowercase()) {
         "yes" -> {
             when (targetCommunity.status) {
-                CommunityStatus.PENDING_MANOR -> {
-                    promoteToActiveManor(player, targetCommunity)
-                }
-                CommunityStatus.PENDING_REALM -> {
-                    promoteToActiveRealm(player, targetCommunity)
-                }
+                CommunityStatus.PENDING_MANOR -> promoteToActiveManor(player, targetCommunity)
+                CommunityStatus.PENDING_REALM -> promoteToActiveRealm(player, targetCommunity)
                 else -> {
                     player.sendMessage(Translator.tr("community.audit.error.invalid_status", targetCommunity.regionNumberId))
                     return 0

@@ -8,7 +8,6 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.*
 
 class WorldGeoCommunityAddon : ModInitializer {
 
@@ -24,6 +23,6 @@ class WorldGeoCommunityAddon : ModInitializer {
 		const val MOD_ID = "community"
 		val logger: Logger = LoggerFactory.getLogger(MOD_ID)
 
-		val pendingOperations: MutableMap<UUID, PendingOperation> = mutableMapOf()
+		val pendingOperations: MutableMap<Int, PendingOperation> = mutableMapOf()
 	}
 }
