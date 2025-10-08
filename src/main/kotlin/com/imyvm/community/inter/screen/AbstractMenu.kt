@@ -49,10 +49,10 @@ abstract class AbstractMenu(
         inventory.setStack(slot, createItem(Text.literal(name), item))
     }
 
-    protected fun addButton(slot: Int, stack: ItemStack, name: String? = null, onClick: (ServerPlayerEntity) -> Unit) {
-        val finalName = name ?: stack.get(DataComponentTypes.CUSTOM_NAME)?.string ?: "?"
-        buttons.add(MenuButton(slot, stack.item, finalName, onClick))
-        inventory.setStack(slot, stack)
+    protected fun addButton(slot: Int, itemStack: ItemStack, name: String? = null, onClick: (ServerPlayerEntity) -> Unit) {
+        val finalName = name ?: itemStack.get(DataComponentTypes.CUSTOM_NAME)?.string ?: "?"
+        buttons.add(MenuButton(slot, itemStack.item, finalName, onClick))
+        inventory.setStack(slot, itemStack)
     }
 
     private fun createItem(name: Text, item: Item): ItemStack {
