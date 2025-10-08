@@ -4,7 +4,7 @@ import com.imyvm.community.application.interaction.common.filterCommunitiesByTyp
 import com.imyvm.community.application.interaction.screen.runSwitchMode
 import com.imyvm.community.domain.CommunityRole
 import com.imyvm.community.util.Translator
-import com.mojang.authlib.GameProfile
+import com.mojang.authlib.properties.PropertyMap
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.ProfileComponent
 import net.minecraft.entity.player.PlayerEntity
@@ -102,11 +102,13 @@ class CommunityListMenu(
 
     private fun addPlayerHeadButton(slot: Int, name: String, uuid: UUID, onClick: (ServerPlayerEntity) -> Unit) {
         val headStack = ItemStack(Items.PLAYER_HEAD)
-        val profile = GameProfile(uuid, " ")
-        val profileComponent = ProfileComponent(profile)
-        headStack.set(DataComponentTypes.PROFILE, profileComponent)
         headStack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(name))
         addButton(slot = slot, name = name, itemStack = headStack, onClick = onClick)
+
+        val profileComponent = ProfileComponent(Optional.empty(), Optional.of(uuid), PropertyMap())
+        profileComponent.future.thenAccept { fullProfile ->
+            headStack.set(DataComponentTypes.PROFILE, fullProfile)
+        }
     }
 }
 
