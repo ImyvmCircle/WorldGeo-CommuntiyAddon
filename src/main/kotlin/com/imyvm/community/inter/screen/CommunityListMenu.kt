@@ -40,23 +40,27 @@ class CommunityListMenu(
 
         val modeColorMap = mapOf(
             "ALL" to Items.ORANGE_WOOL,
+            "JOIN-ABLE" to Items.GREEN_WOOL,
             "RECRUITING" to Items.LIME_WOOL,
             "AUDITING" to Items.YELLOW_WOOL,
-            "ACTIVE" to Items.CYAN_WOOL
+            "ACTIVE" to Items.CYAN_WOOL,
+            "REVOKED" to Items.RED_WOOL
         )
 
         val selectedItem = modeColorMap[current] ?: Items.WHITE_WOOL
 
         addButton(
             slot = 45,
-            name = Translator.tr("ui.list.mode.$current")?.string ?: current,
+            name = Translator.tr("ui.list.button.${current.lowercase()}")?.string ?: current,
             item = selectedItem
         ) {}
 
         addButton(slot = 47, name = "All", item = Items.ORANGE_WOOL) { runSwitchMode(it, "ALL") }
-        addButton(slot = 48, name = "Recruiting", item = Items.LIME_WOOL) { runSwitchMode(it, "RECRUITING") }
-        addButton(slot = 49, name = "Auditing", item = Items.YELLOW_WOOL) { runSwitchMode(it, "AUDITING") }
-        addButton(slot = 50, name = "Active", item = Items.CYAN_WOOL) { runSwitchMode(it, "ACTIVE") }
+        addButton(slot = 48, name = "Join-able", item = Items.GREEN_WOOL) { runSwitchMode(it, "JOIN-ABLE") }
+        addButton(slot = 49, name = "Recruiting", item = Items.LIME_WOOL) { runSwitchMode(it, "RECRUITING") }
+        addButton(slot = 50, name = "Auditing", item = Items.YELLOW_WOOL) { runSwitchMode(it, "AUDITING") }
+        addButton(slot = 51, name = "Active", item = Items.CYAN_WOOL) { runSwitchMode(it, "ACTIVE") }
+        addButton(slot = 52, name = "Revoked", item = Items.RED_WOOL) { runSwitchMode(it, "REVOKED") }
     }
 
     private fun addCommunityButtons() {

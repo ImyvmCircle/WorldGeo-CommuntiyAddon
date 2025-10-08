@@ -1,8 +1,8 @@
 package com.imyvm.community.application.interaction.command
 
 import com.imyvm.community.application.interaction.common.filterCommunitiesByType
-import com.imyvm.community.util.Translator
 import com.imyvm.community.domain.Community
+import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import net.minecraft.server.network.ServerPlayerEntity
@@ -24,6 +24,8 @@ private fun displayCommunityList(player: ServerPlayerEntity, type: String, list:
         return
     }
     val headerKey = when (type) {
+        "JOIN-ABLE" -> "community.list.header.join-able"
+        "REVOKED" -> "community.list.header.revoked"
         "RECRUITING" -> "community.list.header.recruiting"
         "AUDITING" -> "community.list.header.pending"
         "ACTIVE" -> "community.list.header.active"

@@ -32,6 +32,8 @@
   "community.list.header.pending": "Pending communities waiting for auditing:\n",
   "community.list.header.recruiting": "Communities recruiting:\n",
   "community.list.header.active": "Active communities:\n",
+  "community.list.header.join-able": "Join-able communities:\n",
+  "community.list.header.revoked": "Revoked communities:\n",
   "community.list.header.all": "Current communities:\n",
   "community.list.entry": "- {0} (ID: {1}), Founding time: {2}, Status: {3}, Join Policy: {4}, Member Size: {5}\n",
 
