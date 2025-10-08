@@ -30,7 +30,7 @@ private fun handleExpiredOperation(
 ) {
     when (operation.type) {
         PendingOperationType.CREATE_COMMUNITY_RECRUITMENT -> {
-            checkMemberNumber(uuid, iterator)
+            promoteCommunityIfEligible(uuid)
             removeExpiredApplication(uuid, server)
         }
         else -> {
@@ -40,24 +40,18 @@ private fun handleExpiredOperation(
         }
     }
 
-    iterator.remove()
-    WorldGeoCommunityAddon.logger.info("Removed expired pending operation for player $uuid")
-    server.playerManager.getPlayer(uuid)
-        ?.sendMessage(Translator.tr("pending.expired", operation.type), false)
+    removePendingOperation(uuid, iterator, server, operation.type)
 }
 
-private fun checkMemberNumber(
-    uuid: UUID,
-    iterator: MutableIterator<MutableMap.MutableEntry<UUID, PendingOperation>>
-) {
+private fun promoteCommunityIfEligible(uuid: UUID) {
     for (community in CommunityDatabase.communities) {
         val ownerEntry = community.member.entries.find { it.key == uuid && it.value == CommunityRole.OWNER }
         if (ownerEntry != null &&
             community.member.count { it.value != CommunityRole.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value &&
             community.status == CommunityStatus.PENDING_REALM
         ) {
-            iterator.remove()
             addAuditingApplicationRealm(uuid, community)
+            WorldGeoCommunityAddon.logger.info("Community ${community.regionNumberId} promoted to auditing stage.")
         }
     }
 }
@@ -75,6 +69,18 @@ private fun removeExpiredApplication(uuid: UUID, server: MinecraftServer) {
             refundNotCreated(player, community)
         }
     }
+}
+
+private fun removePendingOperation(
+    uuid: UUID,
+    iterator: MutableIterator<MutableMap.MutableEntry<UUID, PendingOperation>>,
+    server: MinecraftServer,
+    operationType: PendingOperationType
+) {
+    iterator.remove()
+    WorldGeoCommunityAddon.logger.info("Removed expired pending operation for player $uuid")
+    server.playerManager.getPlayer(uuid)
+        ?.sendMessage(Translator.tr("pending.expired", operationType), false)
 }
 
 private fun addAuditingApplicationRealm(uuid: UUID, community: Community) {
