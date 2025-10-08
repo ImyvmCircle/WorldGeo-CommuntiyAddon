@@ -3,6 +3,7 @@ package com.imyvm.community.application.interaction.command
 import com.imyvm.community.WorldGeoCommunityAddon
 import com.imyvm.community.domain.*
 import com.imyvm.community.infra.CommunityConfig
+import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator
 import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
@@ -56,7 +57,7 @@ private fun initialApplication(player: ServerPlayerEntity, name: String, communi
         }
 
     )
-    WorldGeoCommunityAddon.communityData.addCommunity(community)
+    CommunityDatabase.addCommunity(community)
     player.sendMessage(
         Translator.tr("community.create.request.initial.success", name, community.regionNumberId)
     )

@@ -102,7 +102,7 @@ class CommunityListMenu(
 
     private fun addPlayerHeadButton(slot: Int, name: String, uuid: UUID, onClick: (ServerPlayerEntity) -> Unit) {
         val headStack = ItemStack(Items.PLAYER_HEAD)
-        val profile = GameProfile(uuid, null)
+        val profile = GameProfile(uuid, " ")
         val profileComponent = ProfileComponent(profile)
         headStack.set(DataComponentTypes.PROFILE, profileComponent)
         headStack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(name))

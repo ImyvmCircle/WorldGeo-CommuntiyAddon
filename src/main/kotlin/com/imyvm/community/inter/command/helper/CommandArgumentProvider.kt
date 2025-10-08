@@ -1,7 +1,7 @@
 package com.imyvm.community.inter.command.helper
 
 import com.imyvm.community.domain.CommunityStatus
-import com.imyvm.community.infra.CommunityDatabase.Companion.communities
+import com.imyvm.community.infra.CommunityDatabase.communities
 import com.mojang.brigadier.suggestion.SuggestionProvider
 import net.minecraft.server.command.ServerCommandSource
 import java.util.concurrent.CompletableFuture

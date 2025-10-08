@@ -10,9 +10,11 @@ import java.io.DataOutputStream
 import java.io.IOException
 import java.nio.file.Path
 import java.util.*
-import kotlin.collections.HashMap
 
-class CommunityDatabase {
+object CommunityDatabase {
+
+    private const val DATABASE_FILENAME = "iwg_community.db"
+    lateinit var communities: MutableList<Community>
 
     @Throws(IOException::class)
     fun save() {
@@ -103,10 +105,5 @@ class CommunityDatabase {
             memberMap[uuid] = role
         }
         return memberMap
-    }
-
-    companion object {
-        private const val DATABASE_FILENAME = "iwg_community.db"
-        lateinit var communities: MutableList<Community>
     }
 }

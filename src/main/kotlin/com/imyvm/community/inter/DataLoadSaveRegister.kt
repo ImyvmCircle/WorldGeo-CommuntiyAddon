@@ -1,6 +1,7 @@
 package com.imyvm.community.inter
 
 import com.imyvm.community.WorldGeoCommunityAddon
+import com.imyvm.community.infra.CommunityDatabase
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 
 fun registerDataLoadAndSave(){
@@ -9,7 +10,7 @@ fun registerDataLoadAndSave(){
 
 fun dataLoad() {
     try {
-        WorldGeoCommunityAddon.communityData.load()
+        CommunityDatabase.load()
     } catch (e: Exception) {
         WorldGeoCommunityAddon.logger.error("Failed to load community database: ${e.message}", e)
     }
@@ -18,7 +19,7 @@ fun dataLoad() {
 fun dataSave() {
     ServerLifecycleEvents.SERVER_STOPPING.register { _ ->
         try {
-            WorldGeoCommunityAddon.communityData.save()
+            CommunityDatabase.save()
         } catch (e: Exception) {
             WorldGeoCommunityAddon.logger.error("Failed to save community database: ${e.message}", e)
         }

@@ -1,7 +1,6 @@
 package com.imyvm.community
 
 import com.imyvm.community.domain.PendingOperation
-import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.inter.command.register
 import com.imyvm.community.inter.event.registerExpireCheck
 import com.imyvm.community.inter.registerDataLoadAndSave
@@ -25,7 +24,6 @@ class WorldGeoCommunityAddon : ModInitializer {
 		const val MOD_ID = "community"
 		val logger: Logger = LoggerFactory.getLogger(MOD_ID)
 
-		val communityData: CommunityDatabase = CommunityDatabase()
 		val pendingOperations: MutableMap<UUID, PendingOperation> = mutableMapOf()
 	}
 }

@@ -1,8 +1,8 @@
 package com.imyvm.community.inter.command.helper
 
-import com.imyvm.community.infra.CommunityDatabase.Companion.communities
-import com.imyvm.community.util.Translator
 import com.imyvm.community.domain.Community
+import com.imyvm.community.infra.CommunityDatabase.communities
+import com.imyvm.community.util.Translator
 import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
 import net.minecraft.server.network.ServerPlayerEntity
 

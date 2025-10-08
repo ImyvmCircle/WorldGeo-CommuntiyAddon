@@ -1,11 +1,11 @@
 package com.imyvm.community.application.interaction.command
 
-import com.imyvm.community.infra.CommunityConfig
-import com.imyvm.community.infra.CommunityDatabase.Companion.communities
-import com.imyvm.community.util.Translator
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityRole
 import com.imyvm.community.domain.CommunityStatus
+import com.imyvm.community.infra.CommunityConfig
+import com.imyvm.community.infra.CommunityDatabase
+import com.imyvm.community.util.Translator
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun onJoinCommunity(player: ServerPlayerEntity, targetCommunity: Community): Int {
@@ -58,7 +58,7 @@ private fun isJoinedTarget(player: ServerPlayerEntity, targetCommunity: Communit
 
 private fun isJoinedRealmTargetingRealm(player: ServerPlayerEntity, targetCommunity: Community): Boolean {
     if (targetCommunity.status == CommunityStatus.RECRUITING_REALM || targetCommunity.status == CommunityStatus.PENDING_REALM || targetCommunity.status == CommunityStatus.ACTIVE_REALM) {
-        val joinedCommunity = communities.find {
+        val joinedCommunity = CommunityDatabase.communities.find {
             (it.status == CommunityStatus.ACTIVE_REALM || it.status == CommunityStatus.PENDING_REALM || it.status == CommunityStatus.RECRUITING_REALM)
                     && it.member.containsKey(player.uuid)
         }
@@ -72,7 +72,7 @@ private fun isJoinedRealmTargetingRealm(player: ServerPlayerEntity, targetCommun
 
 private fun isJoinedManorTargetingManor(player: ServerPlayerEntity, targetCommunity: Community): Boolean {
     if (targetCommunity.status == CommunityStatus.ACTIVE_MANOR || targetCommunity.status == CommunityStatus.PENDING_MANOR) {
-        val joinedCommunity = communities.find {
+        val joinedCommunity = CommunityDatabase.communities.find {
             (it.status == CommunityStatus.ACTIVE_MANOR || it.status == CommunityStatus.PENDING_MANOR)
                     && it.member.containsKey(player.uuid)
         }
