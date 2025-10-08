@@ -29,7 +29,6 @@ fun checkMemberNumberManor(player: ServerPlayerEntity,targetCommunity: Community
             return false
         }
     }
-
     return true
 }
 
