@@ -55,5 +55,7 @@
   "ui.list.button.active.alter": "Switched to ACTIVE mode.",
 
   "ui.button.close": "Close",
-  "ui.button.close.feedback" : "Closed the community management interface."
+  "ui.button.close.feedback" : "Closed the community management interface.",
+
+  "ui.error.wrong_region_id": "Error: Wrong community region ID, cannot open corresponding community."
 }

@@ -6,7 +6,6 @@ import com.imyvm.iwg.inter.api.PlayerInteractionApi.queryRegionInfo
 import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
-import kotlin.collections.HashMap
 
 class Community(
     val regionNumberId: Int?,
