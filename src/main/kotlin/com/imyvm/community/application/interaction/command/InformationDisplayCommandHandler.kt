@@ -1,5 +1,6 @@
 package com.imyvm.community.application.interaction.command
 
+import com.imyvm.community.application.interaction.common.CommunityListFilterType
 import com.imyvm.community.application.interaction.common.filterCommunitiesByType
 import com.imyvm.community.domain.Community
 import com.imyvm.community.util.Translator
@@ -7,7 +8,7 @@ import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun onListCommunities(player: ServerPlayerEntity, type: String): Int {
+fun onListCommunities(player: ServerPlayerEntity, type: CommunityListFilterType): Int {
     val filtered = filterCommunitiesByType(type)
     displayCommunityList(player, type, filtered)
     return 1
@@ -18,19 +19,18 @@ fun onQueryCommunityRegion(player: ServerPlayerEntity, region: Region): Int {
     return 1
 }
 
-private fun displayCommunityList(player: ServerPlayerEntity, type: String, list: List<Community>) {
+private fun displayCommunityList(player: ServerPlayerEntity, type: CommunityListFilterType, list: List<Community>) {
     if (list.isEmpty()) {
         player.sendMessage(Translator.tr("community.list.empty"))
         return
     }
     val headerKey = when (type) {
-        "JOIN-ABLE" -> "community.list.header.join-able"
-        "REVOKED" -> "community.list.header.revoked"
-        "RECRUITING" -> "community.list.header.recruiting"
-        "AUDITING" -> "community.list.header.pending"
-        "ACTIVE" -> "community.list.header.active"
-        "ALL" -> "community.list.header.all"
-        else -> "community.list.header.unknown"
+        CommunityListFilterType.JOIN_ABLE -> "community.list.header.join_able"
+        CommunityListFilterType.REVOKED -> "community.list.header.revoked"
+        CommunityListFilterType.RECRUITING -> "community.list.header.recruiting"
+        CommunityListFilterType.AUDITING -> "community.list.header.pending"
+        CommunityListFilterType.ACTIVE -> "community.list.header.active"
+        CommunityListFilterType.ALL -> "community.list.header.all"
     }
 
     player.sendMessage(Translator.tr(headerKey))

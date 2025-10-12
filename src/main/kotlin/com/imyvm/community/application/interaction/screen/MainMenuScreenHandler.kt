@@ -1,5 +1,6 @@
 package com.imyvm.community.application.interaction.screen
 
+import com.imyvm.community.application.interaction.common.CommunityListFilterType
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.CommunityRole
 import com.imyvm.community.infra.CommunityDatabase
@@ -10,8 +11,9 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 fun runList(player: ServerPlayerEntity) {
-    CommunityMenuOpener.open(player, "JOIN-ABLE") { syncId, mode ->
-        CommunityListMenu(syncId, mode ?: "JOIN-ABLE")
+    val mode = CommunityListFilterType.JOIN_ABLE
+    CommunityMenuOpener.open(player, CommunityListFilterType.JOIN_ABLE) { syncId, _ ->
+        CommunityListMenu(syncId, mode)
     }
 }
 

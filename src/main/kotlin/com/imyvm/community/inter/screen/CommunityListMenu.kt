@@ -1,5 +1,6 @@
 package com.imyvm.community.inter.screen
 
+import com.imyvm.community.application.interaction.common.CommunityListFilterType
 import com.imyvm.community.application.interaction.common.filterCommunitiesByType
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.application.interaction.screen.runSwitchMode
@@ -14,57 +15,56 @@ import net.minecraft.text.Text
 
 class CommunityListMenu(
     syncId: Int,
-    private val mode: String = "JOIN-ABLE",
+    private val mode: CommunityListFilterType = CommunityListFilterType.JOIN_ABLE,
     page: Int = 0
 ) : AbstractCommunityListMenu(syncId, Translator.tr("ui.list.title"), page) {
 
     init {
-        addModeButtons(mode)
+        addCommunityButtons()
+        addPageButtons()
+        addModeButtons()
     }
 
     override fun createNewMenu(newPage: Int): NamedScreenHandlerFactory {
         return CommunityListMenuFactory(mode, newPage)
     }
 
-    override fun getCommunities(): List<Community> {
-        return filterCommunitiesByType(this.mode)
-    }
+    override fun getCommunities(): List<Community> = filterCommunitiesByType(mode)
 
     override fun onCommunityButtonClick(player: ServerPlayerEntity, community: Community) {
         CommunityMenuOpener.openCommunityMenu(player, community)
     }
 
-    private fun addModeButtons(content: String) {
-        val current = content.uppercase()
-
+    private fun addModeButtons() {
         val modeColorMap = mapOf(
-            "ALL" to Items.ORANGE_WOOL,
-            "JOIN-ABLE" to Items.GREEN_WOOL,
-            "RECRUITING" to Items.LIME_WOOL,
-            "AUDITING" to Items.YELLOW_WOOL,
-            "ACTIVE" to Items.CYAN_WOOL,
-            "REVOKED" to Items.RED_WOOL
+            CommunityListFilterType.ALL to Items.ORANGE_WOOL,
+            CommunityListFilterType.JOIN_ABLE to Items.GREEN_WOOL,
+            CommunityListFilterType.RECRUITING to Items.LIME_WOOL,
+            CommunityListFilterType.AUDITING to Items.YELLOW_WOOL,
+            CommunityListFilterType.ACTIVE to Items.CYAN_WOOL,
+            CommunityListFilterType.REVOKED to Items.RED_WOOL
         )
 
-        val selectedItem = modeColorMap[current] ?: Items.WHITE_WOOL
+        val selectedItem = modeColorMap[mode] ?: Items.WHITE_WOOL
 
         addButton(
             slot = 45,
-            name = Translator.tr("ui.list.button.${current.lowercase()}")?.string ?: current,
+            name = Translator.tr("ui.list.button.${mode.name.lowercase()}")?.string ?: mode.name,
             item = selectedItem
         ) {}
 
-        addButton(slot = 47, name = "All", item = Items.ORANGE_WOOL) { runSwitchMode(it, "ALL") }
-        addButton(slot = 48, name = "Join-able", item = Items.GREEN_WOOL) { runSwitchMode(it, "JOIN-ABLE") }
-        addButton(slot = 49, name = "Recruiting", item = Items.LIME_WOOL) { runSwitchMode(it, "RECRUITING") }
-        addButton(slot = 50, name = "Auditing", item = Items.YELLOW_WOOL) { runSwitchMode(it, "AUDITING") }
-        addButton(slot = 51, name = "Active", item = Items.CYAN_WOOL) { runSwitchMode(it, "ACTIVE") }
-        addButton(slot = 52, name = "Revoked", item = Items.RED_WOOL) { runSwitchMode(it, "REVOKED") }
+        CommunityListFilterType.entries.forEachIndexed { index, filterType ->
+            addButton(
+                slot = 47 + index,
+                name = filterType.name,
+                item = modeColorMap[filterType] ?: Items.WHITE_WOOL
+            ) { runSwitchMode(it, filterType) }
+        }
     }
 }
 
 class CommunityListMenuFactory(
-    private val mode: String,
+    private val mode: CommunityListFilterType,
     private val page: Int
 ) : NamedScreenHandlerFactory {
 

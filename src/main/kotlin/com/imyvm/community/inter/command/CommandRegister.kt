@@ -1,6 +1,7 @@
 package com.imyvm.community.inter.command
 
 import com.imyvm.community.application.interaction.command.*
+import com.imyvm.community.application.interaction.common.CommunityListFilterType
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.inter.command.helper.*
 import com.imyvm.community.inter.screen.MainMenu
@@ -145,9 +146,10 @@ private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
 private fun runListCommand(context: CommandContext<ServerCommandSource>): Int {
     val player = context.source.player ?: return 0
     val type = try {
-        StringArgumentType.getString(context, "communityType").uppercase()
+        val communityTypeString = StringArgumentType.getString(context, "communityType").uppercase()
+        CommunityListFilterType.valueOf(communityTypeString)
     } catch (e: IllegalArgumentException) {
-        "ALL"
+        CommunityListFilterType.ALL
     }
     return onListCommunities(player, type)
 }

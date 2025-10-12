@@ -44,15 +44,17 @@
 
   "ui.list.title": "Community List",
   "ui.list.button.all": "Current Mode: ALL",
-  "ui.list.button.join-able": "Current Mode: JOIN-ABLE",
+  "ui.list.button.join_able": "Current Mode: JOIN_ABLE",
   "ui.list.button.recruiting": "Current Mode: RECRUITING",
   "ui.list.button.auditing": "Current Mode: AUDITING",
   "ui.list.button.active": "Current Mode: ACTIVE",
   "ui.list.button.revoked": "Current Mode: REVOKED",
   "ui.list.button.all.alter": "Switched to ALL mode.",
+  "ui.list.button.join_able.alter": "Switched to JOIN_ABLE mode.",
   "ui.list.button.recruiting.alter": "Switched to RECRUITING mode.",
   "ui.list.button.auditing.alter": "Switched to AUDITING mode.",
   "ui.list.button.active.alter": "Switched to ACTIVE mode.",
+  "ui.list.button.revoked.alter": "Switched to REVOKED mode.",
 
   "ui.my_communities.title": "My Communities, choose one to open.",
 

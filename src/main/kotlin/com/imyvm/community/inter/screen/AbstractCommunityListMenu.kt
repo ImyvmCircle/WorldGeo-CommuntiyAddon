@@ -27,14 +27,9 @@ abstract class AbstractCommunityListMenu(
     private val startSlot = 10
     private val endSlot = 35
 
-    init {
-        addCommunityButtons()
-        addPageButtons()
-    }
-
     protected abstract fun getCommunities(): List<Community>
 
-    private fun addCommunityButtons() {
+    fun addCommunityButtons() {
         val communityList = getCommunities().drop(page * communitiesPerPage).take(communitiesPerPage)
         var slot = startSlot
 
@@ -55,7 +50,7 @@ abstract class AbstractCommunityListMenu(
         CommunityMenuOpener.openCommunityMenu(player, community)
     }
 
-    private fun addPageButtons() {
+    fun addPageButtons() {
         val totalPages = ((getCommunities().size) + communitiesPerPage - 1) / communitiesPerPage
 
         if (page > 0) {

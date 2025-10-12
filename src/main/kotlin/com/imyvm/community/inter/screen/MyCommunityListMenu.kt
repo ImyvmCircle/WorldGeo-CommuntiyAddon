@@ -14,6 +14,11 @@ class MyCommunityListMenu(
     page: Int = 0
 ) : AbstractCommunityListMenu(syncId, Translator.tr("ui.my_communities.title"), page) {
 
+    init {
+        addCommunityButtons()
+        addPageButtons()
+    }
+
     override fun createNewMenu(newPage: Int): NamedScreenHandlerFactory {
         return MyCommunityListMenuFactory(joinedCommunities, newPage)
     }

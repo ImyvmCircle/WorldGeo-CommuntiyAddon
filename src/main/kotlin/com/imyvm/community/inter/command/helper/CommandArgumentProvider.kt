@@ -7,7 +7,7 @@ import net.minecraft.server.command.ServerCommandSource
 import java.util.concurrent.CompletableFuture
 
 val LIST_TYPE_PROVIDER: SuggestionProvider<ServerCommandSource> = SuggestionProvider { _, builder ->
-    listOf("recruiting", "auditing", "active", "all", "revoked", "join-able").forEach { builder.suggest(it) }
+    listOf("recruiting", "auditing", "active", "all", "revoked", "join_able").forEach { builder.suggest(it) }
     CompletableFuture.completedFuture(builder.build())
 }
 
