@@ -59,8 +59,5 @@
   "ui.community.title": "Community Management - {0} (ID: {1})",
 
   "ui.button.close": "Close",
-  "ui.button.close.feedback" : "Closed the community management interface.",
-
-  "ui.error.wrong_region_id": "Error: Wrong community region ID, cannot open corresponding community.",
-  "ui.error.region_not_found": "Error: Cannot find the region for this community, cannot open corresponding community."
+  "ui.button.close.feedback" : "Closed the community management interface."
 }

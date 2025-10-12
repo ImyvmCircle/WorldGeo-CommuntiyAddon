@@ -34,8 +34,7 @@ fun runMyCommunity(player: ServerPlayerEntity) {
 
         joinedCommunities.size == 1 -> {
             val community = joinedCommunities.first()
-            val regionId = community.regionNumberId ?: -1
-            CommunityMenuOpener.openCommunityMenu(player, regionId)
+            CommunityMenuOpener.openCommunityMenu(player, community)
         }
 
         else -> {

@@ -1,10 +1,8 @@
 package com.imyvm.community.application.interaction.screen
 
 import com.imyvm.community.domain.Community
-import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.CommunityMenu
-import com.imyvm.community.util.Translator
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.screen.NamedScreenHandlerFactory
@@ -26,17 +24,7 @@ object CommunityMenuOpener {
         })
     }
 
-    fun openCommunityMenu(player: ServerPlayerEntity, regionId: Int) {
-        if (regionId == -1) {
-            player.sendMessage(Translator.tr("ui.error.wrong_region_id"))
-            return player.closeHandledScreen()
-        }
-
-        val community = CommunityDatabase.getCommunityById(regionId)
-            ?: return player.sendMessage(Translator.tr("ui.error.region_not_found")).also {
-                player.closeHandledScreen()
-            }
-
+    fun openCommunityMenu(player: ServerPlayerEntity, community: Community) {
         val content: Pair<ServerPlayerEntity, Community> = player to community
         open(player, content) { syncId, c ->
             CommunityMenu(syncId, c!!)
