@@ -1,7 +1,12 @@
 package com.imyvm.community.application.interaction.command
 
 import com.imyvm.community.WorldGeoCommunityAddon
-import com.imyvm.community.domain.*
+import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.PendingOperation
+import com.imyvm.community.domain.PendingOperationType
+import com.imyvm.community.domain.community.CommunityJoinPolicy
+import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator

@@ -14,11 +14,4 @@ enum class PendingOperationType(val value: Int) {
     CHANGE_ROLE(4),
     CHANGE_JOIN_POLICY(5),
     AUDITING_COMMUNITY_APPLICATION(6);
-
-    companion object {
-        fun fromValue(value: Int): PendingOperationType {
-            return entries.firstOrNull { it.value == value }
-                ?: throw IllegalArgumentException("Invalid PendingOperationType value: $value")
-        }
-    }
 }

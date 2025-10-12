@@ -1,8 +1,9 @@
 package com.imyvm.community.application.interaction.command
 
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.CommunityRole
-import com.imyvm.community.domain.CommunityStatus
+import com.imyvm.community.domain.community.CommunityJoinPolicy
+import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator
@@ -24,7 +25,7 @@ fun checkPlayerMembership(player: ServerPlayerEntity, community: Community): Boo
 fun checkMemberNumberManor(player: ServerPlayerEntity,targetCommunity: Community): Boolean {
     if (CommunityConfig.IS_CHECKING_MANOR_MEMBER_SIZE.value) {
         if ((targetCommunity.status == CommunityStatus.ACTIVE_MANOR  || targetCommunity.status == CommunityStatus.PENDING_MANOR) &&
-            targetCommunity.member.count { it.value != com.imyvm.community.domain.CommunityRole.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value) {
+            targetCommunity.member.count { it.value != CommunityRole.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value) {
             player.sendMessage(Translator.tr("community.join.error.full", CommunityConfig.MIN_NUMBER_MEMBER_REALM.value))
             return false
         }
@@ -34,9 +35,9 @@ fun checkMemberNumberManor(player: ServerPlayerEntity,targetCommunity: Community
 
 fun tryJoinByPolicy(player: ServerPlayerEntity, targetCommunity: Community): Int {
     when (targetCommunity.joinPolicy) {
-        com.imyvm.community.domain.CommunityJoinPolicy.OPEN -> return joinUnderOpenPolicy(player, targetCommunity)
-        com.imyvm.community.domain.CommunityJoinPolicy.APPLICATION -> return joinUnderApplicationPolicy(player, targetCommunity)
-        com.imyvm.community.domain.CommunityJoinPolicy.INVITE_ONLY -> joinUnderInviteOnlyPolicy(player, targetCommunity)
+        CommunityJoinPolicy.OPEN -> return joinUnderOpenPolicy(player, targetCommunity)
+        CommunityJoinPolicy.APPLICATION -> return joinUnderApplicationPolicy(player, targetCommunity)
+        CommunityJoinPolicy.INVITE_ONLY -> joinUnderInviteOnlyPolicy(player, targetCommunity)
     }
 
     return 0
@@ -84,7 +85,7 @@ private fun isJoinedManorTargetingManor(player: ServerPlayerEntity, targetCommun
 }
 
 private fun joinUnderOpenPolicy(player: ServerPlayerEntity, targetCommunity: Community): Int {
-    targetCommunity.member[player.uuid] = com.imyvm.community.domain.CommunityRole.MEMBER
+    targetCommunity.member[player.uuid] = CommunityRole.MEMBER
     player.sendMessage(Translator.tr("community.join.success", targetCommunity.regionNumberId))
     return 1
 }
@@ -94,7 +95,7 @@ private fun joinUnderApplicationPolicy(player: ServerPlayerEntity, targetCommuni
         player.sendMessage(Translator.tr("community.join.error.already_applied", targetCommunity.regionNumberId))
         return 0
     }
-    targetCommunity.member[player.uuid] = com.imyvm.community.domain.CommunityRole.APPLICANT
+    targetCommunity.member[player.uuid] = CommunityRole.APPLICANT
     player.sendMessage(targetCommunity.getRegion()
         ?.let { Translator.tr("community.join.applied", it.name ,targetCommunity.regionNumberId) })
     return 1

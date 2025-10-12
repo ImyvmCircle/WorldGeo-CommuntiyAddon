@@ -1,6 +1,6 @@
 package com.imyvm.community.application.interaction.screen
 
-import com.imyvm.community.application.interaction.common.CommunityListFilterType
+import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.inter.screen.CommunityListMenu
 import net.minecraft.server.network.ServerPlayerEntity
 

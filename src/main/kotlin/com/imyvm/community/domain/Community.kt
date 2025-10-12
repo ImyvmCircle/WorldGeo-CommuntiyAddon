@@ -1,9 +1,12 @@
 package com.imyvm.community.domain
 
+import com.imyvm.community.domain.community.CommunityJoinPolicy
+import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.queryRegionInfo
-import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
+import com.imyvm.iwg.inter.api.RegionDataApi.getRegionById
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 
@@ -15,10 +18,7 @@ class Community(
     var status: CommunityStatus
 ) {
     fun getRegion(): Region? {
-        val targetRegion = getRegionList().find {
-            it.numberID == regionNumberId
-        } ?: return null
-        return targetRegion
+        return getRegionById(regionNumberId ?: return null)
     }
 
     fun sendCommunityDescription(player: ServerPlayerEntity) {
@@ -27,49 +27,6 @@ class Community(
             queryRegionInfo(player, region)
         } else {
             player.sendMessage(Translator.tr("community.description.no_region", regionNumberId))
-        }
-    }
-}
-
-enum class CommunityRole(val value: Int) {
-    OWNER(0),
-    ADMIN(1),
-    MEMBER(2),
-    APPLICANT(3);
-
-    companion object {
-        fun fromValue(value: Int): CommunityRole {
-            return entries.firstOrNull { it.value == value }
-                ?: throw IllegalArgumentException("Invalid CommunityRole value: $value")
-        }
-    }
-}
-
-enum class CommunityJoinPolicy(val value: Int) {
-    OPEN(0),
-    APPLICATION(1),
-    INVITE_ONLY(2);
-
-    companion object {
-        fun fromValue(value: Int): CommunityJoinPolicy {
-            return entries.firstOrNull { it.value == value }
-                ?: throw IllegalArgumentException("Invalid CommunityJoinPolicy value: $value")
-        }
-    }
-}
-
-enum class CommunityStatus(val value: Int) {
-    RECRUITING_REALM(0),
-    PENDING_MANOR(1),
-    PENDING_REALM(2),
-    ACTIVE_MANOR(3),
-    ACTIVE_REALM(4),
-    REVOKED_MANOR(5),
-    REVOKED_REALM(6);
-    companion object {
-        fun fromValue(value: Int): CommunityStatus {
-            return CommunityStatus.entries.firstOrNull { it.value == value }
-                ?: throw IllegalArgumentException("Invalid CommunityStatus value: $value")
         }
     }
 }

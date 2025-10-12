@@ -1,9 +1,9 @@
 package com.imyvm.community.infra
 
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.CommunityJoinPolicy
-import com.imyvm.community.domain.CommunityRole
-import com.imyvm.community.domain.CommunityStatus
+import com.imyvm.community.domain.community.CommunityJoinPolicy
+import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityStatus
 import net.fabricmc.loader.api.FabricLoader
 import java.io.DataInputStream
 import java.io.DataOutputStream

@@ -1,8 +1,8 @@
 package com.imyvm.community.inter.command
 
 import com.imyvm.community.application.interaction.command.*
-import com.imyvm.community.application.interaction.common.CommunityListFilterType
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
+import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.inter.command.helper.*
 import com.imyvm.community.inter.screen.MainMenu
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.resetSelection

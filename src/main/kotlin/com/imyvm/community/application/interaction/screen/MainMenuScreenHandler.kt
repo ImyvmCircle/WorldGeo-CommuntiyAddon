@@ -1,8 +1,8 @@
 package com.imyvm.community.application.interaction.screen
 
-import com.imyvm.community.application.interaction.common.CommunityListFilterType
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.CommunityRole
+import com.imyvm.community.domain.community.CommunityListFilterType
+import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.inter.screen.CommunityListMenu
 import com.imyvm.community.inter.screen.MyCommunityListMenu

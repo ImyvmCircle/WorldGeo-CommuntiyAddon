@@ -2,7 +2,7 @@ package com.imyvm.community.inter.screen
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.CommunityRole
+import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.util.Translator
 import com.mojang.authlib.properties.PropertyMap
 import net.minecraft.component.DataComponentTypes

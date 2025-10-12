@@ -3,7 +3,7 @@ package com.imyvm.community.application.interaction.command
 import com.imyvm.community.WorldGeoCommunityAddon
 import com.imyvm.community.application.helper.refundNotCreated
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.CommunityStatus
+import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.util.Translator
 import net.minecraft.server.network.ServerPlayerEntity
 

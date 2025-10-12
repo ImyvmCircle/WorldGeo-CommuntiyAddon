@@ -1,8 +1,9 @@
 package com.imyvm.community.application.interaction.common
 
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.CommunityJoinPolicy
-import com.imyvm.community.domain.CommunityStatus
+import com.imyvm.community.domain.community.CommunityJoinPolicy
+import com.imyvm.community.domain.community.CommunityListFilterType
+import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityDatabase
 
 fun filterCommunitiesByType(type: CommunityListFilterType): List<Community> {
@@ -23,21 +24,6 @@ fun filterCommunitiesByType(type: CommunityListFilterType): List<Community> {
         }
         CommunityListFilterType.REVOKED -> CommunityDatabase.communities.filter {
             it.status == CommunityStatus.REVOKED_MANOR || it.status == CommunityStatus.REVOKED_REALM
-        }
-    }
-}
-
-enum class CommunityListFilterType {
-    ALL,
-    JOIN_ABLE,
-    RECRUITING,
-    AUDITING,
-    ACTIVE,
-    REVOKED;
-
-    companion object {
-        fun fromString(type: String): CommunityListFilterType {
-            return entries.find { it.name.equals(type, ignoreCase = true) } ?: ALL
         }
     }
 }

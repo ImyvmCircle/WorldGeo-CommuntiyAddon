@@ -1,6 +1,6 @@
 package com.imyvm.community.inter.command.helper
 
-import com.imyvm.community.domain.CommunityStatus
+import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityDatabase.communities
 import com.mojang.brigadier.suggestion.SuggestionProvider
 import net.minecraft.server.command.ServerCommandSource
