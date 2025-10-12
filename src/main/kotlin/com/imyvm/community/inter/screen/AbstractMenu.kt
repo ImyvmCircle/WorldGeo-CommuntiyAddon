@@ -89,4 +89,3 @@ abstract class AbstractMenu(
     override fun canUse(player: PlayerEntity) = true
     override fun quickMove(player: PlayerEntity, slotIndex: Int): ItemStack = ItemStack.EMPTY
 }
-
