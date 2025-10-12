@@ -4,14 +4,13 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
-import net.minecraft.text.Text
 
 class MyCommunityListMenu(
     syncId: Int,
     private val joinedCommunities: List<Community>
 ) : AbstractMenu(
     syncId,
-    menuTitle = Translator.tr("ui.my_communities.title") ?: Text.literal("My Communities")
+    menuTitle = Translator.tr("ui.my_communities.title")
 ) {
     init {
         addCommunityButtons()

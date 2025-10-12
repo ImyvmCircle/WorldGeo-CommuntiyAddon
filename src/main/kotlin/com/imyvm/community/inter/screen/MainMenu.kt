@@ -5,12 +5,11 @@ import com.imyvm.community.application.interaction.screen.runList
 import com.imyvm.community.application.interaction.screen.runMyCommunity
 import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
-import net.minecraft.text.Text
 
 class MainMenu(syncId: Int) :
     AbstractMenu(
         syncId,
-        menuTitle = Translator.tr("ui.main.title") ?: Text.literal("Community Main Menu")
+        menuTitle = Translator.tr("ui.main.title")
     ) {
 
     init {

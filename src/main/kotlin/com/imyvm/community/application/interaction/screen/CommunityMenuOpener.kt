@@ -19,7 +19,7 @@ object CommunityMenuOpener {
             override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity): M =
                 handlerFactory(syncId, content)
 
-            override fun getDisplayName(): Text =
+            override fun getDisplayName(): Text? =
                 handlerFactory(0, content).menuTitle
         })
     }

@@ -22,7 +22,7 @@ class CommunityListMenu(
     private val page: Int = 0
 ) : AbstractMenu(
     syncId,
-    menuTitle = Translator.tr("ui.list.title") ?: Text.literal("Community List")
+    menuTitle = Translator.tr("ui.list.title")
 ) {
 
     private val communitiesPerPage = 26

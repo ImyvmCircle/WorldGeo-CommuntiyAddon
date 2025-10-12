@@ -20,7 +20,7 @@ abstract class AbstractMenu(
     rows: Int = 6,
     private val defaultBackground: Item = Items.GRAY_STAINED_GLASS_PANE,
     private val defaultBackgroundName: String = " ",
-    val menuTitle: Text = Text.literal("Menu")
+    val menuTitle: Text? = Text.literal("Menu")
 ) : ScreenHandler(ScreenHandlerType.GENERIC_9X6, syncId) {
 
     private val inventory = SimpleInventory(rows * 9)
