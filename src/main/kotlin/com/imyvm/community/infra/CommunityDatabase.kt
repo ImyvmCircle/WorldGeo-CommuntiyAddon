@@ -66,6 +66,10 @@ object CommunityDatabase {
         communities.add(community)
     }
 
+    fun getCommunityById(regionId: Int): Community? {
+        return communities.find { it.regionNumberId == regionId }
+    }
+
     private fun getDatabasePath(): Path {
         return FabricLoader.getInstance().gameDir
             .resolve("world")

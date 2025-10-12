@@ -54,8 +54,13 @@
   "ui.list.button.auditing.alter": "Switched to AUDITING mode.",
   "ui.list.button.active.alter": "Switched to ACTIVE mode.",
 
+  "ui.my_communities.title": "My Communities, choose one to open.",
+
+  "ui.community.title": "Community Management - {0} (ID: {1})",
+
   "ui.button.close": "Close",
   "ui.button.close.feedback" : "Closed the community management interface.",
 
-  "ui.error.wrong_region_id": "Error: Wrong community region ID, cannot open corresponding community."
+  "ui.error.wrong_region_id": "Error: Wrong community region ID, cannot open corresponding community.",
+  "ui.error.region_not_found": "Error: Cannot find the region for this community, cannot open corresponding community."
 }

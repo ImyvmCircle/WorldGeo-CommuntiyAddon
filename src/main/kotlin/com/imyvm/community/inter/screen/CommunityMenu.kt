@@ -1,23 +1,24 @@
 package com.imyvm.community.inter.screen
 
+import com.imyvm.community.domain.Community
 import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 
 class CommunityMenu(
     syncId: Int,
-    content: Pair<ServerPlayerEntity, Int>
+    content: Pair<ServerPlayerEntity, Community>
 ) : AbstractMenu(
     syncId,
-    menuTitle = Translator.tr("ui.community.title")
+    menuTitle = content.second.getRegion()?.let { Translator.tr("ui.community.title", it.name , it.numberID)}
 ) {
     init {
-        val (player, regionId) = content
-        loadCommunityUI(regionId)
+        val (player, community) = content
+        loadCommunityUI(community)
     }
 
-    private fun loadCommunityUI( regionId: Int) {
-        addButton(10, "Community #$regionId", Items.PAPER) {}
+    private fun loadCommunityUI(community: Community) {
+        addButton(10, "Community #${community.getRegion()?.name}", Items.PAPER) {}
     }
 }
 
