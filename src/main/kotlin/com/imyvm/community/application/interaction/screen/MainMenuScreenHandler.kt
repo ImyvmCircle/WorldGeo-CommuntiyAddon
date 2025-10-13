@@ -28,9 +28,7 @@ fun runMyCommunity(player: ServerPlayerEntity) {
 
     when {
         joinedCommunities.isEmpty() -> {
-            player.sendMessage(
-                Translator.tr("ui.main.message.no_community")
-            )
+            player.sendMessage(Translator.tr("ui.main.message.no_community"))
             player.closeHandledScreen()
         }
 
