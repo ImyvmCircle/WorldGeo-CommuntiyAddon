@@ -2,7 +2,7 @@ package com.imyvm.community.inter.screen
 
 import com.imyvm.community.application.interaction.common.filterCommunitiesByType
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
-import com.imyvm.community.application.interaction.screen.runSwitchMode
+import com.imyvm.community.application.interaction.screen.runSwitchFilterMode
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.util.Translator
@@ -58,7 +58,7 @@ class CommunityListMenu(
                 slot = 47 + index,
                 name = filterType.name,
                 item = modeColorMap[filterType] ?: Items.WHITE_WOOL
-            ) { runSwitchMode(it, filterType) }
+            ) { runSwitchFilterMode(it, filterType) }
         }
     }
 }

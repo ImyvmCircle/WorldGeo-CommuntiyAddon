@@ -4,11 +4,11 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.infra.CommunityDatabase
+import com.imyvm.community.inter.screen.CommunityCreationMenu
 import com.imyvm.community.inter.screen.CommunityListMenu
 import com.imyvm.community.inter.screen.MyCommunityListMenu
 import com.imyvm.community.util.Translator
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
 
 fun runList(player: ServerPlayerEntity) {
     val mode = CommunityListFilterType.JOIN_ABLE
@@ -18,7 +18,9 @@ fun runList(player: ServerPlayerEntity) {
 }
 
 fun runCreate(player: ServerPlayerEntity){
-    player.sendMessage(Text.literal("创建聚落（未实现）"))
+    CommunityMenuOpener.open(player, null) { syncId, _ ->
+        CommunityCreationMenu(syncId)
+    }
 }
 
 fun runMyCommunity(player: ServerPlayerEntity) {

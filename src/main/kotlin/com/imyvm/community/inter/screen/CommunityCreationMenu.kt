@@ -1,5 +1,8 @@
 package com.imyvm.community.inter.screen
 
+import com.imyvm.community.application.interaction.screen.runRenameNewCommunity
+import com.imyvm.community.application.interaction.screen.runSwitchCommunityShape
+import com.imyvm.community.application.interaction.screen.runSwitchCommunityType
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.Region
 import net.minecraft.item.Items
@@ -7,7 +10,7 @@ import net.minecraft.text.Text
 
 class CommunityCreationMenu(
     syncId: Int,
-    currentName: String?,
+    currentName: String? = Translator.tr("ui.create.title").toString(),
     currentShape: Region.Companion.GeoShapeType = Region.Companion.GeoShapeType.RECTANGLE,
     isCurrentCommunityTypeManor: Boolean = true
 ) : AbstractMenu(
@@ -18,7 +21,8 @@ class CommunityCreationMenu(
         addButton(
             slot = 10,
             name = menuTitle?.string ?: "Name",
-            item = Items.NAME_TAG) {}
+            item = Items.NAME_TAG
+        ) { runRenameNewCommunity() }
 
         addButton(
             slot = 13,
@@ -29,14 +33,14 @@ class CommunityCreationMenu(
                 Region.Companion.GeoShapeType.POLYGON -> Items.NETHER_STAR
                 Region.Companion.GeoShapeType.UNKNOWN -> Items.STRUCTURE_BLOCK
             }
-        ) {}
+        ) { runSwitchCommunityShape() }
 
         addButton(
             slot = 16,
-            name = if (isCurrentCommunityTypeManor) Translator.tr("ui.create.button.type.manor")?.string ?: "Manor" else Translator.tr("ui.create.button.type.city")?.string
-                ?: "Community",
+            name = if (isCurrentCommunityTypeManor) Translator.tr("ui.create.button.type.manor")?.string ?: "Manor"
+                else Translator.tr("ui.create.button.type.city")?.string ?: "Realm",
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
-        ) {}
+        ) { runSwitchCommunityType() }
     }
 
 }
