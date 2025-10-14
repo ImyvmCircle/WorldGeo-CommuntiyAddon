@@ -33,7 +33,7 @@ class CommunityCreationMenu(
                 Region.Companion.GeoShapeType.POLYGON -> Items.NETHER_STAR
                 Region.Companion.GeoShapeType.UNKNOWN -> Items.STRUCTURE_BLOCK
             }
-        ) { runSwitchCommunityShape() }
+        ) { runSwitchCommunityShape(it, menuTitle.toString(), currentShape, isCurrentCommunityTypeManor) }
 
         addButton(
             slot = 16,
