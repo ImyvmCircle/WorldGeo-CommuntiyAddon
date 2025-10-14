@@ -26,6 +26,13 @@ fun runSwitchCommunityShape(
     }
 }
 
-fun runSwitchCommunityType(){
-
+fun runSwitchCommunityType(
+    player: ServerPlayerEntity,
+    communityName: String,
+    geoShapeType: Region.Companion.GeoShapeType,
+    isManor: Boolean
+){
+    CommunityMenuOpener.open(player, null) { syncId, _ ->
+        CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor)
+    }
 }

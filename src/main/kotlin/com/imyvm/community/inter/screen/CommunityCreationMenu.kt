@@ -40,7 +40,7 @@ class CommunityCreationMenu(
             name = if (isCurrentCommunityTypeManor) Translator.tr("ui.create.button.type.manor")?.string ?: "Manor"
                 else Translator.tr("ui.create.button.type.city")?.string ?: "Realm",
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
-        ) { runSwitchCommunityType() }
+        ) { runSwitchCommunityType(it, menuTitle.toString(), currentShape, isCurrentCommunityTypeManor) }
     }
 
 }
