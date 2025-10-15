@@ -22,7 +22,7 @@ class CommunityCreationMenu(
             slot = 10,
             name = menuTitle?.string ?: "Name",
             item = Items.NAME_TAG
-        ) { runRenameNewCommunity() }
+        ) { runRenameNewCommunity(it, menuTitle?.string ?: "Name", currentShape, isCurrentCommunityTypeManor)  }
 
         addButton(
             slot = 13,
@@ -42,5 +42,4 @@ class CommunityCreationMenu(
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
         ) { runSwitchCommunityType(it, menuTitle.toString(), currentShape, isCurrentCommunityTypeManor) }
     }
-
 }

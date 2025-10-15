@@ -4,9 +4,15 @@ import com.imyvm.community.inter.screen.CommunityCreationMenu
 import com.imyvm.iwg.domain.Region
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun runRenameNewCommunity(){
-
+fun runRenameNewCommunity(
+    player: ServerPlayerEntity,
+    currentName: String,
+    currentShape: Region.Companion.GeoShapeType,
+    isManor: Boolean
+) {
+    CommunityCreationRenameHandler.openRenameMenu(player, currentName, currentShape, isManor)
 }
+
 
 fun runSwitchCommunityShape(
     player: ServerPlayerEntity,
