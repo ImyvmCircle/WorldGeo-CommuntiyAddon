@@ -26,7 +26,7 @@ class CommunityCreationMenu(
 
         addButton(
             slot = 13,
-            name = currentShape.toString(),
+            name = Translator.tr("ui.create.button.shape.prefix").toString() + currentShape.toString(),
             item = when (currentShape) {
                 Region.Companion.GeoShapeType.CIRCLE -> Items.CLOCK
                 Region.Companion.GeoShapeType.RECTANGLE -> Items.MAP
@@ -38,7 +38,7 @@ class CommunityCreationMenu(
         addButton(
             slot = 16,
             name = if (isCurrentCommunityTypeManor) Translator.tr("ui.create.button.type.manor")?.string ?: "Manor"
-                else Translator.tr("ui.create.button.type.city")?.string ?: "Realm",
+                else Translator.tr("ui.create.button.type.realm")?.string ?: "Realm",
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
         ) { runSwitchCommunityType(it, menuTitle.toString(), currentShape, isCurrentCommunityTypeManor) }
     }

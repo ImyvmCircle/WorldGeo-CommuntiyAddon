@@ -16,6 +16,9 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 object CommunityCreationRenameHandler {
+
+    private var isReopened = false
+
     fun openRenameMenu(
         player: ServerPlayerEntity,
         currentName: String,
@@ -39,18 +42,29 @@ object CommunityCreationRenameHandler {
 
                     override fun onClosed(player: PlayerEntity) {
                         super.onClosed(player)
-                        reopenCommunityCreation(player as ServerPlayerEntity, currentName, currentShape, isManor)
+                        if (!isReopened) {
+                            reopenCommunityCreation(player as ServerPlayerEntity, currentName, currentShape, isManor)
+                        }
                     }
 
-                    override fun canTakeOutput(player: PlayerEntity, present: Boolean): Boolean = true
+                    override fun updateResult() {
+                        val inputStack = this.slots[INPUT_1_ID].stack
+                        if (!inputStack.isEmpty) {
+                            val result = ItemStack(Items.NAME_TAG)
+                            result.set(DataComponentTypes.CUSTOM_NAME, Text.of(currentName))
+                            this.slots[OUTPUT_ID].stack = result
+                        } else {
+                            this.slots[OUTPUT_ID].stack = ItemStack.EMPTY
+                        }
+                    }
                 }
 
                 val nameTag = ItemStack(Items.NAME_TAG)
                 nameTag.set(DataComponentTypes.CUSTOM_NAME, Text.of(currentName))
                 anvil.slots[AnvilScreenHandler.INPUT_1_ID].stack = nameTag
-                anvil.slots[AnvilScreenHandler.OUTPUT_ID].stack = ItemStack.EMPTY
 
                 anvil.setNewItemName(currentName)
+                anvil.updateResult()
 
                 return anvil
             }
@@ -66,8 +80,15 @@ object CommunityCreationRenameHandler {
         shape: Region.Companion.GeoShapeType,
         isManor: Boolean
     ) {
-        CommunityMenuOpener.open(player, null) { newSyncId, _ ->
-            CommunityCreationMenu(newSyncId, newName, shape, isManor)
+        if (!isReopened) {
+            isReopened = true
+            CommunityMenuOpener.open(player, null) { newSyncId, _ ->
+                CommunityCreationMenu(newSyncId, newName, shape, isManor)
+            }
         }
+    }
+
+    fun resetReopenedFlag() {
+        isReopened = false
     }
 }
