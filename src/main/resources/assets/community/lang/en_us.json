@@ -43,9 +43,9 @@
   "ui.main.button.my": "My Community",
   "ui.main.message.no_community": "You are not in any community.",
 
-  "ui.create.title": "Create Community",
+  "ui.create.title": "New-Community",
   "ui.create.rename.title": "Rename Community",
-  "ui.create.button.shape.prefix": "Current Shape(Click to change)",
+  "ui.create.button.shape.prefix": "Current Shape(Click to change):",
   "ui.create.button.type.manor": "Manor",
   "ui.create.button.type.realm": "Realm",
 
