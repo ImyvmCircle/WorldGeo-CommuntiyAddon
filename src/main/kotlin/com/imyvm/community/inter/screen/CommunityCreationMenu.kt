@@ -10,7 +10,7 @@ import net.minecraft.text.Text
 
 class CommunityCreationMenu(
     syncId: Int,
-    currentName: String? = Translator.tr("ui.create.title").toString(),
+    currentName: String = Translator.tr("ui.create.title")?.string ?: "New-Community",
     currentShape: Region.Companion.GeoShapeType = Region.Companion.GeoShapeType.RECTANGLE,
     isCurrentCommunityTypeManor: Boolean = true
 ) : AbstractMenu(
@@ -26,7 +26,8 @@ class CommunityCreationMenu(
 
         addButton(
             slot = 13,
-            name = Translator.tr("ui.create.button.shape.prefix").toString() + currentShape.toString(),
+            name = (Translator.tr("ui.create.button.shape.prefix")?.string ?: "Current Shape(Click to change):")
+                    + currentShape.toString(),
             item = when (currentShape) {
                 Region.Companion.GeoShapeType.CIRCLE -> Items.CLOCK
                 Region.Companion.GeoShapeType.RECTANGLE -> Items.MAP

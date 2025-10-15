@@ -51,7 +51,7 @@ object CommunityCreationRenameHandler {
                         val inputStack = this.slots[INPUT_1_ID].stack
                         if (!inputStack.isEmpty) {
                             val result = ItemStack(Items.NAME_TAG)
-                            result.set(DataComponentTypes.CUSTOM_NAME, Text.of(currentName))
+                            result.set(DataComponentTypes.CUSTOM_NAME, Text.of(inputStack.name.string.trim()))
                             this.slots[OUTPUT_ID].stack = result
                         } else {
                             this.slots[OUTPUT_ID].stack = ItemStack.EMPTY
@@ -80,11 +80,9 @@ object CommunityCreationRenameHandler {
         shape: Region.Companion.GeoShapeType,
         isManor: Boolean
     ) {
-        if (!isReopened) {
-            isReopened = true
-            CommunityMenuOpener.open(player, null) { newSyncId, _ ->
-                CommunityCreationMenu(newSyncId, newName, shape, isManor)
-            }
+        isReopened = true
+        CommunityMenuOpener.open(player, null) { newSyncId, _ ->
+            CommunityCreationMenu(newSyncId, newName, shape, isManor)
         }
     }
 
