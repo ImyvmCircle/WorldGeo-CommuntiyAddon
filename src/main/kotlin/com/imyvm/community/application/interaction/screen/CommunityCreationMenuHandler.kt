@@ -10,7 +10,7 @@ fun runRenameNewCommunity(
     currentShape: Region.Companion.GeoShapeType,
     isManor: Boolean
 ) {
-    CommunityMenuOpener.openRenameAnvilMenu(player, currentName, currentShape, isManor)
+    CommunityMenuOpener.openCreationRenameAnvilMenu(player, currentName, currentShape, isManor)
 }
 
 

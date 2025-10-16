@@ -33,7 +33,7 @@ object CommunityMenuOpener {
         }
     }
 
-    fun openRenameAnvilMenu(
+    fun openCreationRenameAnvilMenu(
         player: ServerPlayerEntity,
         currentName: String,
         currentShape: Region.Companion.GeoShapeType,

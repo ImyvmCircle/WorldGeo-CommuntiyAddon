@@ -48,12 +48,13 @@ class CommunityCreationRenameMenuAnvil(
 
                     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
                         if (slotIndex == OUTPUT_ID) {
-                            (player as ServerPlayerEntity).closeHandledScreen()
+                            renameHandler.processRenameClose(
+                                this@CommunityCreationRenameMenuAnvil.player,
+                                currentName,
+                                currentShape,
+                                isManor
+                            )
                         }
-                    }
-
-                    override fun onClosed(player: PlayerEntity) {
-                        renameHandler.processRenameClose(player as ServerPlayerEntity, currentName, currentShape, isManor)
                     }
                 }
 
