@@ -20,8 +20,6 @@ import net.minecraft.text.Text
 
 object CommunityCreationRenameHandler {
 
-    private var isReopened = false
-
     fun openRenameMenu(
         player: ServerPlayerEntity,
         currentName: String,
@@ -37,6 +35,7 @@ object CommunityCreationRenameHandler {
                 val anvil = object : AnvilScreenHandler(syncId, inv, context) {
 
                     private var capturedName: String = currentName
+                    private var shouldReopen: Boolean = true
 
                     init {
                         this.slots[INPUT_1_ID] = ReadOnlySlot(simpleInventory, INPUT_1_ID, 27, 47)
@@ -58,8 +57,9 @@ object CommunityCreationRenameHandler {
                     }
 
                     override fun onClosed(player: PlayerEntity) {
-                        val newName = capturedName.trim()
-                        if (!isReopened){
+                        if (shouldReopen) {
+                            shouldReopen = false
+                            val newName = capturedName.trim()
                             reopenCommunityCreation(player as ServerPlayerEntity, newName, currentShape, isManor)
                         }
                     }
@@ -86,13 +86,8 @@ object CommunityCreationRenameHandler {
         shape: Region.Companion.GeoShapeType,
         isManor: Boolean
     ) {
-        isReopened = true
         CommunityMenuOpener.open(player, null) { newSyncId, _ ->
             CommunityCreationMenu(newSyncId, newName, shape, isManor)
         }
-    }
-
-    fun resetReopenedFlag() {
-        isReopened = false
     }
 }
