@@ -36,6 +36,8 @@ object CommunityCreationRenameHandler {
                 val simpleInventory = SimpleInventory(3)
                 val anvil = object : AnvilScreenHandler(syncId, inv, context) {
 
+                    private var capturedName: String = currentName
+
                     init {
                         this.slots[INPUT_1_ID] = ReadOnlySlot(simpleInventory, INPUT_1_ID, 27, 47)
                         this.slots[INPUT_2_ID] = ReadOnlySlot(simpleInventory, INPUT_2_ID, 76, 47)
@@ -44,31 +46,21 @@ object CommunityCreationRenameHandler {
 
                     override fun canUse(player: PlayerEntity?) = true
 
-                    override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
-                        super.onSlotClick(slotIndex, button, actionType, player)
+                    override fun setNewItemName(name: String?): Boolean {
+                        capturedName = name ?: currentName
+                        return super.setNewItemName(name)
+                    }
 
+                    override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
                         if (slotIndex == OUTPUT_ID) {
-                            val outputStack = this.slots[OUTPUT_ID].stack
-                            val newName = outputStack.name.string.trim()
-                            reopenCommunityCreation(player as ServerPlayerEntity, newName, currentShape, isManor)
+                            (player as ServerPlayerEntity).closeHandledScreen()
                         }
                     }
 
                     override fun onClosed(player: PlayerEntity) {
-                        super.onClosed(player)
-                        if (!isReopened) {
-                            reopenCommunityCreation(player as ServerPlayerEntity, currentName, currentShape, isManor)
-                        }
-                    }
-
-                    override fun updateResult() {
-                        val inputStack = this.slots[INPUT_1_ID].stack
-                        if (!inputStack.isEmpty) {
-                            val result = ItemStack(Items.NAME_TAG)
-                            result.set(DataComponentTypes.CUSTOM_NAME, Text.of(inputStack.name.string.trim()))
-                            this.slots[OUTPUT_ID].stack = result
-                        } else {
-                            this.slots[OUTPUT_ID].stack = ItemStack.EMPTY
+                        val newName = capturedName.trim()
+                        if (!isReopened){
+                            reopenCommunityCreation(player as ServerPlayerEntity, newName, currentShape, isManor)
                         }
                     }
                 }

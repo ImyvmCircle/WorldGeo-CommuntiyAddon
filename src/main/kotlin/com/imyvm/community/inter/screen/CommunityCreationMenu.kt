@@ -10,7 +10,7 @@ import net.minecraft.text.Text
 
 class CommunityCreationMenu(
     syncId: Int,
-    currentName: String = Translator.tr("ui.create.title")?.string ?: "New-Community",
+    currentName: String = Translator.tr("ui.create.title")?.string ?: "New-Commun",
     currentShape: Region.Companion.GeoShapeType = Region.Companion.GeoShapeType.RECTANGLE,
     isCurrentCommunityTypeManor: Boolean = true
 ) : AbstractMenu(
