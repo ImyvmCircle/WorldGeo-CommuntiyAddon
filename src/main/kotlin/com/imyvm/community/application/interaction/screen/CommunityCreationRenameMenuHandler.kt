@@ -27,7 +27,7 @@ class CommunityCreationRenameMenuHandler {
         isManor: Boolean
     ) {
         CommunityMenuOpener.open(player, null) { newSyncId, _ ->
-            CommunityCreationMenu(newSyncId, newName, shape, isManor)
+            CommunityCreationMenu(newSyncId, newName, shape, isManor, player)
         }
     }
 }

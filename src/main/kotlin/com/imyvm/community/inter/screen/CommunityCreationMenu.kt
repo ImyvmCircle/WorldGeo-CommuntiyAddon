@@ -1,28 +1,34 @@
 package com.imyvm.community.inter.screen
 
+import com.imyvm.community.application.interaction.screen.helper.generateCreationError
 import com.imyvm.community.application.interaction.screen.runRenameNewCommunity
 import com.imyvm.community.application.interaction.screen.runSwitchCommunityShape
 import com.imyvm.community.application.interaction.screen.runSwitchCommunityType
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.Region
 import net.minecraft.item.Items
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 class CommunityCreationMenu(
     syncId: Int,
     currentName: String = Translator.tr("ui.create.title")?.string ?: "New-Community",
     currentShape: Region.Companion.GeoShapeType = Region.Companion.GeoShapeType.RECTANGLE,
-    isCurrentCommunityTypeManor: Boolean = true
+    isCurrentCommunityTypeManor: Boolean = true,
+    playerEntity: ServerPlayerEntity
 ) : AbstractMenu(
     syncId,
-    menuTitle = Text.of(currentName) ?: Translator.tr("ui.create.title")
+    menuTitle = (Text.of(currentName
+            + generateCreationError(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity))
+        ?: Translator.tr("ui.create.title",
+            generateCreationError(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity)))
 ) {
     init {
         addButton(
             slot = 10,
             name = menuTitle?.string ?: "Name",
             item = Items.NAME_TAG
-        ) { runRenameNewCommunity(it, menuTitle?.string ?: "Name", currentShape, isCurrentCommunityTypeManor)  }
+        ) { runRenameNewCommunity(it, currentName, currentShape, isCurrentCommunityTypeManor)  }
 
         addButton(
             slot = 13,
@@ -34,13 +40,13 @@ class CommunityCreationMenu(
                 Region.Companion.GeoShapeType.POLYGON -> Items.NETHER_STAR
                 Region.Companion.GeoShapeType.UNKNOWN -> Items.STRUCTURE_BLOCK
             }
-        ) { runSwitchCommunityShape(it, menuTitle.toString(), currentShape, isCurrentCommunityTypeManor) }
+        ) { runSwitchCommunityShape(it, currentName, currentShape, isCurrentCommunityTypeManor) }
 
         addButton(
             slot = 16,
             name = if (isCurrentCommunityTypeManor) Translator.tr("ui.create.button.type.manor")?.string ?: "Manor"
                 else Translator.tr("ui.create.button.type.realm")?.string ?: "Realm",
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
-        ) { runSwitchCommunityType(it, menuTitle.toString(), currentShape, isCurrentCommunityTypeManor) }
+        ) { runSwitchCommunityType(it, currentName, currentShape, isCurrentCommunityTypeManor) }
     }
 }

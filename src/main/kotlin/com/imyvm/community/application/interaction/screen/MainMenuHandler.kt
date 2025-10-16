@@ -22,7 +22,7 @@ fun runCreate(player: ServerPlayerEntity){
     if (!checkPointSelectingCreating(player)) return
     val defaultTitle = generateNewCommunityTitle()
     CommunityMenuOpener.open(player, null) { syncId, _ ->
-        CommunityCreationMenu(syncId, currentName = defaultTitle)
+        CommunityCreationMenu(syncId, currentName = defaultTitle, playerEntity = player)
     }
 }
 

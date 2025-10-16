@@ -28,7 +28,7 @@ fun runSwitchCommunityShape(
     }
 
     CommunityMenuOpener.open(player, null) { syncId, _ ->
-        CommunityCreationMenu(syncId, communityName, newType, isManor)
+        CommunityCreationMenu(syncId, communityName, newType, isManor, player)
     }
 }
 
@@ -39,6 +39,6 @@ fun runSwitchCommunityType(
     isManor: Boolean
 ){
     CommunityMenuOpener.open(player, null) { syncId, _ ->
-        CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor)
+        CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor, player)
     }
 }
