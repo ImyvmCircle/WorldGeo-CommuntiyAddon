@@ -26,7 +26,7 @@ class CommunityCreationMenu(
     init {
         addButton(
             slot = 10,
-            name = menuTitle?.string ?: "Name",
+            name = currentName,
             item = Items.NAME_TAG
         ) { runRenameNewCommunity(it, currentName, currentShape, isCurrentCommunityTypeManor)  }
 
