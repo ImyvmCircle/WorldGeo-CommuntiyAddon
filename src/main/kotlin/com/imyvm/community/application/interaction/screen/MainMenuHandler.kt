@@ -8,6 +8,7 @@ import com.imyvm.community.inter.screen.CommunityCreationMenu
 import com.imyvm.community.inter.screen.CommunityListMenu
 import com.imyvm.community.inter.screen.MyCommunityListMenu
 import com.imyvm.community.util.Translator
+import com.imyvm.iwg.ImyvmWorldGeo
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun runList(player: ServerPlayerEntity) {
@@ -18,6 +19,8 @@ fun runList(player: ServerPlayerEntity) {
 }
 
 fun runCreate(player: ServerPlayerEntity){
+    if (!checkPointSelectingCreating(player)) return
+
     CommunityMenuOpener.open(player, null) { syncId, _ ->
         CommunityCreationMenu(syncId)
     }
@@ -45,6 +48,17 @@ fun runMyCommunity(player: ServerPlayerEntity) {
                 MyCommunityListMenu(syncId, c!!)
             }
         }
+    }
+}
+
+private fun checkPointSelectingCreating(player: ServerPlayerEntity): Boolean {
+    return if (!ImyvmWorldGeo.pointSelectingPlayers.containsKey(player.uuid)
+        || ImyvmWorldGeo.pointSelectingPlayers[player.uuid]?. size!! < 2) {
+        player.closeHandledScreen()
+        player.sendMessage(Translator.tr("ui.main.create.error.no_selection"))
+        false
+    } else {
+        true
     }
 }
 
