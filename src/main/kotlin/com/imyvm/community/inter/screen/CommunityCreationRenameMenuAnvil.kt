@@ -1,6 +1,6 @@
-package com.imyvm.community.application.interaction.screen
+package com.imyvm.community.inter.screen
 
-import com.imyvm.community.inter.screen.CommunityCreationMenu
+import com.imyvm.community.application.interaction.screen.CommunityCreationRenameMenuHandler
 import com.imyvm.community.inter.screen.component.ReadOnlySlot
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.Region
@@ -18,24 +18,20 @@ import net.minecraft.screen.slot.SlotActionType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-object CommunityCreationRenameHandler {
-
-    fun openRenameMenu(
-        player: ServerPlayerEntity,
-        currentName: String,
-        currentShape: Region.Companion.GeoShapeType,
-        isManor: Boolean
-    ) {
+class CommunityCreationRenameMenuAnvil(
+    private val player: ServerPlayerEntity,
+    private val currentName: String,
+    private val currentShape: Region.Companion.GeoShapeType,
+    private val isManor: Boolean,
+    private val renameHandler: CommunityCreationRenameMenuHandler = CommunityCreationRenameMenuHandler()
+) {
+    fun openRenameMenu() {
         player.openHandledScreen(object : NamedScreenHandlerFactory {
-
             override fun createMenu(syncId: Int, inv: PlayerInventory, p: PlayerEntity): ScreenHandler {
                 val context = ScreenHandlerContext.create(p.world, p.blockPos)
 
                 val simpleInventory = SimpleInventory(3)
                 val anvil = object : AnvilScreenHandler(syncId, inv, context) {
-
-                    private var capturedName: String = currentName
-                    private var shouldReopen: Boolean = true
 
                     init {
                         this.slots[INPUT_1_ID] = ReadOnlySlot(simpleInventory, INPUT_1_ID, 27, 47)
@@ -46,7 +42,7 @@ object CommunityCreationRenameHandler {
                     override fun canUse(player: PlayerEntity?) = true
 
                     override fun setNewItemName(name: String?): Boolean {
-                        capturedName = name ?: currentName
+                        renameHandler.setNewName(name)
                         return super.setNewItemName(name)
                     }
 
@@ -57,11 +53,7 @@ object CommunityCreationRenameHandler {
                     }
 
                     override fun onClosed(player: PlayerEntity) {
-                        if (shouldReopen) {
-                            shouldReopen = false
-                            val newName = capturedName.trim()
-                            reopenCommunityCreation(player as ServerPlayerEntity, newName, currentShape, isManor)
-                        }
+                        renameHandler.processRenameClose(player as ServerPlayerEntity, currentName, currentShape, isManor)
                     }
                 }
 
@@ -78,16 +70,5 @@ object CommunityCreationRenameHandler {
             override fun getDisplayName(): Text =
                 Translator.tr("ui.create.rename.title") ?: Text.literal("Rename Community")
         })
-    }
-
-    private fun reopenCommunityCreation(
-        player: ServerPlayerEntity,
-        newName: String,
-        shape: Region.Companion.GeoShapeType,
-        isManor: Boolean
-    ) {
-        CommunityMenuOpener.open(player, null) { newSyncId, _ ->
-            CommunityCreationMenu(newSyncId, newName, shape, isManor)
-        }
     }
 }
