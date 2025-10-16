@@ -20,9 +20,9 @@ fun runList(player: ServerPlayerEntity) {
 
 fun runCreate(player: ServerPlayerEntity){
     if (!checkPointSelectingCreating(player)) return
-
+    val defaultTitle = generateNewCommunityTitle()
     CommunityMenuOpener.open(player, null) { syncId, _ ->
-        CommunityCreationMenu(syncId)
+        CommunityCreationMenu(syncId, currentName = defaultTitle)
     }
 }
 
@@ -62,5 +62,10 @@ private fun checkPointSelectingCreating(player: ServerPlayerEntity): Boolean {
     }
 }
 
-
-
+private fun generateNewCommunityTitle(): String {
+    val index = CommunityDatabase.communities.size + 1
+    val defaultTitle = Translator.tr("ui.main.create.default_name", index)?.string ?: "NewCommunity"
+    return generateSequence(index) { it + 1 }
+        .map { "$defaultTitle$it" }
+        .first { title -> CommunityDatabase.communities.none { it.getRegion()?.name == title } }
+}
