@@ -48,5 +48,11 @@ class CommunityCreationMenu(
                 else Translator.tr("ui.create.button.type.realm")?.string ?: "Realm",
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
         ) { runSwitchCommunityType(it, currentName, currentShape, isCurrentCommunityTypeManor) }
+
+        addButton(
+            slot = 35,
+            name = Translator.tr("ui.create.button.confirm")?.string ?: "Confirm Creation",
+            item = Items.EMERALD_BLOCK
+        ) { playerEntity.sendMessage(Text.of("TODO.")) }
     }
 }
