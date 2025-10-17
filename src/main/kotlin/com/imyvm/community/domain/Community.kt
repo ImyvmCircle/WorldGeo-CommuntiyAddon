@@ -12,7 +12,6 @@ import java.util.*
 
 class Community(
     val regionNumberId: Int?,
-    val foundingTimeSeconds: Long,
     var member: HashMap<UUID, CommunityRole>,
     var joinPolicy: CommunityJoinPolicy,
     var status: CommunityStatus

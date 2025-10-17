@@ -46,7 +46,6 @@ private fun displayCommunityEntry(player: ServerPlayerEntity, community: Communi
                 "community.list.entry",
                 it.name,
                 community.regionNumberId,
-                community.foundingTimeSeconds,
                 community.status.name.lowercase(),
                 community.joinPolicy.name.lowercase(),
                 community.member.size

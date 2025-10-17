@@ -60,7 +60,6 @@ private fun chargeFromApplicator(player: ServerPlayerEntity, communityType: Stri
 private fun initialApplication(player: ServerPlayerEntity, name: String, communityType: String, regionNumberId: Int) {
     val community = Community(
         regionNumberId = regionNumberId,
-        foundingTimeSeconds = System.currentTimeMillis() / 1000,
         member = hashMapOf(player.uuid to CommunityRole.OWNER),
         joinPolicy = CommunityJoinPolicy.OPEN,
         status = if (communityType.equals("manor", ignoreCase = true)) {

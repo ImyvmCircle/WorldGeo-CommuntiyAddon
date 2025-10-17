@@ -23,7 +23,6 @@ object CommunityDatabase {
             stream.writeInt(communities.size)
             for (community in communities) {
                 saveCommunityRegionNumberId(stream,community)
-                stream.writeLong(community.foundingTimeSeconds)
                 saveCommunityMember(stream,community)
                 stream.writeInt(community.joinPolicy.value)
                 stream.writeInt(community.status.value)
@@ -44,7 +43,6 @@ object CommunityDatabase {
             communities = ArrayList(size)
             for (i in 0 until size) {
                 val regionNumberId = loadCommunityRegionNumberId(stream)
-                val foundingTimeSeconds = stream.readLong()
                 val memberCount = stream.readInt()
                 val memberMap = loadMemberMap(stream, memberCount)
                 val joinPolicy = CommunityJoinPolicy.fromValue(stream.readInt())
@@ -52,7 +50,6 @@ object CommunityDatabase {
 
                 val community = Community(
                     regionNumberId = regionNumberId,
-                    foundingTimeSeconds = foundingTimeSeconds,
                     member = memberMap,
                     joinPolicy = joinPolicy,
                     status = status
