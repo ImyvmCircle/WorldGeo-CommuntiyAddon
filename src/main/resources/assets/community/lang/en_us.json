@@ -60,6 +60,8 @@
   "ui.create.error.shape_not_enough": "Need2PointsSelected",
   "ui.create.error.money_manor": "NotEnoughMoneyManor",
   "ui.create.error.money_realm": "NotEnoughMoneyRealm",
+  "ui.create.error.already_in_community_manor": "AlreadyInCommunityManor",
+  "ui.create.error.already_in_community_realm": "AlreadyInCommunityRealm",
 
   "ui.create.title": "New-Community",
   "ui.create.rename.title": "Rename Community",

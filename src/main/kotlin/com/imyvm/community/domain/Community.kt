@@ -7,7 +7,7 @@ import com.imyvm.community.infra.CommunityConfig.Companion.TIMEZONE
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.application.region.parseFoundingTimeFromRegionId
 import com.imyvm.iwg.domain.Region
-import com.imyvm.iwg.inter.api.PlayerInteractionApi.queryRegionInfo
+import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.inter.api.RegionDataApi
 import net.minecraft.server.network.ServerPlayerEntity
 import java.time.Instant
@@ -27,6 +27,15 @@ class Community(
         return RegionDataApi.getRegion(regionNumberId)
     }
 
+    fun sendCommunityRegionDescription(player: ServerPlayerEntity) {
+        val region = getRegion()
+        if(region != null){
+            PlayerInteractionApi.queryRegionInfo(player, region)
+        } else {
+            player.sendMessage(Translator.tr("community.description.no_region", regionNumberId))
+        }
+    }
+
     fun getFormattedFoundingTime(): String {
         val foundingTimeMillis = this.regionNumberId?.let { parseFoundingTimeFromRegionId(it) }
 
@@ -37,14 +46,5 @@ class Community(
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hha (XXX)")
         return dateTime.format(formatter)
-    }
-
-    fun sendCommunityRegionDescription(player: ServerPlayerEntity) {
-        val region = getRegion()
-        if(region != null){
-            queryRegionInfo(player, region)
-        } else {
-            player.sendMessage(Translator.tr("community.description.no_region", regionNumberId))
-        }
     }
 }

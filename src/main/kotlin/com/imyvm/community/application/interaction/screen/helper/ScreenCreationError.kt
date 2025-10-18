@@ -1,5 +1,6 @@
 package com.imyvm.community.application.interaction.screen.helper
 
+import com.imyvm.community.application.interaction.common.helper.checkPlayerMembershipCreation
 import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator
 import com.imyvm.economy.EconomyMod
@@ -40,16 +41,33 @@ fun generateCreationError(
         }
     }
 
-    if (isCurrentCommunityTypeManor && EconomyMod.data.getOrCreate(playerEntity).money < com.imyvm.community.infra.CommunityConfig.PRICE_MANOR.value) {
-        errors.add(
-            Translator.tr("ui.create.error.money_manor")?.string
-                ?: "NotEnoughMoneyManor"
-        )
-    } else if (!isCurrentCommunityTypeManor && EconomyMod.data.getOrCreate(playerEntity).money < com.imyvm.community.infra.CommunityConfig.PRICE_REALM.value) {
-        errors.add(
-            Translator.tr("ui.create.error.money_realm")?.string
-                ?: "NotEnoughMoneyRealm"
-        )
+    if (isCurrentCommunityTypeManor) {
+        if (EconomyMod.data.getOrCreate(playerEntity).money < com.imyvm.community.infra.CommunityConfig.PRICE_MANOR.value){
+            errors.add(
+                Translator.tr("ui.create.error.money_manor")?.string
+                    ?: "NotEnoughMoneyManor")
+        }
+
+        if (checkPlayerMembershipCreation(playerEntity, "manor").not()) {
+            errors.add(
+                Translator.tr("ui.create.error.already_in_community_manor")?.string
+                    ?: "AlreadyInCommunityManor"
+            )
+        }
+
+    } else {
+        if (EconomyMod.data.getOrCreate(playerEntity).money < com.imyvm.community.infra.CommunityConfig.PRICE_REALM.value) {
+            errors.add(
+                Translator.tr("ui.create.error.money_realm")?.string
+                    ?: "NotEnoughMoneyRealm"
+            )
+        }
+        if (checkPlayerMembershipCreation(playerEntity, "realm").not()) {
+            errors.add(
+                Translator.tr("ui.create.error.already_in_community_realm")?.string
+                    ?: "AlreadyInCommunityRealm"
+            )
+        }
     }
 
     return if (errors.isEmpty()) "" else " ERRORS:" + errors.joinToString(";")
