@@ -12,27 +12,21 @@ import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator
 import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
-import com.imyvm.iwg.inter.api.RegionDataApi.getRegionList
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun onCreateCommunity(player: ServerPlayerEntity, communityType: String, name: String, shapeName: String): Int {
-    if (PlayerInteractionApi.createRegion(player, name, shapeName) == 0) {
+    val region = PlayerInteractionApi.createAndGetRegion(player, name, shapeName)
+    if (region == null) {
         player.sendMessage(Translator.tr("community.create.region.error"))
         return 0
     }
 
     if (chargeFromApplicator(player, communityType) == 0) {
-        val regionDelete = getRegionList().lastOrNull()
-        if (regionDelete != null) {
-            PlayerInteractionApi.deleteRegion(player, regionDelete)
-        }
+        PlayerInteractionApi.deleteRegion(player, region)
         return 0
     }
 
-    val regionNumberId = getRegionList().lastOrNull()?.numberID ?: run {
-        player.sendMessage(Translator.tr("community.create.region.error"))
-        return 0
-    }
+    val regionNumberId = region.numberID
 
     initialApplication(player, name, communityType, regionNumberId)
     handleApplicationBranches(player, communityType, regionNumberId)
