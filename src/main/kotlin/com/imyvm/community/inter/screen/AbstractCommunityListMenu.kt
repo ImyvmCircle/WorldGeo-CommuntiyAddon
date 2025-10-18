@@ -3,10 +3,8 @@ package com.imyvm.community.inter.screen
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
-import com.mojang.authlib.properties.PropertyMap
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.ProfileComponent
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.screen.NamedScreenHandlerFactory
@@ -73,14 +71,7 @@ abstract class AbstractCommunityListMenu(
     protected abstract fun createNewMenu(newPage: Int): NamedScreenHandlerFactory
 
     private fun addPlayerHeadButton(slot: Int, name: String, uuid: UUID, onClick: (ServerPlayerEntity) -> Unit) {
-        val headStack = ItemStack(Items.PLAYER_HEAD)
-        headStack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(name))
-        addButton(slot = slot, name = name, itemStack = headStack, onClick = onClick)
-
-        val profileComponent = ProfileComponent(Optional.empty(), Optional.of(uuid), PropertyMap())
-        profileComponent.future.thenAccept { fullProfile ->
-            headStack.set(DataComponentTypes.PROFILE, fullProfile)
-        }
+        addButton(slot = slot, name = name, itemStack = createPlayerHeadItem(name, uuid), onClick = onClick)
     }
 }
 
