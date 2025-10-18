@@ -26,8 +26,7 @@ fun onForceDeleteCommunity(player: ServerPlayerEntity, targetCommunity: Communit
             region.name,
             targetCommunity.regionNumberId))
     } else {
-        player.sendMessage(Translator.tr(
-            "community.delete.success.null_region"))
+        player.sendMessage(Translator.tr("community.delete.success.null_region"))
     }
 
     return 1

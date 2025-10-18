@@ -1,6 +1,7 @@
 package com.imyvm.community.inter.command
 
 import com.imyvm.community.application.interaction.command.*
+import com.imyvm.community.application.interaction.common.onCreateCommunity
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.inter.command.helper.*

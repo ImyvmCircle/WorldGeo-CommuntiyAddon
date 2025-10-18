@@ -1,6 +1,7 @@
-package com.imyvm.community.application.interaction.command
+package com.imyvm.community.application.interaction.common
 
 import com.imyvm.community.WorldGeoCommunityAddon
+import com.imyvm.community.application.interaction.common.helper.checkPlayerMembershipCreation
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.PendingOperation
 import com.imyvm.community.domain.PendingOperationType
@@ -15,6 +16,8 @@ import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun onCreateCommunity(player: ServerPlayerEntity, communityType: String, name: String, shapeName: String): Int {
+    if (!checkPlayerMembershipCreation(player, communityType)) return 0
+
     val region = PlayerInteractionApi.createAndGetRegion(player, name, shapeName)
     if (region == null) {
         player.sendMessage(Translator.tr("community.create.region.error"))

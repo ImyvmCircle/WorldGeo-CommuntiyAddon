@@ -1,6 +1,6 @@
 package com.imyvm.community.application.interaction.screen
 
-import com.imyvm.community.application.interaction.command.onCreateCommunity
+import com.imyvm.community.application.interaction.common.onCreateCommunity
 import com.imyvm.community.inter.screen.CommunityCreationMenu
 import com.imyvm.iwg.domain.Region
 import net.minecraft.server.network.ServerPlayerEntity

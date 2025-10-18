@@ -1,5 +1,6 @@
 package com.imyvm.community.application.interaction.screen
 
+import com.imyvm.community.application.interaction.common.helper.checkPlayerMembershipPreCreation
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.domain.community.CommunityRole
@@ -20,6 +21,7 @@ fun runList(player: ServerPlayerEntity) {
 
 fun runCreate(player: ServerPlayerEntity){
     if (!checkPointSelectingCreating(player)) return
+    if (!checkPlayerMembershipPreCreation(player)) return
     val defaultTitle = generateNewCommunityTitle()
     CommunityMenuOpener.open(player, null) { syncId, _ ->
         CommunityCreationMenu(syncId, currentName = defaultTitle, playerEntity = player)

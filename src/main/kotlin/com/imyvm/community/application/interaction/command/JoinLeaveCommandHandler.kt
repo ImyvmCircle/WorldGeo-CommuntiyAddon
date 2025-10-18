@@ -1,25 +1,18 @@
 package com.imyvm.community.application.interaction.command
 
+import com.imyvm.community.application.interaction.common.helper.checkPlayerMembershipJoin
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityJoinPolicy
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityConfig
-import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun onJoinCommunity(player: ServerPlayerEntity, targetCommunity: Community): Int {
-    if (!checkPlayerMembership(player, targetCommunity)) return 0
+    if (!checkPlayerMembershipJoin(player, targetCommunity)) return 0
     if (!checkMemberNumberManor(player, targetCommunity)) return 0
     return tryJoinByPolicy(player, targetCommunity)
-}
-
-fun checkPlayerMembership(player: ServerPlayerEntity, community: Community): Boolean {
-    if (isJoinedTarget(player, community)) return false
-    if (isJoinedRealmTargetingRealm(player, community)) return false
-    if (isJoinedManorTargetingManor(player, community)) return false
-    return true
 }
 
 fun checkMemberNumberManor(player: ServerPlayerEntity,targetCommunity: Community): Boolean {
@@ -41,47 +34,6 @@ fun tryJoinByPolicy(player: ServerPlayerEntity, targetCommunity: Community): Int
     }
 
     return 0
-}
-
-private fun isJoinedTarget(player: ServerPlayerEntity, targetCommunity: Community): Boolean {
-    if (targetCommunity.member.containsKey(player.uuid)){
-        return if (targetCommunity.member[player.uuid] == CommunityRole.APPLICANT) {
-            player.sendMessage(Translator.tr("community.join.error.already_applied", targetCommunity.regionNumberId))
-            true
-        } else {
-            player.sendMessage(Translator.tr("community.join.error.already_member", targetCommunity.regionNumberId))
-            true
-        }
-    }
-    return false
-}
-
-private fun isJoinedRealmTargetingRealm(player: ServerPlayerEntity, targetCommunity: Community): Boolean {
-    if (targetCommunity.status == CommunityStatus.RECRUITING_REALM || targetCommunity.status == CommunityStatus.PENDING_REALM || targetCommunity.status == CommunityStatus.ACTIVE_REALM) {
-        val joinedCommunity = CommunityDatabase.communities.find {
-            (it.status == CommunityStatus.ACTIVE_REALM || it.status == CommunityStatus.PENDING_REALM || it.status == CommunityStatus.RECRUITING_REALM)
-                    && it.member.containsKey(player.uuid)
-        }
-        if (joinedCommunity != null) {
-            player.sendMessage(Translator.tr("community.join.error.already_in_realm", joinedCommunity.regionNumberId))
-            return true
-        }
-    }
-    return false
-}
-
-private fun isJoinedManorTargetingManor(player: ServerPlayerEntity, targetCommunity: Community): Boolean {
-    if (targetCommunity.status == CommunityStatus.ACTIVE_MANOR || targetCommunity.status == CommunityStatus.PENDING_MANOR) {
-        val joinedCommunity = CommunityDatabase.communities.find {
-            (it.status == CommunityStatus.ACTIVE_MANOR || it.status == CommunityStatus.PENDING_MANOR)
-                    && it.member.containsKey(player.uuid)
-        }
-        if (joinedCommunity != null) {
-            player.sendMessage(Translator.tr("community.join.error.already_in_manor", joinedCommunity.regionNumberId))
-            return true
-        }
-    }
-    return false
 }
 
 private fun joinUnderOpenPolicy(player: ServerPlayerEntity, targetCommunity: Community): Int {
