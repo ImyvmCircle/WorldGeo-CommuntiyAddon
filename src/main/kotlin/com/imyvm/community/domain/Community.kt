@@ -39,7 +39,7 @@ class Community(
         return dateTime.format(formatter)
     }
 
-    fun sendCommunityDescription(player: ServerPlayerEntity) {
+    fun sendCommunityRegionDescription(player: ServerPlayerEntity) {
         val region = getRegion()
         if(region != null){
             queryRegionInfo(player, region)

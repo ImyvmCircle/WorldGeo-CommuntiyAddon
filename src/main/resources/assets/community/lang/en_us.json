@@ -84,7 +84,8 @@
 
   "ui.my_communities.title": "My Communities, choose one to open.",
 
-  "ui.community.title": "Community Management - {0} (ID: {1})",
+  "ui.community.title": "{0} (ID: {1})",
+  "ui.community.description.region": "Region information",
 
   "ui.button.close": "Close",
   "ui.button.close.feedback" : "Closed the community management interface."
