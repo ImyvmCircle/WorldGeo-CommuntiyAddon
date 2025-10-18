@@ -1,8 +1,9 @@
 package com.imyvm.community.inter.screen
 
 import com.imyvm.community.domain.Community
+import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
-import net.minecraft.item.Items
+import com.imyvm.iwg.inter.api.RegionDataApi
 import net.minecraft.server.network.ServerPlayerEntity
 
 class CommunityMenu(
@@ -14,11 +15,11 @@ class CommunityMenu(
 ) {
     init {
         val (player, community) = content
-        loadCommunityUI(community)
-    }
-
-    private fun loadCommunityUI(community: Community) {
-        addButton(10, "Community #${community.getRegion()?.name}", Items.PAPER) {}
+        addButton(
+            slot = 13,
+            name = RegionDataApi.getRegion(community.regionNumberId!!)?.name ?: "Community #${community.regionNumberId}",
+            itemStack = createPlayerHeadItem(player.name.string, player.uuid)
+        ) {}
     }
 }
 
