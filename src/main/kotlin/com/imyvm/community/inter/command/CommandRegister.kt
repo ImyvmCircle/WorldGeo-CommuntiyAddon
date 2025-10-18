@@ -52,7 +52,17 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
                     )
             )
             .then(
+                literal("force_delete")
+                    .requires{ it.hasPermissionLevel(2)}
+                    .then(
+                        argument("communityIdentifier", StringArgumentType.greedyString())
+                            .suggests(ALL_COMMUNITY_PROVIDER)
+                            .executes{ runForceDeleteCommunity(it) }
+                    )
+            )
+            .then(
                 literal("audit")
+                    .requires{ it.hasPermissionLevel(2)}
                     .then(
                         argument("choice", StringArgumentType.word())
                             .suggests(BINARY_CHOICE_SUGGESTION_PROVIDER)
@@ -61,6 +71,24 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
                                     .suggests(PENDING_COMMUNITY_PROVIDER)
                                     .executes{ runAudit(it) }
                             )
+                    )
+            )
+            .then(
+                literal("force_revoke")
+                    .requires{ it.hasPermissionLevel(2)}
+                    .then(
+                        argument("communityIdentifier", StringArgumentType.greedyString())
+                            .suggests(ALL_COMMUNITY_PROVIDER)
+                            .executes{ runForceRevoke(it) }
+                    )
+            )
+            .then(
+                literal("force_active")
+                    .requires{ it.hasPermissionLevel(2)}
+                    .then(
+                        argument("communityIdentifier", StringArgumentType.greedyString())
+                            .suggests(ALL_COMMUNITY_PROVIDER)
+                            .executes{ runForceActive(it) }
                     )
             )
             .then(
@@ -126,11 +154,29 @@ private fun runCreateCommunity(context: CommandContext<ServerCommandSource>): In
     return onCreateCommunity(player, communityType, name, shapeName)
 }
 
+private fun runForceDeleteCommunity(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val communityIdentifier = StringArgumentType.getString(context, "communityIdentifier")
+    return identifierHandler(player, communityIdentifier) { targetCommunity -> onForceDeleteCommunity(player, targetCommunity) }
+}
+
 private fun runAudit(context: CommandContext<ServerCommandSource>): Int {
     val player = context.source.player ?: return 0
     val choice = StringArgumentType.getString(context, "choice").lowercase(Locale.getDefault())
     val communityIdentifier = StringArgumentType.getString(context, "communityIdentifier")
     return identifierHandler(player, communityIdentifier) { targetCommunity -> onAudit(player, choice, targetCommunity) }
+}
+
+private fun runForceRevoke(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val communityIdentifier = StringArgumentType.getString(context, "communityIdentifier")
+    return identifierHandler(player, communityIdentifier) { targetCommunity -> onForceRevoke(player, targetCommunity) }
+}
+
+private fun runForceActive(context: CommandContext<ServerCommandSource>): Int {
+    val player = context.source.player ?: return 0
+    val communityIdentifier = StringArgumentType.getString(context, "communityIdentifier")
+    return identifierHandler(player, communityIdentifier) { targetCommunity -> onForceActive(player, targetCommunity) }
 }
 
 private fun runJoin(context: CommandContext<ServerCommandSource>): Int {
