@@ -6,7 +6,7 @@ import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.PlayerInteractionApi.queryRegionInfo
-import com.imyvm.iwg.inter.api.RegionDataApi.getRegionById
+import com.imyvm.iwg.inter.api.RegionDataApi
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 
@@ -17,7 +17,8 @@ class Community(
     var status: CommunityStatus
 ) {
     fun getRegion(): Region? {
-        return getRegionById(regionNumberId ?: return null)
+        if (regionNumberId == null) return null
+        return RegionDataApi.getRegion(regionNumberId)
     }
 
     fun sendCommunityDescription(player: ServerPlayerEntity) {

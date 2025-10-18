@@ -14,7 +14,6 @@ fun runRenameNewCommunity(
     CommunityMenuOpener.openCreationRenameAnvilMenu(player, currentName, currentShape, isManor)
 }
 
-
 fun runSwitchCommunityShape(
     player: ServerPlayerEntity,
     communityName: String,
