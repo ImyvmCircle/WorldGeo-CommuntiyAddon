@@ -20,7 +20,9 @@ fun generateCreationError(
         errors.add(Translator.tr("ui.create.error.name_duplicated")?.string ?: "NameDuplicated")
     } else if (currentShape == Region.Companion.GeoShapeType.UNKNOWN) {
         errors.add(Translator.tr("ui.create.error.shape_unknown")?.string ?: "ShapeUnknown")
-    } else if (currentShape == Region.Companion.GeoShapeType.POLYGON) {
+    }
+
+    if (currentShape == Region.Companion.GeoShapeType.POLYGON) {
         val points = ImyvmWorldGeo.pointSelectingPlayers[playerEntity.uuid]
         if (points == null || points.size < 3) {
             errors.add(
@@ -36,7 +38,9 @@ fun generateCreationError(
                     ?: "Need2Points+Selected"
             )
         }
-    } else if (isCurrentCommunityTypeManor && EconomyMod.data.getOrCreate(playerEntity).money < com.imyvm.community.infra.CommunityConfig.PRICE_MANOR.value) {
+    }
+
+    if (isCurrentCommunityTypeManor && EconomyMod.data.getOrCreate(playerEntity).money < com.imyvm.community.infra.CommunityConfig.PRICE_MANOR.value) {
         errors.add(
             Translator.tr("ui.create.error.money_manor")?.string
                 ?: "NotEnoughMoneyManor"

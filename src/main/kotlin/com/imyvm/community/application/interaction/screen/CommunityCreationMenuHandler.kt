@@ -1,5 +1,6 @@
 package com.imyvm.community.application.interaction.screen
 
+import com.imyvm.community.application.interaction.command.onCreateCommunity
 import com.imyvm.community.inter.screen.CommunityCreationMenu
 import com.imyvm.iwg.domain.Region
 import net.minecraft.server.network.ServerPlayerEntity
@@ -41,4 +42,19 @@ fun runSwitchCommunityType(
     CommunityMenuOpener.open(player, null) { syncId, _ ->
         CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor, player)
     }
+}
+
+fun runConfirmCommunityCreation(
+    player: ServerPlayerEntity,
+    communityName: String,
+    geoShapeType: Region.Companion.GeoShapeType,
+    isManor: Boolean
+){
+    player.closeHandledScreen()
+    onCreateCommunity(
+        player,
+        if (isManor) "manor" else "realm",
+        communityName,
+        geoShapeType.toString()
+    )
 }

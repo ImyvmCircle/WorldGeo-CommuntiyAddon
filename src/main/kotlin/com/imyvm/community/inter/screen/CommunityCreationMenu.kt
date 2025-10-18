@@ -1,6 +1,7 @@
 package com.imyvm.community.inter.screen
 
 import com.imyvm.community.application.interaction.screen.helper.generateCreationError
+import com.imyvm.community.application.interaction.screen.runConfirmCommunityCreation
 import com.imyvm.community.application.interaction.screen.runRenameNewCommunity
 import com.imyvm.community.application.interaction.screen.runSwitchCommunityShape
 import com.imyvm.community.application.interaction.screen.runSwitchCommunityType
@@ -53,6 +54,6 @@ class CommunityCreationMenu(
             slot = 35,
             name = Translator.tr("ui.create.button.confirm")?.string ?: "Confirm Creation",
             item = Items.EMERALD_BLOCK
-        ) { playerEntity.sendMessage(Text.of("TODO.")) }
+        ) { runConfirmCommunityCreation(it, currentName, currentShape, isCurrentCommunityTypeManor) }
     }
 }

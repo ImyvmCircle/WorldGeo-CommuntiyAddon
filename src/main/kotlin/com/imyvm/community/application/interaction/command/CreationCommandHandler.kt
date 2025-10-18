@@ -43,10 +43,10 @@ private fun chargeFromApplicator(player: ServerPlayerEntity, communityType: Stri
     val playerAccount = EconomyMod.data.getOrCreate(player)
     return if (playerAccount.money >= accountThreshold) {
         playerAccount.addMoney(-accountThreshold)
-        player.sendMessage(Translator.tr("community.create.money.checked", accountThreshold))
+        player.sendMessage(Translator.tr("community.create.money.checked", accountThreshold / 100.0))
         1
     } else {
-        player.sendMessage(Translator.tr("community.create.money.error", accountThreshold))
+        player.sendMessage(Translator.tr("community.create.money.error", accountThreshold / 100.0))
         0
     }
 }
