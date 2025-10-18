@@ -11,7 +11,7 @@
   "community.create.request.sent": "Waiting for approval from an admin.",
   "community.create.request.recruitment": "Now recruiting enough members ({0}) to initial a realm!",
 
-  "community.delete.success": "{0} {1}: Deletion of community {1} in region {0} was successful.",
+  "community.delete.success": "{0} {1}: Deletion of community {1} with region named {0} was successful.",
   "community.delete.success.null_region": "The community deletion was successful, but no region data found.",
 
   "community.audit.error.no_owner": "Community {0} has no owner.",

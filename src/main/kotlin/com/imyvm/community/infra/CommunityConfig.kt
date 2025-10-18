@@ -18,6 +18,16 @@ class CommunityConfig : HokiConfig("Community.conf") {
 
         @JvmField
         @ConfigOption
+        val TIMEZONE = Option(
+            "timezone",
+            "Asia/Hong_Kong",
+            "the time zone of the mod. (e.g., Asia/Singapore, UTC+8)"
+        ) { obj, path ->
+            obj.getString(path)
+        }
+
+        @JvmField
+        @ConfigOption
         val PENDING_CHECK_INTERVAL_SECONDS = Option(
             "pending.check_interval_ticks",
             10,
