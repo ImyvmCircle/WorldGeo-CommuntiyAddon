@@ -1,10 +1,11 @@
-package com.imyvm.community.inter.screen
+package com.imyvm.community.inter.screen.outer_community
 
 import com.imyvm.community.application.interaction.screen.helper.generateCreationError
-import com.imyvm.community.application.interaction.screen.runConfirmCommunityCreation
-import com.imyvm.community.application.interaction.screen.runRenameNewCommunity
-import com.imyvm.community.application.interaction.screen.runSwitchCommunityShape
-import com.imyvm.community.application.interaction.screen.runSwitchCommunityType
+import com.imyvm.community.application.interaction.screen.outer_community.runConfirmCommunityCreation
+import com.imyvm.community.application.interaction.screen.outer_community.runRenameNewCommunity
+import com.imyvm.community.application.interaction.screen.outer_community.runSwitchCommunityShape
+import com.imyvm.community.application.interaction.screen.outer_community.runSwitchCommunityType
+import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.Region
 import net.minecraft.item.Items

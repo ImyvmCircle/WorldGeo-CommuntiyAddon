@@ -1,10 +1,11 @@
-package com.imyvm.community.inter.screen
+package com.imyvm.community.inter.screen.outer_community
 
 import com.imyvm.community.application.interaction.common.filterCommunitiesByType
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
-import com.imyvm.community.application.interaction.screen.runSwitchFilterMode
+import com.imyvm.community.application.interaction.screen.outer_community.runSwitchFilterMode
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
+import com.imyvm.community.inter.screen.AbstractCommunityListMenu
 import com.imyvm.community.util.Translator
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Items

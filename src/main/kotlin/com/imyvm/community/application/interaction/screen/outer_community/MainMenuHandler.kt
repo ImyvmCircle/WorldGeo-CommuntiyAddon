@@ -1,13 +1,14 @@
-package com.imyvm.community.application.interaction.screen
+package com.imyvm.community.application.interaction.screen.outer_community
 
 import com.imyvm.community.application.interaction.common.helper.checkPlayerMembershipPreCreation
+import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.infra.CommunityDatabase
-import com.imyvm.community.inter.screen.CommunityCreationMenu
-import com.imyvm.community.inter.screen.CommunityListMenu
-import com.imyvm.community.inter.screen.MyCommunityListMenu
+import com.imyvm.community.inter.screen.outer_community.CommunityCreationMenu
+import com.imyvm.community.inter.screen.outer_community.CommunityListMenu
+import com.imyvm.community.inter.screen.outer_community.MyCommunityListMenu
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.ImyvmWorldGeo
 import net.minecraft.server.network.ServerPlayerEntity

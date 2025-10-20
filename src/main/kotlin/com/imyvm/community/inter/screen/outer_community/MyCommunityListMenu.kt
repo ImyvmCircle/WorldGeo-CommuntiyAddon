@@ -1,6 +1,7 @@
-package com.imyvm.community.inter.screen
+package com.imyvm.community.inter.screen.outer_community
 
 import com.imyvm.community.domain.Community
+import com.imyvm.community.inter.screen.AbstractCommunityListMenu
 import com.imyvm.community.util.Translator
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory

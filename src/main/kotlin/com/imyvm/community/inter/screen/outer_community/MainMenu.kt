@@ -1,8 +1,9 @@
-package com.imyvm.community.inter.screen
+package com.imyvm.community.inter.screen.outer_community
 
-import com.imyvm.community.application.interaction.screen.runCreate
-import com.imyvm.community.application.interaction.screen.runList
-import com.imyvm.community.application.interaction.screen.runMyCommunity
+import com.imyvm.community.application.interaction.screen.outer_community.runCreate
+import com.imyvm.community.application.interaction.screen.outer_community.runList
+import com.imyvm.community.application.interaction.screen.outer_community.runMyCommunity
+import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
 

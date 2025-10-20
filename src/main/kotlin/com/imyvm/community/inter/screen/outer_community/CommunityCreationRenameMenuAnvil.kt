@@ -1,6 +1,6 @@
-package com.imyvm.community.inter.screen
+package com.imyvm.community.inter.screen.outer_community
 
-import com.imyvm.community.application.interaction.screen.CommunityCreationRenameMenuHandler
+import com.imyvm.community.application.interaction.screen.outer_community.CommunityCreationRenameMenuHandler
 import com.imyvm.community.inter.screen.component.ReadOnlySlot
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.Region
