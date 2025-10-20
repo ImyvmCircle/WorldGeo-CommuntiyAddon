@@ -34,7 +34,6 @@ class Community(
         val zoneId = ZoneId.of(timezone)
 
         val dateTime = ZonedDateTime.ofInstant(foundingTimeMillis?.let { Instant.ofEpochMilli(it) }, zoneId)
-
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hha (XXX)")
         return dateTime.format(formatter)
     }

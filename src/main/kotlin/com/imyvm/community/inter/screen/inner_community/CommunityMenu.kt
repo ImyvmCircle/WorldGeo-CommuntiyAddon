@@ -1,5 +1,6 @@
-package com.imyvm.community.inter.screen.outer_community
+package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.inner_community.runOpenOperationMenu
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.inter.screen.AbstractMenu
@@ -39,7 +40,7 @@ class CommunityMenu(
                 slot = 12,
                 name = Translator.tr("ui.community.button.interaction.operations")?.string ?: "Community Operations",
                 item = Items.ANVIL
-            ) {}
+            ) { runOpenOperationMenu(player, community) }
         }
     }
 

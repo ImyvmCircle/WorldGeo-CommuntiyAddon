@@ -30,7 +30,7 @@ class CommunityCreationMenu(
             slot = 10,
             name = currentName,
             item = Items.NAME_TAG
-        ) { runRenameNewCommunity(it, currentName, currentShape, isCurrentCommunityTypeManor)  }
+        ) { runRenameNewCommunity(it, currentName, currentShape, isCurrentCommunityTypeManor) }
 
         addButton(
             slot = 13,

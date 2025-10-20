@@ -1,5 +1,6 @@
 package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.inner_community.runOPRenameCommunity
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
@@ -23,6 +24,6 @@ class OperationMenu(
             slot = 10,
             name = Translator.tr("ui.community.operation.button.name")?.string ?: "Community Name",
             item = net.minecraft.item.Items.NAME_TAG
-        ) {}
+        ) { runOPRenameCommunity(player, community) }
     }
 }
