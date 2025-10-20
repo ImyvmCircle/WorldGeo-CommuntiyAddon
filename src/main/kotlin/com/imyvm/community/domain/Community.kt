@@ -22,6 +22,11 @@ class Community(
     var joinPolicy: CommunityJoinPolicy,
     var status: CommunityStatus
 ) {
+
+    fun generateCommunityMark(): String {
+        return RegionDataApi.getRegion(this.regionNumberId!!)?.name ?: "Community #${this.regionNumberId}"
+    }
+
     fun getFormattedFoundingTime(): String {
         val foundingTimeMillis = this.regionNumberId?.let { parseFoundingTimeFromRegionId(it) }
 
@@ -47,7 +52,6 @@ class Community(
             player.sendMessage(Translator.tr("community.description.no_region", regionNumberId))
         }
     }
-
 
     fun getMemberRole(playerUuid: UUID): CommunityRole? {
         return member[playerUuid]

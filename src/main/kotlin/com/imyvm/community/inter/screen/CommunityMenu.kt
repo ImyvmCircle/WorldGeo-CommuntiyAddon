@@ -4,7 +4,6 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
-import com.imyvm.iwg.inter.api.RegionDataApi
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -27,8 +26,8 @@ class CommunityMenu(
     private fun addOwnerHeadButton(player: ServerPlayerEntity, community: Community) {
         addButton(
             slot = 10,
-            name = generateCommunityMark(community),
-            itemStack = createPlayerHeadItem(generateCommunityMark(community), player.uuid)
+            name = community.generateCommunityMark(),
+            itemStack = createPlayerHeadItem(community.generateCommunityMark(), player.uuid)
         ) {}
     }
 
@@ -133,10 +132,6 @@ class CommunityMenu(
             name = Translator.tr ("ui.community.button.interaction.invite")?.string ?: "Invite Member",
             item = Items.VILLAGER_SPAWN_EGG
         ) {}
-    }
-
-    private fun generateCommunityMark(community: Community): String {
-        return RegionDataApi.getRegion(community.regionNumberId!!)?.name ?: "Community #${community.regionNumberId}"
     }
 }
 

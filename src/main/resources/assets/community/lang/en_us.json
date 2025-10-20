@@ -84,7 +84,7 @@
   "ui.list.button.active.alter": "Switched to ACTIVE mode.",
   "ui.list.button.revoked.alter": "Switched to REVOKED mode.",
 
-  "ui.my_communities.title": "My Communities, choose one to open.",
+  "ui.my_communities.title": "JOINED Communities, choose one to open.",
 
   "ui.community.title": "{0} (ID: {1})",
   "ui.community.button.description.region": "Region information",
