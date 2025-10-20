@@ -8,6 +8,13 @@ import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import net.minecraft.server.network.ServerPlayerEntity
 
+fun onHelpCommand(player: ServerPlayerEntity): Int {
+    player.sendMessage(Translator.tr("community.command.help.header"))
+    player.sendMessage(Translator.tr("community.command.help.list_communities"))
+    player.sendMessage(Translator.tr("community.command.help.query_region"))
+    return 1
+}
+
 fun onListCommunities(player: ServerPlayerEntity, type: CommunityListFilterType): Int {
     val filtered = filterCommunitiesByType(type)
     displayCommunityList(player, type, filtered)

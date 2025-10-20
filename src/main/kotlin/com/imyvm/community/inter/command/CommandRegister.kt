@@ -187,7 +187,8 @@ private fun runJoin(context: CommandContext<ServerCommandSource>): Int {
 }
 
 private fun runHelpCommand(context: CommandContext<ServerCommandSource>): Int {
-    TODO()
+    val player = context.source.player ?: return 0
+    return onHelpCommand(player)
 }
 
 private fun runListCommand(context: CommandContext<ServerCommandSource>): Int {
