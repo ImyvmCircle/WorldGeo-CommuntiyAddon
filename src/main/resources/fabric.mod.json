@@ -8,8 +8,8 @@
 		"Doohaey Re"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/ImyvmCircle",
+		"sources": "https://github.com/ImyvmCircle/WorldGeo-CommunityAddon"
 	},
 	"license": "GPL-3",
 	"icon": "assets/community/icon.png",
