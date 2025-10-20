@@ -22,6 +22,18 @@ class Community(
     var joinPolicy: CommunityJoinPolicy,
     var status: CommunityStatus
 ) {
+    fun getFormattedFoundingTime(): String {
+        val foundingTimeMillis = this.regionNumberId?.let { parseFoundingTimeFromRegionId(it) }
+
+        val timezone = TIMEZONE.value
+        val zoneId = ZoneId.of(timezone)
+
+        val dateTime = ZonedDateTime.ofInstant(foundingTimeMillis?.let { Instant.ofEpochMilli(it) }, zoneId)
+
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hha (XXX)")
+        return dateTime.format(formatter)
+    }
+
     fun getRegion(): Region? {
         if (regionNumberId == null) return null
         return RegionDataApi.getRegion(regionNumberId)
@@ -36,15 +48,8 @@ class Community(
         }
     }
 
-    fun getFormattedFoundingTime(): String {
-        val foundingTimeMillis = this.regionNumberId?.let { parseFoundingTimeFromRegionId(it) }
 
-        val timezone = TIMEZONE.value
-        val zoneId = ZoneId.of(timezone)
-
-        val dateTime = ZonedDateTime.ofInstant(foundingTimeMillis?.let { Instant.ofEpochMilli(it) }, zoneId)
-
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hha (XXX)")
-        return dateTime.format(formatter)
+    fun getMemberRole(playerUuid: UUID): CommunityRole? {
+        return member[playerUuid]
     }
 }

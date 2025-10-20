@@ -87,7 +87,21 @@
   "ui.my_communities.title": "My Communities, choose one to open.",
 
   "ui.community.title": "{0} (ID: {1})",
-  "ui.community.description.region": "Region information",
+  "ui.community.button.description.region": "Region information",
+  "ui.community.button.description.announcement": "Announcement",
+  "ui.community.button.description.members": "Member",
+  "ui.community.button.description.assets": "Asset",
+  "ui.community.button.interaction.settings": "Settings",
+  "ui.community.button.interaction.teleport": "Teleport to Community",
+  "ui.community.button.interaction.teleport.scope": "Teleportation Scope",
+  "ui.community.button.interaction.chat": "Community Chat",
+  "ui.community.button.interaction.advancement": "Advancement",
+  "ui.community.button.interaction.donate": "Donate to Community",
+  "ui.community.button.interaction.shop": "Community Shop",
+  "ui.community.button.interaction.like": "Like Community",
+  "ui.community.button.interaction.leave": "Leave Community",
+  "ui.community.button.interaction.invite": "Invite Member",
+  "ui.community.button.interaction.operations": "Community Operations",
 
   "ui.button.close": "Close",
   "ui.button.close.feedback" : "Closed the community management interface."
