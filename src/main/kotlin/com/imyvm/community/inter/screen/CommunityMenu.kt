@@ -18,12 +18,32 @@ class CommunityMenu(
     init {
         val (player, community) = content
 
+        addOwnerHeadButton(player, community)
+        addOperationButtonTrail(player, community)
+        addDescriptionButton(player, community)
+        addInteractionButton()
+    }
+
+    private fun addOwnerHeadButton(player: ServerPlayerEntity, community: Community) {
         addButton(
             slot = 10,
             name = generateCommunityMark(community),
             itemStack = createPlayerHeadItem(generateCommunityMark(community), player.uuid)
         ) {}
+    }
 
+    private fun addOperationButtonTrail(player: ServerPlayerEntity, community: Community) {
+        if (community.getMemberRole(player.uuid) == CommunityRole.OWNER ||
+            community.getMemberRole(player.uuid) == CommunityRole.ADMIN ){
+            addButton(
+                slot = 12,
+                name = Translator.tr("ui.community.button.interaction.operations")?.string ?: "Community Operations",
+                item = Items.ANVIL
+            ) {}
+        }
+    }
+
+    private fun addDescriptionButton(player: ServerPlayerEntity, community: Community){
         addButton(
             slot = 19,
             name = Translator.tr("ui.community.button.description.region")?.string ?: "Description",
@@ -51,7 +71,9 @@ class CommunityMenu(
             name = Translator.tr("ui.community.button.description.assets")?.string ?: "Asset",
             item = Items.GOLD_INGOT
         ) {}
+    }
 
+    private fun addInteractionButton(){
         addButton(
             slot = 23,
             name = Translator.tr("ui.community.button.interaction.settings")?.string ?: "Settings",
@@ -111,15 +133,6 @@ class CommunityMenu(
             name = Translator.tr ("ui.community.button.interaction.invite")?.string ?: "Invite Member",
             item = Items.VILLAGER_SPAWN_EGG
         ) {}
-
-        if (community.getMemberRole(player.uuid) == CommunityRole.OWNER ||
-            community.getMemberRole(player.uuid) == CommunityRole.ADMIN ){
-                addButton(
-                    slot = 35,
-                    name = Translator.tr("ui.community.button.interaction.operations")?.string ?: "Community Operations",
-                    item = Items.ANVIL
-                ) {}
-            }
     }
 
     private fun generateCommunityMark(community: Community): String {
