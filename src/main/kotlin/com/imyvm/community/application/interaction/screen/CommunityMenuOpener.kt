@@ -40,6 +40,6 @@ object CommunityMenuOpener {
         isManor: Boolean
     ) {
         val handler = CommunityCreationRenameMenuAnvil(player, currentName, currentShape, isManor)
-        handler.openRenameMenu()
+        handler.open()
     }
 }

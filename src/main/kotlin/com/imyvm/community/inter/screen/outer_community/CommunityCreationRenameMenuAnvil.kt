@@ -1,75 +1,25 @@
 package com.imyvm.community.inter.screen.outer_community
 
-import com.imyvm.community.application.interaction.screen.outer_community.CommunityCreationRenameMenuHandler
-import com.imyvm.community.inter.screen.component.ReadOnlySlot
-import com.imyvm.community.util.Translator
+import com.imyvm.community.application.interaction.screen.RenameMenuHandlerAnvil
+import com.imyvm.community.inter.screen.AbstractRenameMenuAnvil
 import com.imyvm.iwg.domain.Region
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.inventory.SimpleInventory
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.screen.AnvilScreenHandler
-import net.minecraft.screen.NamedScreenHandlerFactory
-import net.minecraft.screen.ScreenHandler
-import net.minecraft.screen.ScreenHandlerContext
-import net.minecraft.screen.slot.SlotActionType
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
 
 class CommunityCreationRenameMenuAnvil(
-    private val player: ServerPlayerEntity,
-    private val currentName: String,
+    player: ServerPlayerEntity,
+    initialName: String,
     private val currentShape: Region.Companion.GeoShapeType,
     private val isManor: Boolean,
-    private val renameHandler: CommunityCreationRenameMenuHandler = CommunityCreationRenameMenuHandler()
-) {
-    fun openRenameMenu() {
-        player.openHandledScreen(object : NamedScreenHandlerFactory {
-            override fun createMenu(syncId: Int, inv: PlayerInventory, p: PlayerEntity): ScreenHandler {
-                val context = ScreenHandlerContext.create(p.world, p.blockPos)
+    private val renameHandler: RenameMenuHandlerAnvil = RenameMenuHandlerAnvil()
+) : AbstractRenameMenuAnvil(player, initialName) {
 
-                val simpleInventory = SimpleInventory(3)
-                val anvil = object : AnvilScreenHandler(syncId, inv, context) {
-
-                    init {
-                        this.slots[INPUT_1_ID] = ReadOnlySlot(simpleInventory, INPUT_1_ID, 27, 47)
-                        this.slots[INPUT_2_ID] = ReadOnlySlot(simpleInventory, INPUT_2_ID, 76, 47)
-                        this.slots[OUTPUT_ID] = ReadOnlySlot(simpleInventory, OUTPUT_ID, 125, 47)
-                    }
-
-                    override fun canUse(player: PlayerEntity?) = true
-
-                    override fun setNewItemName(name: String?): Boolean {
-                        renameHandler.setNewName(name)
-                        return super.setNewItemName(name)
-                    }
-
-                    override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
-                        if (slotIndex == OUTPUT_ID) {
-                            renameHandler.processRenameClose(
-                                this@CommunityCreationRenameMenuAnvil.player,
-                                currentName,
-                                currentShape,
-                                isManor
-                            )
-                        }
-                    }
-                }
-
-                val nameTag = ItemStack(Items.NAME_TAG)
-                nameTag.set(DataComponentTypes.CUSTOM_NAME, Text.of(currentName))
-                anvil.slots[AnvilScreenHandler.INPUT_1_ID].stack = nameTag
-
-                anvil.setNewItemName(currentName)
-                anvil.updateResult()
-
-                return anvil
-            }
-
-            override fun getDisplayName(): Text =
-                Translator.tr("ui.create.rename.title") ?: Text.literal("Rename Community")
-        })
+    override fun onNameChanged(newName: String?) {
+        renameHandler.setNewName(newName)
     }
+
+    override fun onConfirmRename() {
+        renameHandler.processRenameClose(player, initialName, currentShape, isManor)
+    }
+
+    override fun getMenuTitle(): String = "ui.create.rename.title"
 }
