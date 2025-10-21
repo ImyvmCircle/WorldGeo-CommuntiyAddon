@@ -3,6 +3,7 @@
 
   "community.notfound.name": "Community with name {0} not found.",
   "community.notfound.id": "Community with id {0} not found.",
+  "community.not_found.region": "Error: Corresponding region of community {0} is not found.",
 
   "community.create.money.checked": "You to payed {0} for creating a community.",
   "community.create.money.error": "You have not enough money for creating a community, which charges {0} for type you choose.",
