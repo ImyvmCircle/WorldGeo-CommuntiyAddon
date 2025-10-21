@@ -1,7 +1,6 @@
 package com.imyvm.community.inter.screen
 
 import com.imyvm.community.inter.screen.component.ReadOnlySlot
-import com.imyvm.community.util.Translator
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
@@ -21,8 +20,10 @@ abstract class AbstractRenameMenuAnvil(
     protected val initialName: String
 ) {
     private var newName: String? = null
-    protected abstract fun onConfirmRename(finalName: String)
-    protected abstract fun getMenuTitle(): String
+    private var hasConfirmed = false
+
+    protected abstract fun reopenMenu(finalName: String)
+    protected abstract fun getMenuTitle(): Text
 
     fun open() {
         player.openHandledScreen(object : NamedScreenHandlerFactory {
@@ -45,9 +46,10 @@ abstract class AbstractRenameMenuAnvil(
                     }
 
                     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
-                        if (slotIndex == OUTPUT_ID) {
+                        if (slotIndex == OUTPUT_ID && !hasConfirmed) {
+                            hasConfirmed = true
                             val finalName = newName?.trim()?.takeIf { it.isNotEmpty() } ?: initialName
-                            onConfirmRename(finalName)
+                            reopenMenu(finalName)
                         }
                     }
                 }
@@ -61,8 +63,7 @@ abstract class AbstractRenameMenuAnvil(
                 return anvil
             }
 
-            override fun getDisplayName(): Text =
-                Translator.tr(getMenuTitle()) ?: Text.literal("Rename")
+            override fun getDisplayName(): Text = getMenuTitle()
         })
     }
 }

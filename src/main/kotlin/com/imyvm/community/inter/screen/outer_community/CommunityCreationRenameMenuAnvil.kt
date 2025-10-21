@@ -4,6 +4,7 @@ import com.imyvm.community.application.interaction.screen.outer_community.Commun
 import com.imyvm.community.inter.screen.AbstractRenameMenuAnvil
 import com.imyvm.iwg.domain.Region
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
 
 class CommunityCreationRenameMenuAnvil(
     player: ServerPlayerEntity,
@@ -13,9 +14,8 @@ class CommunityCreationRenameMenuAnvil(
     private val renameHandler: CommunityCreationRenameMenuHandlerAnvil = CommunityCreationRenameMenuHandlerAnvil()
 ) : AbstractRenameMenuAnvil(player, initialName) {
 
-    override fun onConfirmRename(finalName: String) {
+    override fun reopenMenu(finalName: String) =
         renameHandler.processRenameClose(player, finalName, currentShape, isManor)
-    }
 
-    override fun getMenuTitle(): String = "ui.create.rename.title"
+    override fun getMenuTitle(): Text = renameHandler.getTitle()
 }
