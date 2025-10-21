@@ -7,9 +7,9 @@ import com.imyvm.iwg.domain.Region
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-class CommunityCreationRenameMenuHandlerAnvil {
+class CommunityCreationRenameMenuAnvilHandler {
 
-    fun processRenameClose(player: ServerPlayerEntity, newName: String, shape: Region.Companion.GeoShapeType, isManor: Boolean) {
+    fun reopenCreationMenu(player: ServerPlayerEntity, newName: String, shape: Region.Companion.GeoShapeType, isManor: Boolean) {
         CommunityMenuOpener.open(player, null) { newSyncId, _ ->
             CommunityCreationMenu(newSyncId, newName, shape, isManor, player)
         }

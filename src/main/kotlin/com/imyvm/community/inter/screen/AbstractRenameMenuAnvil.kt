@@ -22,7 +22,7 @@ abstract class AbstractRenameMenuAnvil(
     private var newName: String? = null
     private var hasConfirmed = false
 
-    protected abstract fun reopenMenu(finalName: String)
+    protected abstract fun processRenamingByNewName(finalName: String)
     protected abstract fun getMenuTitle(): Text
 
     fun open() {
@@ -49,7 +49,7 @@ abstract class AbstractRenameMenuAnvil(
                         if (slotIndex == OUTPUT_ID && !hasConfirmed) {
                             hasConfirmed = true
                             val finalName = newName?.trim()?.takeIf { it.isNotEmpty() } ?: initialName
-                            reopenMenu(finalName)
+                            processRenamingByNewName(finalName)
                         }
                     }
                 }
