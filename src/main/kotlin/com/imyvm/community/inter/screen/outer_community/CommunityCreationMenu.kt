@@ -20,10 +20,7 @@ class CommunityCreationMenu(
     playerEntity: ServerPlayerEntity
 ) : AbstractMenu(
     syncId,
-    menuTitle = (Text.of(currentName
-            + generateCreationError(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity))
-        ?: Translator.tr("ui.create.title",
-            generateCreationError(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity)))
+    menuTitle = createMenuTitle(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity),
 ) {
     init {
         addButton(
@@ -47,7 +44,7 @@ class CommunityCreationMenu(
         addButton(
             slot = 16,
             name = if (isCurrentCommunityTypeManor) Translator.tr("ui.create.button.type.manor")?.string ?: "Manor"
-                else Translator.tr("ui.create.button.type.realm")?.string ?: "Realm",
+            else Translator.tr("ui.create.button.type.realm")?.string ?: "Realm",
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
         ) { runSwitchCommunityType(it, currentName, currentShape, isCurrentCommunityTypeManor) }
 
@@ -56,5 +53,17 @@ class CommunityCreationMenu(
             name = Translator.tr("ui.create.button.confirm")?.string ?: "Confirm Creation",
             item = Items.EMERALD_BLOCK
         ) { runConfirmCommunityCreation(it, currentName, currentShape, isCurrentCommunityTypeManor) }
+    }
+
+    companion object {
+        private fun createMenuTitle(
+            currentName: String,
+            currentShape: Region.Companion.GeoShapeType,
+            isCurrentCommunityTypeManor: Boolean,
+            playerEntity: ServerPlayerEntity
+        ): Text {
+            val error = generateCreationError(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity)
+            return Text.of(currentName + if (error.isNotEmpty()) " ($error)" else "")
+        }
     }
 }
