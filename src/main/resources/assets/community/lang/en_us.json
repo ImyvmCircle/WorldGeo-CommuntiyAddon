@@ -103,6 +103,10 @@
   "ui.community.button.interaction.invite": "Invite Member",
   "ui.community.button.interaction.operations": "Community Operations",
 
+  "ui.community.operation.title": "Community Operation",
+
+  "ui.community.operation.rename.title": "Community Rename",
+
   "ui.button.close": "Close",
   "ui.button.close.feedback" : "Closed the community management interface."
 }

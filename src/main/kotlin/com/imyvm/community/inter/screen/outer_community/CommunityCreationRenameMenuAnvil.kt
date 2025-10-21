@@ -14,7 +14,7 @@ class CommunityCreationRenameMenuAnvil(
     private val renameHandler: CommunityCreationRenameMenuAnvilHandler = CommunityCreationRenameMenuAnvilHandler()
 ) : AbstractRenameMenuAnvil(player, initialName) {
 
-    override fun processRenamingByNewName(finalName: String) =
+    override fun processRenaming(finalName: String) =
         renameHandler.reopenCreationMenu(player, finalName, currentShape, isManor)
 
     override fun getMenuTitle(): Text = renameHandler.getTitle()

@@ -14,8 +14,9 @@ class CommunityOperationRenameMenuAnvil(
     player = player,
     initialName = community.regionNumberId?.let { RegionDataApi.getRegion(it)?.name } ?: "Unknown Name"
 ) {
-    override fun processRenamingByNewName(finalName: String) =
-        renameHandler.reopenOperationMenuWithNewName(player = player, community = community)
+    override fun processRenaming(finalName: String) {
+        renameHandler.handleProcessRename(player, community, finalName)
+    }
 
     override fun getMenuTitle() = renameHandler.getTitle()
 
