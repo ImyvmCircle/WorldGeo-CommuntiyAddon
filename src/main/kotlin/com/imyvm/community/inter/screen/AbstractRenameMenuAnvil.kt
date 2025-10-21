@@ -20,8 +20,8 @@ abstract class AbstractRenameMenuAnvil(
     protected val player: ServerPlayerEntity,
     protected val initialName: String
 ) {
-    protected abstract fun onNameChanged(newName: String?)
-    protected abstract fun onConfirmRename()
+    private var newName: String? = null
+    protected abstract fun onConfirmRename(finalName: String)
     protected abstract fun getMenuTitle(): String
 
     fun open() {
@@ -40,13 +40,14 @@ abstract class AbstractRenameMenuAnvil(
                     override fun canUse(player: PlayerEntity?) = true
 
                     override fun setNewItemName(name: String?): Boolean {
-                        onNameChanged(name)
+                        newName = name
                         return super.setNewItemName(name)
                     }
 
                     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
                         if (slotIndex == OUTPUT_ID) {
-                            onConfirmRename()
+                            val finalName = newName?.trim()?.takeIf { it.isNotEmpty() } ?: initialName
+                            onConfirmRename(finalName)
                         }
                     }
                 }

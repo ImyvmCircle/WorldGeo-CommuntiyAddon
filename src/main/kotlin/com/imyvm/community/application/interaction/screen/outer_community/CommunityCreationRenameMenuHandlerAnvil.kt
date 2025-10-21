@@ -1,21 +1,16 @@
-package com.imyvm.community.application.interaction.screen
+package com.imyvm.community.application.interaction.screen.outer_community
 
+import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.inter.screen.outer_community.CommunityCreationMenu
 import com.imyvm.iwg.domain.Region
 import net.minecraft.server.network.ServerPlayerEntity
 
-class RenameMenuHandlerAnvil {
-    private var capturedName: String = ""
+class CommunityCreationRenameMenuHandlerAnvil {
     private var shouldReopen: Boolean = true
 
-    fun setNewName(name: String?) {
-        capturedName = name?.trim() ?: ""
-    }
-
-    fun processRenameClose(player: ServerPlayerEntity, currentName: String, shape: Region.Companion.GeoShapeType, isManor: Boolean) {
+    fun processRenameClose(player: ServerPlayerEntity, newName: String, shape: Region.Companion.GeoShapeType, isManor: Boolean) {
         if (shouldReopen) {
             shouldReopen = false
-            val newName = capturedName.takeIf { it.isNotEmpty() } ?: currentName
             reopenCommunityCreation(player, newName, shape, isManor)
         }
     }

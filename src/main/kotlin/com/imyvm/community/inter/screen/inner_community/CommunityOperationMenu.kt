@@ -7,7 +7,7 @@ import com.imyvm.community.util.Translator
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-class OperationMenu(
+class CommunityOperationMenu(
     syncId: Int,
     community: Community,
     player: ServerPlayerEntity
