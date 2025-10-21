@@ -48,7 +48,7 @@ abstract class AbstractRenameMenuAnvil(
                     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
                         if (slotIndex == OUTPUT_ID && !hasConfirmed) {
                             hasConfirmed = true
-                            val finalName = newName?.trim()?.takeIf { it.isNotEmpty() } ?: initialName
+                            val finalName = newName?.trim()?.takeIf { it.isNotEmpty() } ?: ""
                             processRenaming(finalName)
                         }
                     }
