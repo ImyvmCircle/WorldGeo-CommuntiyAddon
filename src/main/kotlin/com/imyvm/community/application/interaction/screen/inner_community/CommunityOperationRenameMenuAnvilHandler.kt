@@ -24,7 +24,7 @@ class CommunityOperationRenameMenuAnvilHandler {
     }
 
     private fun renameCommunity(player: ServerPlayerEntity, community: Community, newName: String): Int {
-        return onCommunityRegionInteraction(player, community) { p, c, region ->
+        return onCommunityRegionInteraction(player, community) { p, _, region ->
             PlayerInteractionApi.renameRegion(p, region, newName)
         }
     }
