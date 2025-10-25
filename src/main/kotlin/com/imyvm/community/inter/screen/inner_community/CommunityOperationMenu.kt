@@ -4,6 +4,7 @@ import com.imyvm.community.application.interaction.screen.inner_community.runOPR
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
@@ -23,20 +24,43 @@ class CommunityOperationMenu(
         addButton(
             slot = 10,
             name = Translator.tr("ui.community.operation.button.name")?.string ?: "Community Name",
-            item = net.minecraft.item.Items.NAME_TAG
+            item = Items.NAME_TAG
         ) { runOPRenameCommunity(player, community) }
 
         addButton(
             slot = 11,
             name = Translator.tr("ui.community.operation.button.members")?.string ?: "Manage Members",
-            item = net.minecraft.item.Items.PLAYER_HEAD
+            item = Items.PLAYER_HEAD
         ){}
 
         addButton(
             slot = 12,
-            name = Translator.tr("ui.community.operation.button.audit")?.string ?: "Community Settings",
-            item = net.minecraft.item.Items.REDSTONE_TORCH
+            name = Translator.tr("ui.community.operation.button.audit")?.string ?: "Community Audit",
+            item = Items.REDSTONE_TORCH
         ){}
 
+        addButton(
+            slot = 13,
+            name = Translator.tr("ui.community.operation.button.scope")?.string ?: "Scope",
+            item = Items.MAP
+        ){}
+
+        addButton(
+            slot = 14,
+            name = Translator.tr("ui.community.operation.button.announcement")?.string ?: "Announcement",
+            item = Items.PAPER
+        ) {}
+
+        addButton(
+            slot = 15,
+            name = Translator.tr("ui.community.operation.button.advancement")?.string ?: "Advancement",
+            item = Items.ITEM_FRAME
+        ) {}
+
+        addButton(
+            slot = 16,
+            name = Translator.tr("ui.community.operation.button.assets")?.string ?: "Assets",
+            item = Items.EMERALD_ORE
+        ) {}
     }
 }
