@@ -2,9 +2,13 @@ package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
+import com.imyvm.community.inter.screen.component.createPlayerHeadItem
+import com.imyvm.iwg.util.translator.resolvePlayerName
+import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import java.util.*
 
 class CommunityOperationMemberListMenu(
     syncId: Int,
@@ -15,16 +19,28 @@ class CommunityOperationMemberListMenu(
     menuTitle = generateCommunityMemberListMenuTitle(community)
 ) {
     init {
-        addOwnerButton()
+        addOwnerButton(community, player)
         addAdminButtons()
         addMemberButtons()
     }
 
-    private fun addOwnerButton(){
+    private fun addOwnerButton(community: Community, player: ServerPlayerEntity){
         addButton(
             slot = 10,
             name = "Owner:",
             item = Items.COMMAND_BLOCK
+        ) {}
+
+        val ownerUUID = getOwnerUUID(community)
+        val ownerName = getOwnerName(ownerUUID, player)
+        addButton(
+            slot = 12,
+            name = ownerName,
+            itemStack = if (ownerName != null) {
+                createPlayerHeadItem(ownerName, ownerUUID!!)
+            } else {
+                ItemStack(Items.PLAYER_HEAD)
+            }
         ) {}
     }
 
@@ -42,6 +58,20 @@ class CommunityOperationMemberListMenu(
             name = "Members:",
             item = Items.VILLAGER_SPAWN_EGG
         ) {}
+    }
+
+    private fun getOwnerUUID(community: Community): UUID? {
+        return community.member.entries.filter { it.value.name == "OWNER" }
+            .map { it.key }
+            .firstOrNull()
+    }
+
+    @Deprecated(
+        message = "Temporary implementation. Use getPlayerName() after dependency upgrade",
+        replaceWith = ReplaceWith("getPlayerName(player, ownerUUID)")
+    )
+    private fun getOwnerName(ownerUUID: UUID?, player: ServerPlayerEntity): String? {
+        return player.getServer()?.let { resolvePlayerName(it, ownerUUID) }
     }
 
    companion object {
