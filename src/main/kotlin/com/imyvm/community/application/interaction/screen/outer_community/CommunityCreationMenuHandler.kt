@@ -28,7 +28,7 @@ fun runSwitchCommunityShape(
         Region.Companion.GeoShapeType.UNKNOWN -> Region.Companion.GeoShapeType.RECTANGLE
     }
 
-    CommunityMenuOpener.open(player, null) { syncId, _ ->
+    CommunityMenuOpener.open(player) { syncId ->
         CommunityCreationMenu(syncId, communityName, newType, isManor, player)
     }
 }
@@ -39,7 +39,7 @@ fun runSwitchCommunityType(
     geoShapeType: Region.Companion.GeoShapeType,
     isManor: Boolean
 ){
-    CommunityMenuOpener.open(player, null) { syncId, _ ->
+    CommunityMenuOpener.open(player) { syncId ->
         CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor, player)
     }
 }

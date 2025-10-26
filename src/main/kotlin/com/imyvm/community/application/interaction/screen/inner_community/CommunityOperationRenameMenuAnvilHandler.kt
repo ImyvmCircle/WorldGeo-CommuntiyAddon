@@ -30,7 +30,7 @@ class CommunityOperationRenameMenuAnvilHandler {
     }
 
     private fun reopenOperationMenuWithNewName(player: ServerPlayerEntity, community: Community) {
-        CommunityMenuOpener.open(player, null) { newSyncId, _ ->
+        CommunityMenuOpener.open(player) { newSyncId ->
             CommunityOperationMenu(newSyncId, community, player)
         }
     }

@@ -13,24 +13,22 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 object CommunityMenuOpener {
-    fun <C, M : AbstractMenu> open(
+    fun <M : AbstractMenu> open(
         player: ServerPlayerEntity,
-        content: C? = null,
-        handlerFactory: (syncId: Int, content: C?) -> M
+        handlerFactory: (syncId: Int) -> M
     ) {
         player.openHandledScreen(object : NamedScreenHandlerFactory {
             override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity): M =
-                handlerFactory(syncId, content)
+                handlerFactory(syncId)
 
             override fun getDisplayName(): Text? =
-                handlerFactory(0, content).menuTitle
+                handlerFactory(0).menuTitle
         })
     }
 
     fun openCommunityMenu(player: ServerPlayerEntity, community: Community) {
         val content: Pair<ServerPlayerEntity, Community> = player to community
-        open(player, content) { syncId, c ->
-            CommunityMenu(syncId, c!!)
+        open(player) { syncId -> CommunityMenu(syncId, content)
         }
     }
 

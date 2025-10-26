@@ -6,7 +6,6 @@ import com.imyvm.community.inter.screen.outer_community.CommunityListMenu
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun runSwitchFilterMode(player: ServerPlayerEntity, mode: CommunityListFilterType) {
-    CommunityMenuOpener.open(player, mode) { syncId, _ ->
-        CommunityListMenu(syncId, mode)
+    CommunityMenuOpener.open(player) { syncId -> CommunityListMenu(syncId, mode)
     }
 }

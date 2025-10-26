@@ -10,7 +10,7 @@ import net.minecraft.text.Text
 class CommunityCreationRenameMenuAnvilHandler {
 
     fun reopenCreationMenu(player: ServerPlayerEntity, newName: String, shape: Region.Companion.GeoShapeType, isManor: Boolean) {
-        CommunityMenuOpener.open(player, null) { newSyncId, _ ->
+        CommunityMenuOpener.open(player) { newSyncId ->
             CommunityCreationMenu(newSyncId, newName, shape, isManor, player)
         }
     }

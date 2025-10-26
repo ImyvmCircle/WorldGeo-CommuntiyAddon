@@ -10,7 +10,7 @@ fun runOPRenameCommunity(player: ServerPlayerEntity, community: Community){
 }
 
 fun runOpManageMembers(player: ServerPlayerEntity, community: Community){
-    CommunityMenuOpener.open(player, null) { syncId, _ ->
+    CommunityMenuOpener.open(player) { syncId ->
         CommunityOperationMemberListMenu(syncId, community, player)
     }
 }

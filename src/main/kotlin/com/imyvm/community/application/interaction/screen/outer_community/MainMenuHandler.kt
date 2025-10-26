@@ -15,8 +15,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 fun runList(player: ServerPlayerEntity) {
     val mode = CommunityListFilterType.JOIN_ABLE
-    CommunityMenuOpener.open(player, CommunityListFilterType.JOIN_ABLE) { syncId, _ ->
-        CommunityListMenu(syncId, mode)
+    CommunityMenuOpener.open(player) { syncId -> CommunityListMenu(syncId, mode)
     }
 }
 
@@ -24,7 +23,7 @@ fun runCreate(player: ServerPlayerEntity){
     if (!checkPointSelectingCreating(player)) return
     if (!checkPlayerMembershipPreCreation(player)) return
     val defaultTitle = generateNewCommunityTitle()
-    CommunityMenuOpener.open(player, null) { syncId, _ ->
+    CommunityMenuOpener.open(player) { syncId ->
         CommunityCreationMenu(syncId, currentName = defaultTitle, playerEntity = player)
     }
 }
@@ -47,8 +46,7 @@ fun runMyCommunity(player: ServerPlayerEntity) {
 
         else -> {
             val content: List<Community> = joinedCommunities.toList()
-            CommunityMenuOpener.open(player, content) { syncId, c ->
-                MyCommunityListMenu(syncId, c!!)
+            CommunityMenuOpener.open(player) { syncId -> MyCommunityListMenu(syncId, content)
             }
         }
     }
