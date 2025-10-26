@@ -28,7 +28,7 @@ class Community(
     }
 
     fun getFormattedFoundingTime(): String {
-        val foundingTimeMillis = this.regionNumberId?.let { parseFoundingTimeFromRegionId(it) }
+        val foundingTimeMillis = this.regionNumberId?.let { parseRegionFoundingTime(it) }
 
         val timezone = TIMEZONE.value
         val zoneId = ZoneId.of(timezone)
@@ -54,5 +54,12 @@ class Community(
 
     fun getMemberRole(playerUuid: UUID): CommunityRole? {
         return member[playerUuid]
+    }
+
+    @Deprecated("Temporary workaround. Will be replaced by UtilApi.parseRegionFoundingTime()",
+        ReplaceWith("UtilApi.parseRegionFoundingTime(regionNumberId)")
+    )
+    private fun parseRegionFoundingTime(regionNumberId: Int): Long {
+        return parseFoundingTimeFromRegionId(regionNumberId)
     }
 }

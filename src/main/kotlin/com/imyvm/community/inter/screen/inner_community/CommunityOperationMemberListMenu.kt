@@ -67,8 +67,8 @@ class CommunityOperationMemberListMenu(
     }
 
     @Deprecated(
-        message = "Temporary implementation. Use getPlayerName() after dependency upgrade",
-        replaceWith = ReplaceWith("getPlayerName(player, ownerUUID)")
+        message = "Temporary implementation. Use UtilApi.getPlayerName() after dependency upgrade",
+        replaceWith = ReplaceWith("UtilApi.getPlayerName(player, ownerUUID)")
     )
     private fun getOwnerName(ownerUUID: UUID?, player: ServerPlayerEntity): String? {
         return player.getServer()?.let { resolvePlayerName(it, ownerUUID) }
