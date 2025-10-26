@@ -2,6 +2,7 @@ package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.inner_community.runOPRenameCommunity
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.community.CommunityJoinPolicy
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
@@ -21,6 +22,11 @@ class CommunityOperationMenu(
     )
 ){
     init {
+        addStaticButtons(player, community)
+        addChangeableButtons(player, community)
+    }
+
+    private fun addStaticButtons(player: ServerPlayerEntity, community: Community) {
         addButton(
             slot = 10,
             name = Translator.tr("ui.community.operation.button.name")?.string ?: "Community Name",
@@ -61,6 +67,19 @@ class CommunityOperationMenu(
             slot = 16,
             name = Translator.tr("ui.community.operation.button.assets")?.string ?: "Assets",
             item = Items.EMERALD_ORE
+        ) {}
+    }
+
+    private fun addChangeableButtons(player: ServerPlayerEntity, community: Community) {
+        addButton(
+            slot = 19,
+            name = Translator.tr("ui.community.operation.button.join_policy")?.string
+                ?: ("Join Policy: " + community.joinPolicy.toString()),
+            item = when (community.joinPolicy) {
+                CommunityJoinPolicy.OPEN -> Items.GREEN_WOOL
+                CommunityJoinPolicy.APPLICATION -> Items.YELLOW_WOOL
+                CommunityJoinPolicy.INVITE_ONLY -> Items.RED_WOOL
+            }
         ) {}
     }
 }
