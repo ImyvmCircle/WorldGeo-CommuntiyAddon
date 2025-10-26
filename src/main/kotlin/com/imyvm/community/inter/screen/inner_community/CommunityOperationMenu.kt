@@ -1,6 +1,7 @@
 package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.inner_community.runOPRenameCommunity
+import com.imyvm.community.application.interaction.screen.inner_community.runOpManageMembers
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityJoinPolicy
 import com.imyvm.community.inter.screen.AbstractMenu
@@ -37,7 +38,7 @@ class CommunityOperationMenu(
             slot = 11,
             name = Translator.tr("ui.community.operation.button.members")?.string ?: "Manage Members",
             item = Items.PLAYER_HEAD
-        ){}
+        ) { runOpManageMembers(player, community) }
 
         addButton(
             slot = 12,
