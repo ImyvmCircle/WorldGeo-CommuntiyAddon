@@ -21,7 +21,7 @@ class CommunityOperationMemberListMenu(
     init {
         addOwnerButton(community, player)
         addAdminButtons(community, player)
-        addMemberButtons()
+        addMemberButtons(community, player)
     }
 
     private fun addOwnerButton(community: Community, player: ServerPlayerEntity) {
@@ -68,12 +68,27 @@ class CommunityOperationMemberListMenu(
 
     }
 
-    private fun addMemberButtons() {
+    private fun addMemberButtons(community: Community, player: ServerPlayerEntity) {
         addButton(
             slot = 28,
             name = "Members:",
             item = Items.VILLAGER_SPAWN_EGG
         ) {}
+
+        val memberUUIDs = getMemberUUIDs(community)
+        for (uuid in memberUUIDs) {
+            val memberName = resolveNameFromUUID(uuid, player)
+            val slotIndex = 30 + memberUUIDs.indexOf(uuid) * 2
+            addButton(
+                slot = slotIndex,
+                name = memberName ?: "Unknown Member",
+                itemStack = if (memberName != null) {
+                    createPlayerHeadItem(memberName, uuid)
+                } else {
+                    ItemStack(Items.PLAYER_HEAD)
+                }
+            ) {}
+        }
     }
 
     private fun getOwnerUUID(community: Community): UUID? {
@@ -84,6 +99,12 @@ class CommunityOperationMemberListMenu(
 
     private fun getAdminUUIDs(community: Community): List<UUID> {
         return community.member.entries.filter { it.value.name == "ADMIN" }.map { it.key }
+    }
+
+    private fun getMemberUUIDs(community: Community): List<UUID> {
+        return community.member.entries
+            .filter { it.value.name == "MEMBER" }
+            .map { it.key }
     }
 
     @Deprecated(
