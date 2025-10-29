@@ -31,7 +31,7 @@ class CommunityOperationMemberListMenu(
             item = Items.COMMAND_BLOCK
         ) {}
 
-        val ownerUUID = getOwnerUUID(community)
+        val ownerUUID = community.getOwnerUUID()
         val ownerName = resolveNameFromUUID(ownerUUID, player)
         addButton(
             slot = 12,
@@ -51,10 +51,10 @@ class CommunityOperationMemberListMenu(
             item = Items.COMMAND_BLOCK_MINECART
         ) {}
 
-        val adminUUIDs = getAdminUUIDs(community)
+        val adminUUIDs = community.getAdminUUIDs()
         for (uuid in adminUUIDs) {
             val adminName = resolveNameFromUUID(uuid, player)
-            val slotIndex = 21 + adminUUIDs.indexOf(uuid) * 2
+            val slotIndex = 21 + adminUUIDs.indexOf(uuid)
             addButton(
                 slot = slotIndex,
                 name = adminName ?: "Unknown Admin",
@@ -75,10 +75,10 @@ class CommunityOperationMemberListMenu(
             item = Items.VILLAGER_SPAWN_EGG
         ) {}
 
-        val memberUUIDs = getMemberUUIDs(community)
+        val memberUUIDs = community.getMemberUUIDs()
         for (uuid in memberUUIDs) {
             val memberName = resolveNameFromUUID(uuid, player)
-            val slotIndex = 30 + memberUUIDs.indexOf(uuid) * 2
+            val slotIndex = 30 + memberUUIDs.indexOf(uuid)
             addButton(
                 slot = slotIndex,
                 name = memberName ?: "Unknown Member",
@@ -89,22 +89,6 @@ class CommunityOperationMemberListMenu(
                 }
             ) {}
         }
-    }
-
-    private fun getOwnerUUID(community: Community): UUID? {
-        return community.member.entries.filter { it.value.name == "OWNER" }
-            .map { it.key }
-            .firstOrNull()
-    }
-
-    private fun getAdminUUIDs(community: Community): List<UUID> {
-        return community.member.entries.filter { it.value.name == "ADMIN" }.map { it.key }
-    }
-
-    private fun getMemberUUIDs(community: Community): List<UUID> {
-        return community.member.entries
-            .filter { it.value.name == "MEMBER" }
-            .map { it.key }
     }
 
     @Deprecated(

@@ -52,6 +52,22 @@ class Community(
         }
     }
 
+    fun getOwnerUUID(): UUID? {
+        return this.member.entries.filter { it.value.name == "OWNER" }
+            .map { it.key }
+            .firstOrNull()
+    }
+
+    fun getAdminUUIDs(): List<UUID> {
+        return this.member.entries.filter { it.value.name == "ADMIN" }.map { it.key }
+    }
+
+    fun getMemberUUIDs(): List<UUID> {
+        return this.member.entries
+            .filter { it.value.name == "MEMBER" }
+            .map { it.key }
+    }
+
     fun getMemberRole(playerUuid: UUID): CommunityRole? {
         return member[playerUuid]
     }
