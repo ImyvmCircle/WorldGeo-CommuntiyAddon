@@ -3,6 +3,7 @@ package com.imyvm.community.domain
 import com.imyvm.community.domain.community.CommunityJoinPolicy
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.domain.community.CommunityStatus
+import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityConfig.Companion.TIMEZONE
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.application.region.parseFoundingTimeFromRegionId
@@ -22,6 +23,18 @@ class Community(
     var joinPolicy: CommunityJoinPolicy,
     var status: CommunityStatus
 ) {
+    fun grantMemberRole(playerUuid: UUID, role: CommunityRole) {
+        if (role == CommunityRole.OWNER || role == CommunityRole.APPLICANT) {
+            throw IllegalArgumentException("Cannot grant OWNER or APPLICANT role through this method.")
+        } else if (role == CommunityRole.ADMIN) {
+            val currentAdmins = getAdminUUIDs()
+            if (currentAdmins.size >= CommunityConfig.MAX_NUMBER_ADMIN.value) {
+                throw IllegalStateException("Cannot grant ADMIN role: maximum number of admins reached.")
+            }
+        }
+
+        member[playerUuid] = role
+    }
 
     fun generateCommunityMark(): String {
         return RegionDataApi.getRegion(this.regionNumberId!!)?.name ?: "Community #${this.regionNumberId}"

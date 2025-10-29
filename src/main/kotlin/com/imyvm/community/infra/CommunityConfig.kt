@@ -135,5 +135,15 @@ class CommunityConfig : HokiConfig("Community.conf") {
         ) { obj, path ->
             obj.getInt(path)
         }
+
+        @JvmField
+        @ConfigOption
+        val MAX_NUMBER_ADMIN = Option(
+            "community.max_number_admin",
+            3,
+            "the maximum number of admins in a community."
+        ) { obj, path ->
+            obj.getInt(path)
+        }
     }
 }
