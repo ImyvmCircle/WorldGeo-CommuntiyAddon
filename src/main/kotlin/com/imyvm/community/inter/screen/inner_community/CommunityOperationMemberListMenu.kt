@@ -12,8 +12,8 @@ import java.util.*
 
 class CommunityOperationMemberListMenu(
     syncId: Int,
-    community: Community,
-    player: ServerPlayerEntity,
+    val community: Community,
+    val player: ServerPlayerEntity,
     private val page: Int = 0
 ) : AbstractMenu(
     syncId,
@@ -21,17 +21,17 @@ class CommunityOperationMemberListMenu(
 ) {
     init {
         if (page == 0) {
-            addOwnerButton(community, player)
-            addAdminButtons(community, player)
-            addMemberButtons(community, player)
+            addOwnerButton()
+            addAdminButtons()
+            addMemberButtons()
         } else {
-            addMemberButtons(community, player, page)
+            addMemberButtons()
         }
 
         addPageButtons()
     }
 
-    private fun addOwnerButton(community: Community, player: ServerPlayerEntity) {
+    private fun addOwnerButton() {
         addButton(
             slot = 10,
             name = "Owner:",
@@ -51,7 +51,7 @@ class CommunityOperationMemberListMenu(
         ) {}
     }
 
-    private fun addAdminButtons(community: Community, player: ServerPlayerEntity) {
+    private fun addAdminButtons() {
         addButton(
             slot = 19,
             name = "Admins:",
@@ -75,7 +75,7 @@ class CommunityOperationMemberListMenu(
 
     }
 
-    private fun addMemberButtons(community: Community, player: ServerPlayerEntity, page: Int = 0) {
+    private fun addMemberButtons() {
         addButton(
             slot = 28,
             name = "Members:",
