@@ -42,6 +42,7 @@ private fun handleExpiredOperation(
             promoteCommunityIfEligible(regionId, community)
             removeExpiredApplication(regionId, community, server)
         }
+
         else -> {
             WorldGeoCommunityAddon.logger.info(
                 "Unhandled expired operation type: ${operation.type} for community $regionId"

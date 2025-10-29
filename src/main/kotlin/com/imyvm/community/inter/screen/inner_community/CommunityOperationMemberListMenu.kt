@@ -14,17 +14,17 @@ class CommunityOperationMemberListMenu(
     syncId: Int,
     community: Community,
     player: ServerPlayerEntity
-): AbstractMenu(
+) : AbstractMenu(
     syncId,
     menuTitle = generateCommunityMemberListMenuTitle(community)
 ) {
     init {
         addOwnerButton(community, player)
-        addAdminButtons()
+        addAdminButtons(community, player)
         addMemberButtons()
     }
 
-    private fun addOwnerButton(community: Community, player: ServerPlayerEntity){
+    private fun addOwnerButton(community: Community, player: ServerPlayerEntity) {
         addButton(
             slot = 10,
             name = "Owner:",
@@ -32,7 +32,7 @@ class CommunityOperationMemberListMenu(
         ) {}
 
         val ownerUUID = getOwnerUUID(community)
-        val ownerName = getOwnerName(ownerUUID, player)
+        val ownerName = resolveNameFromUUID(ownerUUID, player)
         addButton(
             slot = 12,
             name = ownerName,
@@ -44,15 +44,31 @@ class CommunityOperationMemberListMenu(
         ) {}
     }
 
-    private fun addAdminButtons(){
+    private fun addAdminButtons(community: Community, player: ServerPlayerEntity) {
         addButton(
             slot = 19,
             name = "Admins:",
             item = Items.COMMAND_BLOCK_MINECART
         ) {}
+
+        val adminUUIDs = getAdminUUIDs(community)
+        for (uuid in adminUUIDs) {
+            val adminName = resolveNameFromUUID(uuid, player)
+            val slotIndex = 21 + adminUUIDs.indexOf(uuid) * 2
+            addButton(
+                slot = slotIndex,
+                name = adminName ?: "Unknown Admin",
+                itemStack = if (adminName != null) {
+                    createPlayerHeadItem(adminName, uuid)
+                } else {
+                    ItemStack(Items.PLAYER_HEAD)
+                }
+            ) {}
+        }
+
     }
 
-    private fun addMemberButtons(){
+    private fun addMemberButtons() {
         addButton(
             slot = 28,
             name = "Members:",
@@ -66,17 +82,21 @@ class CommunityOperationMemberListMenu(
             .firstOrNull()
     }
 
+    private fun getAdminUUIDs(community: Community): List<UUID> {
+        return community.member.entries.filter { it.value.name == "ADMIN" }.map { it.key }
+    }
+
     @Deprecated(
         message = "Temporary implementation. Use UtilApi.getPlayerName() after dependency upgrade",
         replaceWith = ReplaceWith("UtilApi.getPlayerName(player, ownerUUID)")
     )
-    private fun getOwnerName(ownerUUID: UUID?, player: ServerPlayerEntity): String? {
+    private fun resolveNameFromUUID(ownerUUID: UUID?, player: ServerPlayerEntity): String? {
         return player.getServer()?.let { resolvePlayerName(it, ownerUUID) }
     }
 
-   companion object {
-       fun generateCommunityMemberListMenuTitle(community: Community): Text =
-           Text.of(community.generateCommunityMark() + " - Member List")
-   }
+    companion object {
+        fun generateCommunityMemberListMenuTitle(community: Community): Text =
+            Text.of(community.generateCommunityMark() + " - Member List")
+    }
 
 }
