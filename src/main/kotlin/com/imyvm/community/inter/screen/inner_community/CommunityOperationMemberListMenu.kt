@@ -13,15 +13,22 @@ import java.util.*
 class CommunityOperationMemberListMenu(
     syncId: Int,
     community: Community,
-    player: ServerPlayerEntity
+    player: ServerPlayerEntity,
+    private val page: Int = 0
 ) : AbstractMenu(
     syncId,
     menuTitle = generateCommunityMemberListMenuTitle(community)
 ) {
     init {
-        addOwnerButton(community, player)
-        addAdminButtons(community, player)
-        addMemberButtons(community, player)
+        if (page == 0) {
+            addOwnerButton(community, player)
+            addAdminButtons(community, player)
+            addMemberButtons(community, player)
+        } else {
+            addMemberButtons(community, player, page)
+        }
+
+        addPageButtons()
     }
 
     private fun addOwnerButton(community: Community, player: ServerPlayerEntity) {
@@ -68,7 +75,7 @@ class CommunityOperationMemberListMenu(
 
     }
 
-    private fun addMemberButtons(community: Community, player: ServerPlayerEntity) {
+    private fun addMemberButtons(community: Community, player: ServerPlayerEntity, page: Int = 0) {
         addButton(
             slot = 28,
             name = "Members:",
@@ -89,6 +96,10 @@ class CommunityOperationMemberListMenu(
                 }
             ) {}
         }
+    }
+
+    private fun addPageButtons(){
+
     }
 
     @Deprecated(
