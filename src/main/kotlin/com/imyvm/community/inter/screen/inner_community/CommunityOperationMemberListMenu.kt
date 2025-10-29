@@ -103,5 +103,4 @@ class CommunityOperationMemberListMenu(
         fun generateCommunityMemberListMenuTitle(community: Community): Text =
             Text.of(community.generateCommunityMark() + " - Member List")
     }
-
 }

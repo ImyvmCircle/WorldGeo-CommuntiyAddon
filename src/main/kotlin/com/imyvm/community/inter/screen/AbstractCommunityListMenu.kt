@@ -39,7 +39,7 @@ abstract class AbstractCommunityListMenu(
                 onCommunityButtonClick(player, community)
             }
 
-            slot++
+            slot = incrementSlot(slot)
             if (slot > endSlot) break
         }
     }
@@ -62,6 +62,11 @@ abstract class AbstractCommunityListMenu(
                 openNewPage(it, page + 1)
             }
         }
+    }
+
+    private fun incrementSlot(slot: Int): Int {
+        return if ((slot + 1) % 9 == 8) slot + 3
+        else slot + 1
     }
 
     private fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
