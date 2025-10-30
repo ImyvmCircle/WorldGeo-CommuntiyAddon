@@ -7,12 +7,8 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.inter.screen.AbstractCommunityListMenu
 import com.imyvm.community.util.Translator
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Items
-import net.minecraft.screen.NamedScreenHandlerFactory
-import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
 
 class CommunityListMenu(
     syncId: Int,
@@ -26,8 +22,8 @@ class CommunityListMenu(
         addModeButtons()
     }
 
-    override fun createNewMenu(newPage: Int): NamedScreenHandlerFactory {
-        return CommunityListMenuFactory(mode, newPage)
+    override fun createNewMenu(syncId: Int, newPage: Int): AbstractCommunityListMenu {
+        return CommunityListMenu(syncId, mode, newPage)
     }
 
     override fun getCommunities(): List<Community> = filterCommunitiesByType(mode)
@@ -62,17 +58,4 @@ class CommunityListMenu(
             ) { runSwitchFilterMode(it, filterType) }
         }
     }
-}
-
-class CommunityListMenuFactory(
-    private val mode: CommunityListFilterType,
-    private val page: Int
-) : NamedScreenHandlerFactory {
-
-    override fun createMenu(syncId: Int, inv: net.minecraft.entity.player.PlayerInventory, player: PlayerEntity): ScreenHandler {
-        return CommunityListMenu(syncId, mode, page)
-    }
-
-    override fun getDisplayName(): Text =
-        Translator.tr("ui.list.title") ?: Text.literal("Community List")
 }

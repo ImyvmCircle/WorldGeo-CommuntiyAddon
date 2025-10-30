@@ -4,7 +4,6 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
-import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import java.util.*
@@ -51,10 +50,10 @@ abstract class AbstractCommunityListMenu(
     }
 
     override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
-        player.openHandledScreen(createNewMenu(newPage))
+        CommunityMenuOpener.open(player) { syncId -> createNewMenu(syncId, newPage) }
     }
 
-    protected abstract fun createNewMenu(newPage: Int): NamedScreenHandlerFactory
+    protected abstract fun createNewMenu(syncId: Int, newPage: Int): AbstractListMenu
 
     private fun addPlayerHeadButton(slot: Int, name: String, uuid: UUID, onClick: (ServerPlayerEntity) -> Unit) {
         addButton(slot = slot, name = name, itemStack = createPlayerHeadItem(name, uuid), onClick = onClick)
