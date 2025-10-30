@@ -108,6 +108,8 @@
 
   "ui.community.operation.rename.title": "Community Rename",
 
-  "ui.button.close": "Close",
-  "ui.button.close.feedback" : "Closed the community management interface."
+  "ui.general.list.prev": "Previous Page",
+  "ui.general.list.next": "Next Page",
+  "ui.general.button.close": "Close",
+  "ui.general.button.close.feedback": "Closed the community management interface."
 }

@@ -72,7 +72,7 @@ abstract class AbstractMenu(
     private fun addDefaultCloseButton() {
         addButton(
             slot = 53,
-            name = Translator.tr("ui.button.close")?.string ?: "Close",
+            name = Translator.tr("ui.general.button.close")?.string ?: "Close",
             item = Items.BARRIER
         ) { player ->
             runClose(player)
@@ -81,7 +81,7 @@ abstract class AbstractMenu(
 
     private fun runClose(player: ServerPlayerEntity) {
         player.closeHandledScreen()
-        player.sendMessage(Translator.tr("ui.button.close.feedback"))
+        player.sendMessage(Translator.tr("ui.general.button.close.feedback"))
     }
 
     override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
