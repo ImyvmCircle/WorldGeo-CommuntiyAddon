@@ -55,7 +55,7 @@ abstract class AbstractMenu(
         inventory.setStack(slot, itemStack)
     }
 
-   fun slotIncrement(slot: Int): Int {
+   fun incrementSlotIndex(slot: Int): Int {
         var newSlot = slot + 1
         while (newSlot % 9 == 0) {
             newSlot += 1

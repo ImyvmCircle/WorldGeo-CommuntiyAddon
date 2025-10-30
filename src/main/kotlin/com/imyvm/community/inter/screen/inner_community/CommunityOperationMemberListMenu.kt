@@ -1,8 +1,10 @@
 package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
+import com.imyvm.community.util.Translator
 import com.imyvm.iwg.util.translator.resolvePlayerName
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -19,6 +21,13 @@ class CommunityOperationMemberListMenu(
     syncId,
     menuTitle = generateCommunityMemberListMenuTitle(community)
 ) {
+
+    private val playersPerPage = 35
+    private val startSlot = 10
+    private val endSlot = 44
+    private val playersInPageZero = playersPerPage - 2 * 7
+    private val startSlotInPageZero = startSlot + 2 * 9 + 2
+
     init {
         if (page == 0) {
             addOwnerButton()
@@ -28,7 +37,7 @@ class CommunityOperationMemberListMenu(
             addMemberButtons()
         }
 
-        addPageButtons()
+        addPageButtons(community.getMemberUUIDs().size)
     }
 
     private fun addOwnerButton() {
@@ -83,9 +92,16 @@ class CommunityOperationMemberListMenu(
         ) {}
 
         val memberUUIDs = community.getMemberUUIDs()
-        for (uuid in memberUUIDs) {
+        val memberInPageList = if (page == 0) {
+            memberUUIDs.take(playersInPageZero)
+        } else {
+            memberUUIDs.drop((page - 1) * playersPerPage + playersInPageZero).take(playersPerPage)
+        }
+
+        var slotIndex = if (page == 0) startSlotInPageZero else startSlot
+        for (uuid in memberInPageList) {
             val memberName = resolveNameFromUUID(uuid, player)
-            val slotIndex = 30 + memberUUIDs.indexOf(uuid)
+
             addButton(
                 slot = slotIndex,
                 name = memberName ?: "Unknown Member",
@@ -95,11 +111,30 @@ class CommunityOperationMemberListMenu(
                     ItemStack(Items.PLAYER_HEAD)
                 }
             ) {}
+
+            slotIndex = super.incrementSlotIndex(slotIndex)
+            if (slotIndex > endSlot) break
         }
     }
 
-    private fun addPageButtons(){
+    private fun addPageButtons(memberListSize: Int){
+        val totalPages = (memberListSize + 2 * 7 + 2 + playersPerPage - 1 / playersPerPage)
 
+        if (page > 0) {
+            addButton(slot = 0, name = Translator.tr("ui.list.prev")?.string ?: "Previous", itemStack = ItemStack(Items.ARROW)) {
+                openNewPage(it, page - 1)
+            }
+        }
+
+        if (page < totalPages - 1) {
+            addButton(slot = 8, name = Translator.tr("ui.list.next")?.string ?: "Next", itemStack = ItemStack(Items.ARROW)) {
+                openNewPage(it, page + 1)
+            }
+        }
+    }
+
+    private fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
+        CommunityMenuOpener.open(player) { syncId -> CommunityOperationMemberListMenu(syncId, community, player, newPage)}
     }
 
     @Deprecated(

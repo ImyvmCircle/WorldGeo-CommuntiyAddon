@@ -28,8 +28,7 @@ object CommunityMenuOpener {
 
     fun openCommunityMenu(player: ServerPlayerEntity, community: Community) {
         val content: Pair<ServerPlayerEntity, Community> = player to community
-        open(player) { syncId -> CommunityMenu(syncId, content)
-        }
+        open(player) { syncId -> CommunityMenu(syncId, content) }
     }
 
     fun openCreationRenameAnvilMenu(

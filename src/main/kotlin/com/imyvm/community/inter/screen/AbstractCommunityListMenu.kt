@@ -39,7 +39,7 @@ abstract class AbstractCommunityListMenu(
                 onCommunityButtonClick(player, community)
             }
 
-            slot = super.slotIncrement(slot)
+            slot = super.incrementSlotIndex(slot)
             if (slot > endSlot) break
         }
     }
