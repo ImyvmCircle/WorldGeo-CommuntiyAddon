@@ -4,9 +4,6 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
-import com.imyvm.community.util.Translator
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -16,9 +13,10 @@ abstract class AbstractCommunityListMenu(
     syncId: Int,
     menuTitle: Text?,
     private val page: Int = 0
-) : AbstractMenu(
+) : AbstractListMenu(
     syncId,
-    menuTitle = menuTitle
+    menuTitle = menuTitle,
+    page
 ) {
 
     private val communitiesPerPage = 26
@@ -48,23 +46,11 @@ abstract class AbstractCommunityListMenu(
         CommunityMenuOpener.openCommunityMenu(player, community)
     }
 
-    fun addPageButtons() {
-        val totalPages = ((getCommunities().size) + communitiesPerPage - 1) / communitiesPerPage
-
-        if (page > 0) {
-            addButton(slot = 0, name = Translator.tr("ui.list.prev")?.string ?: "Previous", itemStack = ItemStack(Items.ARROW)) {
-                openNewPage(it, page - 1)
-            }
-        }
-
-        if (page < totalPages - 1) {
-            addButton(slot = 8, name = Translator.tr("ui.list.next")?.string ?: "Next", itemStack = ItemStack(Items.ARROW)) {
-                openNewPage(it, page + 1)
-            }
-        }
+    override fun calculateTotalPages(listSize: Int): Int {
+        return ((listSize + communitiesPerPage - 1) / communitiesPerPage)
     }
 
-    private fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
+    override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
         player.openHandledScreen(createNewMenu(newPage))
     }
 

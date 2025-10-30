@@ -22,7 +22,7 @@ class CommunityListMenu(
 
     init {
         addCommunityButtons()
-        addPageButtons()
+        handlePage(getCommunities().size)
         addModeButtons()
     }
 

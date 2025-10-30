@@ -2,9 +2,8 @@ package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
-import com.imyvm.community.inter.screen.AbstractMenu
+import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
-import com.imyvm.community.util.Translator
 import com.imyvm.iwg.util.translator.resolvePlayerName
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -17,9 +16,10 @@ class CommunityOperationMemberListMenu(
     val community: Community,
     val player: ServerPlayerEntity,
     private val page: Int = 0
-) : AbstractMenu(
+) : AbstractListMenu(
     syncId,
-    menuTitle = generateCommunityMemberListMenuTitle(community)
+    menuTitle = generateCommunityMemberListMenuTitle(community),
+    page
 ) {
 
     private val playersPerPage = 35
@@ -37,7 +37,7 @@ class CommunityOperationMemberListMenu(
             addMemberButtons()
         }
 
-        addPageButtons(community.getMemberUUIDs().size)
+        handlePage(community.getMemberUUIDs().size)
     }
 
     private fun addOwnerButton() {
@@ -117,23 +117,11 @@ class CommunityOperationMemberListMenu(
         }
     }
 
-    private fun addPageButtons(memberListSize: Int){
-        val totalPages = (memberListSize + 2 * 7 + 2 + playersPerPage - 1 / playersPerPage)
-
-        if (page > 0) {
-            addButton(slot = 0, name = Translator.tr("ui.list.prev")?.string ?: "Previous", itemStack = ItemStack(Items.ARROW)) {
-                openNewPage(it, page - 1)
-            }
-        }
-
-        if (page < totalPages - 1) {
-            addButton(slot = 8, name = Translator.tr("ui.list.next")?.string ?: "Next", itemStack = ItemStack(Items.ARROW)) {
-                openNewPage(it, page + 1)
-            }
-        }
+    override fun calculateTotalPages(listSize: Int): Int {
+        return (listSize + 2 * 7 + 2 + playersPerPage - 1 / playersPerPage)
     }
 
-    private fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
+    override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
         CommunityMenuOpener.open(player) { syncId -> CommunityOperationMemberListMenu(syncId, community, player, newPage)}
     }
 

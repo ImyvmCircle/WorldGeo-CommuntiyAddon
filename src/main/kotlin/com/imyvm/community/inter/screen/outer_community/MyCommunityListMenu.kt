@@ -17,7 +17,7 @@ class MyCommunityListMenu(
 
     init {
         addCommunityButtons()
-        addPageButtons()
+        handlePage(getCommunities().size)
     }
 
     override fun createNewMenu(newPage: Int): NamedScreenHandlerFactory {
