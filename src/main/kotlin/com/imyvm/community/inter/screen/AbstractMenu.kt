@@ -55,6 +55,14 @@ abstract class AbstractMenu(
         inventory.setStack(slot, itemStack)
     }
 
+   fun slotIncrement(slot: Int): Int {
+        var newSlot = slot + 1
+        while (newSlot % 9 == 0) {
+            newSlot += 1
+        }
+        return newSlot
+    }
+
     private fun createItem(name: Text, item: Item): ItemStack {
         val stack = ItemStack(item)
         stack.set(DataComponentTypes.CUSTOM_NAME, name)
