@@ -105,8 +105,20 @@
   "ui.community.button.interaction.operations": "Community Operations",
 
   "ui.community.operation.title": "Community Operation",
+  "ui.community.operation.button.name": "Rename Community",
+  "ui.community.operation.button.members": "Manage Members",
+  "ui.community.operation.button.audit": "Audit New Member Applications",
+  "ui.community.operation.button.scope": "Manage Scope",
+  "ui.community.operation.button.announcement": "Edit Announcement",
+  "ui.community.operation.button.advancement": "Advancement Plan",
+  "ui.community.operation.button.assets": "Manage Assets",
 
   "ui.community.operation.rename.title": "Community Rename",
+
+  "ui.community.operation.member.title.component": " - Member List",
+  "ui.community.operation.member.owner": "Owners",
+  "ui.community.operation.member.admin": "Admins",
+  "ui.community.operation.member.member": "Members",
 
   "ui.general.list.prev": "Previous Page",
   "ui.general.list.next": "Next Page",

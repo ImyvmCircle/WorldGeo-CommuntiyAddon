@@ -4,6 +4,7 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
+import com.imyvm.community.util.Translator
 import com.imyvm.iwg.util.translator.resolvePlayerName
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -43,7 +44,7 @@ class CommunityOperationMemberListMenu(
     private fun addOwnerButton() {
         addButton(
             slot = 10,
-            name = "Owner:",
+            name = (Translator.tr("ui.community.operation.member.owner")?.string ?: "Owner") + ":",
             item = Items.COMMAND_BLOCK
         ) {}
 
@@ -63,7 +64,7 @@ class CommunityOperationMemberListMenu(
     private fun addAdminButtons() {
         addButton(
             slot = 19,
-            name = "Admins:",
+            name = (Translator.tr("ui.community.operation.member.admin")?.string ?: "Admins") + ":",
             item = Items.COMMAND_BLOCK_MINECART
         ) {}
 
@@ -87,7 +88,7 @@ class CommunityOperationMemberListMenu(
     private fun addMemberButtons() {
         addButton(
             slot = 28,
-            name = "Members:",
+            name = (Translator.tr("ui.community.operation.member.member")?.string ?: "Members") + ":",
             item = Items.VILLAGER_SPAWN_EGG
         ) {}
 
@@ -135,6 +136,8 @@ class CommunityOperationMemberListMenu(
 
     companion object {
         fun generateCommunityMemberListMenuTitle(community: Community): Text =
-            Text.of(community.generateCommunityMark() + " - Member List")
+            Text.of(community.generateCommunityMark()
+                    + (Translator.tr("ui.community.operation.member.title.component")?.string ?: "- Member List")
+            )
     }
 }

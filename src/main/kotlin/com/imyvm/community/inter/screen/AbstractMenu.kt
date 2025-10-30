@@ -88,9 +88,9 @@ abstract class AbstractMenu(
         super.onSlotClick(slotIndex, button, actionType, player)
         if (slotIndex < 0 || slotIndex >= inventory.size()) return
 
-        (player as? ServerPlayerEntity)?.let { sp ->
+        (player as? ServerPlayerEntity)?.let { p ->
             val clickedName = inventory.getStack(slotIndex).get(DataComponentTypes.CUSTOM_NAME)?.string
-            buttons.find { it.slot == slotIndex && it.name == clickedName }?.onClick?.invoke(sp)
+            buttons.find { it.slot == slotIndex && it.name == clickedName }?.onClick?.invoke(p)
         }
     }
 
