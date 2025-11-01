@@ -9,7 +9,7 @@ import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-class CommunityOperationMemberListMemberMenu(
+class CommunityOperationMemberMenu(
     syncId: Int,
     val community: Community,
     private val playerObject: ServerPlayerEntity,

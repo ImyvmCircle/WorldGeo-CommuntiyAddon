@@ -1,6 +1,7 @@
 package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
+import com.imyvm.community.application.interaction.screen.inner_community.runCommunityOperationMember
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
@@ -111,7 +112,7 @@ class CommunityOperationMemberListMenu(
                 } else {
                     ItemStack(Items.PLAYER_HEAD)
                 }
-            ) {}
+            ) { runCommunityOperationMember(community, uuid, player) }
 
             slotIndex = super.incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
