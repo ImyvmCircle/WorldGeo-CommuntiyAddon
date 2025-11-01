@@ -45,7 +45,7 @@ class CommunityOperationMemberListMenu(
     private fun addOwnerButton() {
         addButton(
             slot = 10,
-            name = (Translator.tr("ui.community.operation.member.owner")?.string ?: "Owner") + ":",
+            name = (Translator.tr("ui.community.operation.member_list.owner")?.string ?: "Owner") + ":",
             item = Items.COMMAND_BLOCK
         ) {}
 
@@ -65,7 +65,7 @@ class CommunityOperationMemberListMenu(
     private fun addAdminButtons() {
         addButton(
             slot = 19,
-            name = (Translator.tr("ui.community.operation.member.admin")?.string ?: "Admins") + ":",
+            name = (Translator.tr("ui.community.operation.member_list.admin")?.string ?: "Admins") + ":",
             item = Items.COMMAND_BLOCK_MINECART
         ) {}
 
@@ -89,7 +89,7 @@ class CommunityOperationMemberListMenu(
     private fun addMemberButtons() {
         addButton(
             slot = 28,
-            name = (Translator.tr("ui.community.operation.member.member")?.string ?: "Members") + ":",
+            name = (Translator.tr("ui.community.operation.member_list.member")?.string ?: "Members") + ":",
             item = Items.VILLAGER_SPAWN_EGG
         ) {}
 
@@ -138,7 +138,7 @@ class CommunityOperationMemberListMenu(
     companion object {
         fun generateCommunityMemberListMenuTitle(community: Community): Text =
             Text.of(community.generateCommunityMark()
-                    + (Translator.tr("ui.community.operation.member.title.component")?.string ?: "- Member List")
+                    + (Translator.tr("ui.community.operation.member_list.title.component")?.string ?: "- Member List")
             )
     }
 }

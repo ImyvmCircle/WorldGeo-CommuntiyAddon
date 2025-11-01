@@ -115,11 +115,13 @@
 
   "ui.community.operation.rename.title": "Community Rename",
 
-  "ui.community.operation.member.title.component": " - Member List",
-  "ui.community.operation.member.owner": "Owners",
-  "ui.community.operation.member.admin": "Admins",
-  "ui.community.operation.member.member": "Members",
-  "ui.community.operation.member.member_page.title": "- Member Management",
+  "ui.community.operation.member_list.title.component": " - Member List",
+  "ui.community.operation.member_list.owner": "Owners",
+  "ui.community.operation.member_list.admin": "Admins",
+  "ui.community.operation.member_list.member": "Members",
+  "ui.community.member_list.error.offline_member": "Cannot manage member not found.",
+
+  "ui.community.operation.member.title": "- Member Management",
 
   "ui.general.list.prev": "Previous Page",
   "ui.general.list.next": "Next Page",
