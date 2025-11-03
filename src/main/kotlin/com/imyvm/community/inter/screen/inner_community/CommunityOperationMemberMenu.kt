@@ -5,6 +5,7 @@ import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
+import com.mojang.authlib.GameProfile
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -12,7 +13,7 @@ import net.minecraft.text.Text
 class CommunityOperationMemberMenu(
     syncId: Int,
     val community: Community,
-    private val playerObject: ServerPlayerEntity,
+    private val playerObject: GameProfile,
     playerExecutor: ServerPlayerEntity
 ) : AbstractMenu(
     syncId,
@@ -29,8 +30,8 @@ class CommunityOperationMemberMenu(
     private fun addDescriptionButtons() {
         addButton(
             slot = 10,
-            name = playerObject.name.string,
-            itemStack = createPlayerHeadItem(playerObject.name.string, playerObject.uuid)
+            name = playerObject.name,
+            itemStack = createPlayerHeadItem(playerObject.name, playerObject.id)
         ) {}
     }
 
@@ -53,7 +54,7 @@ class CommunityOperationMemberMenu(
             item = Items.PAPER
         ) {}
 
-        if (community.getMemberRole(playerObject.uuid) == CommunityRole.OWNER) {
+        if (community.getMemberRole(playerObject.id) == CommunityRole.OWNER) {
             addButton(
                 slot = 21,
                 name = Translator.tr("ui.community.operation.member.member_page.button.promote")?.string ?: "Promote",
@@ -64,10 +65,10 @@ class CommunityOperationMemberMenu(
     }
 
     companion object {
-        fun generateCommunityMemberListMemberMenuTitle(community: Community, playerObject: ServerPlayerEntity): Text {
+        fun generateCommunityMemberListMemberMenuTitle(community: Community, playerObject: GameProfile): Text {
             return Text.of(
                 "${community.getRegion()?.name}" +
-                        " - ${playerObject.name.string}" +
+                        " - ${playerObject.name}" +
                         Translator.tr("ui.community.operation.member.title")
             )
         }

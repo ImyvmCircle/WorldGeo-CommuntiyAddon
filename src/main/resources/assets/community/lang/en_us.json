@@ -119,7 +119,7 @@
   "ui.community.operation.member_list.owner": "Owners",
   "ui.community.operation.member_list.admin": "Admins",
   "ui.community.operation.member_list.member": "Members",
-  "ui.community.member_list.error.offline_member": "Cannot manage member not found.",
+  "ui.community.member_list.error.member_not_found": "Managing member not found.",
 
   "ui.community.operation.member.title": "- Member Management",
 
