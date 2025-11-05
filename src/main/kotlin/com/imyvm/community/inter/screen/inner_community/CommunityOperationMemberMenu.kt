@@ -22,9 +22,7 @@ class CommunityOperationMemberMenu(
 
     init {
         addDescriptionButtons()
-
-        val communityRole = community.getMemberRole(playerExecutor.uuid)
-        if (communityRole == CommunityRole.OWNER || communityRole == CommunityRole.ADMIN) addManageButtons()
+        if (isManageableMemberRole(community, playerObject, playerExecutor)) addManageButtons()
     }
 
     private fun addDescriptionButtons() {
@@ -65,6 +63,19 @@ class CommunityOperationMemberMenu(
     }
 
     companion object {
+        fun isManageableMemberRole(community: Community, playerObject: GameProfile, playerExecutor: ServerPlayerEntity): Boolean {
+            return when (community.getMemberRole(playerObject.id)) {
+                CommunityRole.OWNER -> false
+                CommunityRole.ADMIN -> community.getMemberRole(playerExecutor.uuid) == CommunityRole.OWNER
+                CommunityRole.MEMBER -> {
+                    val executorRole = community.getMemberRole(playerExecutor.uuid)
+                    executorRole == CommunityRole.OWNER || executorRole == CommunityRole.ADMIN
+                }
+                CommunityRole.APPLICANT -> false
+                null -> false
+            }
+        }
+
         fun generateCommunityMemberListMemberMenuTitle(community: Community, playerObject: GameProfile): Text {
             return Text.of(
                 "${community.getRegion()?.name}" +
