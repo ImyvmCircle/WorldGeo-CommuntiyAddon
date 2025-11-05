@@ -81,7 +81,7 @@ class CommunityOperationMemberListMenu(
                 } else {
                     ItemStack(Items.PLAYER_HEAD)
                 }
-            ) {}
+            ) { runCommunityOperationMember(community, uuid, player) }
         }
 
     }
