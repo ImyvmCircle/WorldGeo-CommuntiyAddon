@@ -18,7 +18,7 @@ class PlayerRegionalSettingMenu(
             community: Community,
             playerProfile: GameProfile
         ): Text {
-            return Text.of("Region Settings - ${playerProfile.name}")
+            return Text.of("${community.getRegion()?.name ?: "Unknown"} Settings - ${playerProfile.name}")
         }
     }
 }

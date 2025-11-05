@@ -18,7 +18,7 @@ class CommunityOperationMemberMenu(
     syncId: Int,
     val community: Community,
     private val playerObject: GameProfile,
-    playerExecutor: ServerPlayerEntity
+    private val playerExecutor: ServerPlayerEntity
 ) : AbstractMenu(
     syncId,
     menuTitle = generateCommunityMemberListMemberMenuTitle(community, playerObject)
@@ -42,7 +42,7 @@ class CommunityOperationMemberMenu(
             slot = 12,
             name = Translator.tr("ui.community.operation.member.member_page.button.region")?.string ?: "Region Setting",
             item = Items.MAP
-        ) { runOpenPlayerRegionalSettings() }
+        ) { runOpenPlayerRegionalSettings(community, playerObject, playerExecutor) }
 
         addButton(
             slot = 14,
