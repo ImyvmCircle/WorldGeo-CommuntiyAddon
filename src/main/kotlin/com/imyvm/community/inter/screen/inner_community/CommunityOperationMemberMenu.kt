@@ -1,5 +1,9 @@
 package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.inner_community.runNotifyMember
+import com.imyvm.community.application.interaction.screen.inner_community.runOpenPlayerRegionalSettings
+import com.imyvm.community.application.interaction.screen.inner_community.runPromoteMember
+import com.imyvm.community.application.interaction.screen.inner_community.runRemoveMember
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityRole
 import com.imyvm.community.inter.screen.AbstractMenu
@@ -38,26 +42,26 @@ class CommunityOperationMemberMenu(
             slot = 12,
             name = Translator.tr("ui.community.operation.member.member_page.button.region")?.string ?: "Region Setting",
             item = Items.MAP
-        ) {}
+        ) { runOpenPlayerRegionalSettings() }
 
         addButton(
             slot = 14,
             name = Translator.tr("ui.community.operation.member.member_page.button.remove")?.string ?: "Remove Member",
             item = Items.ZOMBIE_VILLAGER_SPAWN_EGG
-        ) {}
+        ) { runRemoveMember() }
 
         addButton(
             slot = 19,
             name = Translator.tr("ui.community.operation.member.member_page.button.message")?.string ?: "Send Message",
             item = Items.PAPER
-        ) {}
+        ) { runNotifyMember() }
 
         if (community.getMemberRole(playerObject.id) == CommunityRole.OWNER) {
             addButton(
                 slot = 21,
                 name = Translator.tr("ui.community.operation.member.member_page.button.promote")?.string ?: "Promote",
                 item = Items.COMMAND_BLOCK
-            ) {}
+            ) { runPromoteMember() }
         }
 
     }
