@@ -35,7 +35,13 @@ which remain independent of large-scale settlements.
 Nevertheless, further development of them must be within the framework of the type,
 as they are founded with less expense and fewer member requirements.
 In contrast, a realm community is intended for large-scale player organizations,
-including cities, nations, and so forth.
+and it is expected to be the mainstream form of player community in the server.
+
+To clarify, the creation of manor amounts to 15000 in the creator's in-game currency,
+and it only requires 1 member, the creator themselves, 
+with a maximum of 5 members allowed;
+whereas a realm requires a creation fee of 30000 in-game currency,
+and with at least 4 members at the time of creation.
 
 ## Acknowledgements
 
