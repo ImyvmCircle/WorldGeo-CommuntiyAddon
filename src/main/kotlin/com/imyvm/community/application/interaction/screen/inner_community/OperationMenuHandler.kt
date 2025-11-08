@@ -14,3 +14,7 @@ fun runOpManageMembers(player: ServerPlayerEntity, community: Community){
         CommunityOperationMemberListMenu(syncId, community, player)
     }
 }
+
+fun runOPAuditRequests(player: ServerPlayerEntity, community: Community) {
+
+}

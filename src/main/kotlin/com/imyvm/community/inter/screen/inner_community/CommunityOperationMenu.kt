@@ -1,5 +1,6 @@
 package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.inner_community.runOPAuditRequests
 import com.imyvm.community.application.interaction.screen.inner_community.runOPRenameCommunity
 import com.imyvm.community.application.interaction.screen.inner_community.runOpManageMembers
 import com.imyvm.community.domain.Community
@@ -44,7 +45,7 @@ class CommunityOperationMenu(
             slot = 12,
             name = Translator.tr("ui.community.operation.button.audit")?.string ?: "Community Audit",
             item = Items.REDSTONE_TORCH
-        ){}
+        ){ runOPAuditRequests(player, community) }
 
         addButton(
             slot = 13,
