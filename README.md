@@ -28,7 +28,14 @@ with also foreign relations to be established with other communities online.
 
 #### Types
 
-There exist two types of communities, the first of which is the manor. A manor is defined by  
+Two types of communities have been defined by now, mainly differing in their population.
+Of which the manor community is designed for small-scale player groups,
+specifically catering to those who aspire to the features provided yet only for their own basement, 
+which remain independent of large-scale settlements.
+Nevertheless, further development of them must be within the framework of the type,
+as they are founded with less expense and fewer member requirements.
+In contrast, a realm community is intended for large-scale player organizations,
+including cities, nations, and so forth.
 
 ## Acknowledgements
 
