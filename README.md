@@ -43,6 +43,36 @@ with a maximum of 5 members allowed;
 whereas a realm requires a creation fee of 30000 in-game currency,
 and with at least 4 members at the time of creation.
 
+### Governance
+
+A community of manor type is governed by its owner,
+with two additional admins permitted.
+
+A realm community allows for a more Byzantine governance architecture,
+in which up to 3 admins can be designated at the level of the community.
+For each scope of the community, a governor can be appointed to oversee its administration,
+with one available scope admin assisting them.
+Meanwhile, a council can be established within the community,
+comprising multiple councilors whose proposals to be a councilor 
+are approved by processes defined by the community itself.
+Two processes ratifying a proposal are currently supported,
+namely voting by all members and decision by the community owner.
+Whether the council is enabled or not is decided by the community owner.
+
+In council, a vote comprises a content, a duration and a motion,
+which is proposed by a councilor or a councilor applicant.
+It is passed only if more than half of total members voted,
+and more than two thirds of votes are in favor within the duration.
+Except for accepting new members of a council, 
+votes can also be held for other important matters of the community,
+encompassing amending community regulations, 
+modifying regional settings,
+regulating membership,
+designating or dismissing officials,
+and so forth.
+The mechanics of voting grants members of a realm community the ability 
+to participate in the governance of their community, and operate themselves even without an active owner.
+
 ## Acknowledgements
 
 Were it not for the support of IMYVM fellows and players, this project would not have been possible.
