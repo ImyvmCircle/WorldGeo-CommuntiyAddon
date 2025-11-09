@@ -71,6 +71,22 @@ class Community(
         return member[playerUuid]?.basicRoleType
     }
 
+    fun isManageable(playerExecutor: ServerPlayerEntity, targetPlayerUuid: UUID): Boolean {
+        val executorRole = getMemberRole(playerExecutor.uuid) ?: return false
+        val targetRole = getMemberRole(targetPlayerUuid) ?: return false
+        if (!analyzeByRole(executorRole, targetRole)) return false
+        if (!analyzeByPrivilegeStatus(executorRole, targetPlayerUuid)) return false
+        return true
+    }
+
+    private fun analyzeByRole(executorRole: CommunityRoleType, targetRole: CommunityRoleType): Boolean {
+        TODO()
+    }
+
+    private fun analyzeByPrivilegeStatus(executorRole: CommunityRoleType, targetPlayerUuid: UUID): Boolean {
+        TODO()
+    }
+
     @Deprecated("Temporary workaround. Will be replaced by UtilApi.parseRegionFoundingTime()",
         ReplaceWith("UtilApi.parseRegionFoundingTime(regionNumberId)")
     )

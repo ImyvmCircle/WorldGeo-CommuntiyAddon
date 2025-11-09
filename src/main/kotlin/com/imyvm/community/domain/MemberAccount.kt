@@ -4,7 +4,7 @@ import com.imyvm.community.domain.community.CommunityRoleType
 
 data class MemberAccount (
     val joinedTime: Long,
-    val basicRoleType: CommunityRoleType,
+    var basicRoleType: CommunityRoleType,
     val isCouncilMember: Boolean = false,
-    val governorship: Int = -1
+    var governorship: Int = -1
 )

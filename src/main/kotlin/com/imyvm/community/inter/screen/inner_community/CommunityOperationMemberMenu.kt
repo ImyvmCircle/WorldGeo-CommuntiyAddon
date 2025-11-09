@@ -26,7 +26,7 @@ class CommunityOperationMemberMenu(
 
     init {
         addDescriptionButtons()
-        if (isManageableMemberRole(community, playerObject, playerExecutor)) addManageButtons()
+        if (community.isManageable(playerExecutor, playerObject.id)) addManageButtons()
     }
 
     private fun addDescriptionButtons() {
@@ -59,26 +59,14 @@ class CommunityOperationMemberMenu(
         if (community.getMemberRole(playerObject.id) == CommunityRoleType.OWNER) {
             addButton(
                 slot = 21,
-                name = Translator.tr("ui.community.operation.member.member_page.button.promote")?.string ?: "Promote",
+                name = Translator.tr("ui.community.operation.member.member_page.button.promote.admin")?.string ?: "Promote to Admin",
                 item = Items.COMMAND_BLOCK
-            ) { runPromoteMember() }
+            ) { runPromoteMember(community, playerExecutor, playerObject) }
         }
 
     }
 
     companion object {
-        fun isManageableMemberRole(community: Community, playerObject: GameProfile, playerExecutor: ServerPlayerEntity): Boolean {
-            return when (community.getMemberRole(playerObject.id)) {
-                CommunityRoleType.OWNER -> false
-                CommunityRoleType.ADMIN -> community.getMemberRole(playerExecutor.uuid) == CommunityRoleType.OWNER
-                CommunityRoleType.MEMBER -> {
-                    val executorRole = community.getMemberRole(playerExecutor.uuid)
-                    executorRole == CommunityRoleType.OWNER || executorRole == CommunityRoleType.ADMIN
-                }
-                CommunityRoleType.APPLICANT -> false
-                null -> false
-            }
-        }
 
         fun generateCommunityMemberListMemberMenuTitle(community: Community, playerObject: GameProfile): Text {
             return Text.of(
