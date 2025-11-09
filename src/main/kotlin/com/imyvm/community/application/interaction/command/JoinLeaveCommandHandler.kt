@@ -2,8 +2,9 @@ package com.imyvm.community.application.interaction.command
 
 import com.imyvm.community.application.interaction.common.helper.checkPlayerMembershipJoin
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.util.Translator
@@ -18,7 +19,7 @@ fun onJoinCommunity(player: ServerPlayerEntity, targetCommunity: Community): Int
 fun checkMemberNumberManor(player: ServerPlayerEntity,targetCommunity: Community): Boolean {
     if (CommunityConfig.IS_CHECKING_MANOR_MEMBER_SIZE.value) {
         if ((targetCommunity.status == CommunityStatus.ACTIVE_MANOR  || targetCommunity.status == CommunityStatus.PENDING_MANOR) &&
-            targetCommunity.member.count { it.value != CommunityRole.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value) {
+            targetCommunity.member.count { targetCommunity.getMemberRole(it.key) != CommunityRoleType.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value) {
             player.sendMessage(Translator.tr("community.join.error.full", CommunityConfig.MIN_NUMBER_MEMBER_REALM.value))
             return false
         }
@@ -37,7 +38,10 @@ fun tryJoinByPolicy(player: ServerPlayerEntity, targetCommunity: Community): Int
 }
 
 private fun joinUnderOpenPolicy(player: ServerPlayerEntity, targetCommunity: Community): Int {
-    targetCommunity.member[player.uuid] = CommunityRole.MEMBER
+    targetCommunity.member[player.uuid] = MemberAccount(
+        joinedTime = System.currentTimeMillis(),
+        basicRoleType = CommunityRoleType.MEMBER
+    )
     player.sendMessage(Translator.tr("community.join.success", targetCommunity.regionNumberId))
     return 1
 }
@@ -47,7 +51,10 @@ private fun joinUnderApplicationPolicy(player: ServerPlayerEntity, targetCommuni
         player.sendMessage(Translator.tr("community.join.error.already_applied", targetCommunity.regionNumberId))
         return 0
     }
-    targetCommunity.member[player.uuid] = CommunityRole.APPLICANT
+    targetCommunity.member[player.uuid] = MemberAccount(
+        joinedTime = System.currentTimeMillis(),
+        basicRoleType = CommunityRoleType.APPLICANT
+    )
     player.sendMessage(targetCommunity.getRegion()
         ?.let { Translator.tr("community.join.applied", it.name ,targetCommunity.regionNumberId) })
     return 1

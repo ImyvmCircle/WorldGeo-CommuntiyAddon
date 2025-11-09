@@ -5,7 +5,7 @@ import com.imyvm.community.application.interaction.screen.inner_community.runOpe
 import com.imyvm.community.application.interaction.screen.inner_community.runPromoteMember
 import com.imyvm.community.application.interaction.screen.inner_community.runRemoveMember
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
@@ -56,7 +56,7 @@ class CommunityOperationMemberMenu(
             item = Items.PAPER
         ) { runNotifyMember() }
 
-        if (community.getMemberRole(playerObject.id) == CommunityRole.OWNER) {
+        if (community.getMemberRole(playerObject.id) == CommunityRoleType.OWNER) {
             addButton(
                 slot = 21,
                 name = Translator.tr("ui.community.operation.member.member_page.button.promote")?.string ?: "Promote",
@@ -69,13 +69,13 @@ class CommunityOperationMemberMenu(
     companion object {
         fun isManageableMemberRole(community: Community, playerObject: GameProfile, playerExecutor: ServerPlayerEntity): Boolean {
             return when (community.getMemberRole(playerObject.id)) {
-                CommunityRole.OWNER -> false
-                CommunityRole.ADMIN -> community.getMemberRole(playerExecutor.uuid) == CommunityRole.OWNER
-                CommunityRole.MEMBER -> {
+                CommunityRoleType.OWNER -> false
+                CommunityRoleType.ADMIN -> community.getMemberRole(playerExecutor.uuid) == CommunityRoleType.OWNER
+                CommunityRoleType.MEMBER -> {
                     val executorRole = community.getMemberRole(playerExecutor.uuid)
-                    executorRole == CommunityRole.OWNER || executorRole == CommunityRole.ADMIN
+                    executorRole == CommunityRoleType.OWNER || executorRole == CommunityRoleType.ADMIN
                 }
-                CommunityRole.APPLICANT -> false
+                CommunityRoleType.APPLICANT -> false
                 null -> false
             }
         }

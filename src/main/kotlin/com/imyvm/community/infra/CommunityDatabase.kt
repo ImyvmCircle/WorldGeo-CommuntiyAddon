@@ -1,8 +1,9 @@
 package com.imyvm.community.infra
 
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.domain.community.CommunityStatus
 import net.fabricmc.loader.api.FabricLoader
 import java.io.DataInputStream
@@ -88,9 +89,13 @@ object CommunityDatabase {
 
     private fun saveCommunityMember(stream: DataOutputStream, community: Community){
         stream.writeInt(community.member.size)
-        for ((uuid, role) in community.member) {
+        for ((uuid, memberAccount) in community.member) {
             stream.writeUTF(uuid.toString())
-            stream.writeInt(role.value)
+
+            stream.writeLong(memberAccount.joinedTime)
+            stream.writeInt(memberAccount.basicRoleType.value)
+            stream.writeBoolean(memberAccount.isCouncilMember)
+            stream.writeInt(memberAccount.governorship)
         }
     }
 
@@ -102,12 +107,21 @@ object CommunityDatabase {
         }
     }
 
-    private fun loadMemberMap(stream: DataInputStream, memberCount: Int): HashMap<UUID, CommunityRole> {
-        val memberMap = HashMap<UUID, CommunityRole>(memberCount)
+    private fun loadMemberMap(stream: DataInputStream, memberCount: Int): HashMap<UUID, MemberAccount> {
+        val memberMap = HashMap<UUID, MemberAccount>(memberCount)
         for (j in 0 until memberCount) {
             val uuid = UUID.fromString(stream.readUTF())
-            val role = CommunityRole.fromValue(stream.readInt())
-            memberMap[uuid] = role
+
+            val joinedTime = stream.readLong()
+            val role = CommunityRoleType.fromValue(stream.readInt())
+            val isCouncilMember = stream.readBoolean()
+            val governorship = stream.readInt()
+            memberMap[uuid] = MemberAccount(
+                joinedTime = joinedTime,
+                basicRoleType = role,
+                isCouncilMember = isCouncilMember,
+                governorship = governorship
+            )
         }
         return memberMap
     }

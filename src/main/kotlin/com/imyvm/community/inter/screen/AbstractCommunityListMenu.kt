@@ -2,7 +2,7 @@ package com.imyvm.community.inter.screen
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -29,7 +29,7 @@ abstract class AbstractCommunityListMenu(
         var slot = startSlot
 
         for (community in communityList) {
-            val owner = community.member.entries.find { it.value == CommunityRole.OWNER }?.key ?: continue
+            val owner = community.member.entries.find { community.getMemberRole(it.key) == CommunityRoleType.OWNER }?.key ?: continue
             val displayName = community.getRegion()?.name ?: "Community #${community.regionNumberId}"
 
             addPlayerHeadButton(slot, displayName, owner) { player ->

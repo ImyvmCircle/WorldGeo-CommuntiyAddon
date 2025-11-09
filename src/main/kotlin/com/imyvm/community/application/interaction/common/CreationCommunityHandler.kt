@@ -3,10 +3,11 @@ package com.imyvm.community.application.interaction.common
 import com.imyvm.community.WorldGeoCommunityAddon
 import com.imyvm.community.application.interaction.common.helper.checkPlayerMembershipCreation
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.PendingOperation
 import com.imyvm.community.domain.PendingOperationType
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityDatabase
@@ -57,7 +58,10 @@ private fun chargeFromApplicator(player: ServerPlayerEntity, communityType: Stri
 private fun initialApplication(player: ServerPlayerEntity, name: String, communityType: String, regionNumberId: Int) {
     val community = Community(
         regionNumberId = regionNumberId,
-        member = hashMapOf(player.uuid to CommunityRole.OWNER),
+        member = hashMapOf(player.uuid to MemberAccount(
+            joinedTime = System.currentTimeMillis(),
+            basicRoleType = CommunityRoleType.OWNER
+        )),
         joinPolicy = CommunityJoinPolicy.OPEN,
         status = if (communityType.equals("manor", ignoreCase = true)) {
             CommunityStatus.PENDING_MANOR

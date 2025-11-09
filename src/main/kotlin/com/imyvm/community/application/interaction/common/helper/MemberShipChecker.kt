@@ -1,7 +1,7 @@
 package com.imyvm.community.application.interaction.common.helper
 
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator
@@ -47,7 +47,7 @@ fun checkPlayerMembershipJoin(player: ServerPlayerEntity, community: Community):
 
 private fun isJoinedTarget(player: ServerPlayerEntity, targetCommunity: Community): Boolean {
     if (targetCommunity.member.containsKey(player.uuid)){
-        return if (targetCommunity.member[player.uuid] == CommunityRole.APPLICANT) {
+        return if (targetCommunity.getMemberRole(player.uuid) == CommunityRoleType.APPLICANT) {
             player.sendMessage(Translator.tr("community.join.error.already_applied", targetCommunity.regionNumberId))
             true
         } else {

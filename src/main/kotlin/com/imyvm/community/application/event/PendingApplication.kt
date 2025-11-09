@@ -5,7 +5,7 @@ import com.imyvm.community.application.helper.refundNotCreated
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.PendingOperation
 import com.imyvm.community.domain.PendingOperationType
-import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityDatabase
@@ -54,9 +54,9 @@ private fun handleExpiredOperation(
 }
 
 private fun promoteCommunityIfEligible(regionId: Int, community: Community) {
-    val ownerEntry = community.member.entries.find { it.value == CommunityRole.OWNER }
+    val ownerEntry = community.member.entries.find { community.getMemberRole(it.key) == CommunityRoleType.OWNER }
     if (ownerEntry != null &&
-        community.member.count { it.value != CommunityRole.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value &&
+        community.member.count { community.getMemberRole(it.key) != CommunityRoleType.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value &&
         community.status == CommunityStatus.PENDING_REALM
     ) {
         addAuditingApplicationRealm(regionId, community)
@@ -65,7 +65,7 @@ private fun promoteCommunityIfEligible(regionId: Int, community: Community) {
 }
 
 private fun removeExpiredApplication(regionId: Int, community: Community, server: MinecraftServer) {
-    val ownerEntry = community.member.entries.find { it.value == CommunityRole.OWNER } ?: return
+    val ownerEntry = community.member.entries.find { community.getMemberRole(it.key) == CommunityRoleType.OWNER } ?: return
     val ownerPlayer = server.playerManager?.getPlayer(ownerEntry.key) ?: return
 
     if (community.status == CommunityStatus.RECRUITING_REALM) {
@@ -84,7 +84,7 @@ private fun removePendingOperation(
     iterator.remove()
     WorldGeoCommunityAddon.logger.info("Removed expired pending operation for community $regionId")
     val community = CommunityDatabase.communities.find { it.regionNumberId == regionId } ?: return
-    val ownerUuid = community.member.entries.find { it.value == CommunityRole.OWNER }?.key ?: return
+    val ownerUuid = community.member.entries.find { community.getMemberRole(it.key) == CommunityRoleType.OWNER }?.key ?: return
     server.playerManager.getPlayer(ownerUuid)
         ?.sendMessage(Translator.tr("pending.expired", operationType), false)
 }

@@ -1,9 +1,8 @@
 package com.imyvm.community.domain
 
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.CommunityRole
+import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.domain.community.CommunityStatus
-import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityConfig.Companion.TIMEZONE
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.application.region.parseFoundingTimeFromRegionId
@@ -19,23 +18,10 @@ import java.util.*
 
 class Community(
     val regionNumberId: Int?,
-    var member: HashMap<UUID, CommunityRole>,
+    var member: HashMap<UUID, MemberAccount>,
     var joinPolicy: CommunityJoinPolicy,
     var status: CommunityStatus
 ) {
-    fun grantMemberRole(playerUuid: UUID, role: CommunityRole) {
-        if (role == CommunityRole.OWNER || role == CommunityRole.APPLICANT) {
-            throw IllegalArgumentException("Cannot grant OWNER or APPLICANT role through this method.")
-        } else if (role == CommunityRole.ADMIN) {
-            val currentAdmins = getAdminUUIDs()
-            if (currentAdmins.size >= CommunityConfig.MAX_NUMBER_ADMIN.value) {
-                throw IllegalStateException("Cannot grant ADMIN role: maximum number of admins reached.")
-            }
-        }
-
-        member[playerUuid] = role
-    }
-
     fun generateCommunityMark(): String {
         return RegionDataApi.getRegion(this.regionNumberId!!)?.name ?: "Community #${this.regionNumberId}"
     }
@@ -66,23 +52,23 @@ class Community(
     }
 
     fun getOwnerUUID(): UUID? {
-        return this.member.entries.filter { it.value.name == "OWNER" }
+        return this.member.entries.filter { it.value.basicRoleType.name == "OWNER" }
             .map { it.key }
             .firstOrNull()
     }
 
     fun getAdminUUIDs(): List<UUID> {
-        return this.member.entries.filter { it.value.name == "ADMIN" }.map { it.key }
+        return this.member.entries.filter { it.value.basicRoleType.name == "ADMIN" }.map { it.key }
     }
 
     fun getMemberUUIDs(): List<UUID> {
         return this.member.entries
-            .filter { it.value.name == "MEMBER" }
+            .filter { it.value.basicRoleType.name == "MEMBER" }
             .map { it.key }
     }
 
-    fun getMemberRole(playerUuid: UUID): CommunityRole? {
-        return member[playerUuid]
+    fun getMemberRole(playerUuid: UUID): CommunityRoleType? {
+        return member[playerUuid]?.basicRoleType
     }
 
     @Deprecated("Temporary workaround. Will be replaced by UtilApi.parseRegionFoundingTime()",
