@@ -21,14 +21,14 @@ and the subsequent criteria are satisfied by the players creating the community:
 - they are not yet members of any other community with the same type(elaborated below);
 - they have enough in-game currency to pay for the community creation fee with the specified type;
 
-By executing the creation through command or box-interface, the criteria are verified, and if all are satisfied,
-the community is created with a pending status, awaiting certification.
+Criteria are verified by executing the creation through command or box-interface, 
+and then the community is created with a pending status, awaiting certification.
 Once being certified, the community is a sovereign entity that can direct its internal affairs,
-with also foreign relations to be established with other communities online.
+as well as establish foreign relations with other communities online.
 
 #### Types
 
-Two types of communities have been defined by now, mainly differing in their population.
+Two types of communities have been defined so far, mainly differing in their population.
 Of which the manor community is designed for small-scale player groups,
 specifically catering to those who aspire to the features provided yet only for their own basement, 
 which remain independent of large-scale settlements.
@@ -49,7 +49,7 @@ A community of manor type is governed by its owner,
 with two additional admins permitted.
 
 A realm community allows for a more Byzantine governance architecture,
-in which up to 3 admins can be designated at the level of the community.
+in which up to 3 admins can be designated at the community level.
 For each scope of the community, a governor can be appointed to oversee its administration.
 Meanwhile, a council can be established within the community,
 comprising multiple councilors whose proposals to be a councilor 
