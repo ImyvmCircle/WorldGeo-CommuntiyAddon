@@ -1,8 +1,8 @@
 package com.imyvm.community.domain
 
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.domain.community.CommunityStatus
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.infra.CommunityConfig.Companion.TIMEZONE
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.application.region.parseFoundingTimeFromRegionId
@@ -67,7 +67,7 @@ class Community(
             .map { it.key }
     }
 
-    fun getMemberRole(playerUuid: UUID): CommunityRoleType? {
+    fun getMemberRole(playerUuid: UUID): MemberRoleType? {
         return member[playerUuid]?.basicRoleType
     }
 
@@ -79,18 +79,18 @@ class Community(
         return true
     }
 
-    private fun analyzeByRole(executorRole: CommunityRoleType, targetRole: CommunityRoleType): Boolean {
+    private fun analyzeByRole(executorRole: MemberRoleType, targetRole: MemberRoleType): Boolean {
         return when (executorRole) {
-            CommunityRoleType.OWNER -> targetRole != CommunityRoleType.OWNER
-            CommunityRoleType.ADMIN -> targetRole == CommunityRoleType.MEMBER
-            CommunityRoleType.MEMBER -> false
-            CommunityRoleType.APPLICANT -> false
+            MemberRoleType.OWNER -> targetRole != MemberRoleType.OWNER
+            MemberRoleType.ADMIN -> targetRole == MemberRoleType.MEMBER
+            MemberRoleType.MEMBER -> false
+            MemberRoleType.APPLICANT -> false
         }
     }
 
-    private fun analyzeByPrivilegeStatus(executorRole: CommunityRoleType, targetPlayerUuid: UUID): Boolean {
-        if (executorRole == CommunityRoleType.OWNER) return true
-        else if (executorRole == CommunityRoleType.ADMIN) {
+    private fun analyzeByPrivilegeStatus(executorRole: MemberRoleType, targetPlayerUuid: UUID): Boolean {
+        if (executorRole == MemberRoleType.OWNER) return true
+        else if (executorRole == MemberRoleType.ADMIN) {
             val memberAccount = member[targetPlayerUuid] ?: return false
             if (memberAccount.isCouncilMember || memberAccount.governorship != -1) {
                 return false

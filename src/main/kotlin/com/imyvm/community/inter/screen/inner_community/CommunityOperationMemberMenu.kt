@@ -5,7 +5,7 @@ import com.imyvm.community.application.interaction.screen.inner_community.runOpe
 import com.imyvm.community.application.interaction.screen.inner_community.runPromoteMember
 import com.imyvm.community.application.interaction.screen.inner_community.runRemoveMember
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.community.CommunityRoleType
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
@@ -56,7 +56,7 @@ class CommunityOperationMemberMenu(
             item = Items.PAPER
         ) { runNotifyMember(community, playerExecutor, playerObject) }
 
-        if (community.getMemberRole(playerObject.id) == CommunityRoleType.OWNER) {
+        if (community.getMemberRole(playerObject.id) == MemberRoleType.OWNER) {
             addButton(
                 slot = 21,
                 name = Translator.tr("ui.community.operation.member.member_page.button.promote.admin")?.string ?: "Promote to Admin",

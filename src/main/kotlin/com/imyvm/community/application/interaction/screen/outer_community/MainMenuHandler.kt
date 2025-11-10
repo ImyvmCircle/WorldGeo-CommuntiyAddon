@@ -4,7 +4,7 @@ import com.imyvm.community.application.interaction.common.helper.checkPlayerMemb
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
-import com.imyvm.community.domain.community.CommunityRoleType
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.inter.screen.outer_community.CommunityCreationMenu
 import com.imyvm.community.inter.screen.outer_community.CommunityListMenu
@@ -30,7 +30,7 @@ fun runCreate(player: ServerPlayerEntity){
 
 fun runMyCommunity(player: ServerPlayerEntity) {
     val joinedCommunities = CommunityDatabase.communities.filter {
-        it.member.any { m -> m.key == player.uuid && it.getMemberRole(m.key) != CommunityRoleType.APPLICANT }
+        it.member.any { m -> m.key == player.uuid && it.getMemberRole(m.key) != MemberRoleType.APPLICANT }
     }
 
     when {

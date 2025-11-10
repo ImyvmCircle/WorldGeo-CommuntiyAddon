@@ -1,10 +1,12 @@
 package com.imyvm.community.domain
 
-import com.imyvm.community.domain.community.CommunityRoleType
+import com.imyvm.community.domain.community.MemberRoleType
+import net.minecraft.text.Text
 
 data class MemberAccount (
     val joinedTime: Long,
-    var basicRoleType: CommunityRoleType,
+    var basicRoleType: MemberRoleType,
     val isCouncilMember: Boolean = false,
-    var governorship: Int = -1
+    var governorship: Int = -1,
+    var communityMail: List<Text> = emptyList()
 )

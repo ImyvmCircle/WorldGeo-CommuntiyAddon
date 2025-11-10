@@ -7,7 +7,7 @@ import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.PendingOperation
 import com.imyvm.community.domain.PendingOperationType
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.CommunityRoleType
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.infra.CommunityDatabase
@@ -60,7 +60,7 @@ private fun initialApplication(player: ServerPlayerEntity, name: String, communi
         regionNumberId = regionNumberId,
         member = hashMapOf(player.uuid to MemberAccount(
             joinedTime = System.currentTimeMillis(),
-            basicRoleType = CommunityRoleType.OWNER
+            basicRoleType = MemberRoleType.OWNER
         )),
         joinPolicy = CommunityJoinPolicy.OPEN,
         status = if (communityType.equals("manor", ignoreCase = true)) {

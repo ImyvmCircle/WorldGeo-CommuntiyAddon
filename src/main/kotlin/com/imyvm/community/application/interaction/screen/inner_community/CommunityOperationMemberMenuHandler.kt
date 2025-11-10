@@ -3,7 +3,7 @@ package com.imyvm.community.application.interaction.screen.inner_community
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.MemberAccount
-import com.imyvm.community.domain.community.CommunityRoleType
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.util.Translator.trMenu
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
@@ -70,7 +70,7 @@ private fun handleRolePromotion(
     playerExecutor: ServerPlayerEntity,
     playerObject: GameProfile
 ) {
-    if (community.getMemberRole(playerObject.id) != CommunityRoleType.MEMBER) {
+    if (community.getMemberRole(playerObject.id) != MemberRoleType.MEMBER) {
         trMenu(
             playerExecutor,
             "community.operation.member.promote.promote.fail.not_member",
@@ -81,7 +81,7 @@ private fun handleRolePromotion(
 
     val memberValue = getMemberOrNotify(community, playerExecutor, playerObject, "promote.promote.fail.not_member")
     if (memberValue != null) {
-        memberValue.basicRoleType = CommunityRoleType.ADMIN
+        memberValue.basicRoleType = MemberRoleType.ADMIN
         trMenu(
             playerExecutor,
             "community.operation.member.promote.promote.success",
@@ -95,7 +95,7 @@ private fun handleRoleDemotion(
     playerExecutor: ServerPlayerEntity,
     playerObject: GameProfile
 ) {
-    if (community.getMemberRole(playerObject.id) != CommunityRoleType.ADMIN) {
+    if (community.getMemberRole(playerObject.id) != MemberRoleType.ADMIN) {
         trMenu(
             playerExecutor,
             "community.operation.member.promote.demote.fail.not_admin",
@@ -106,7 +106,7 @@ private fun handleRoleDemotion(
 
     val memberValue = getMemberOrNotify(community, playerExecutor, playerObject, "promote.demote.fail.not_member")
     if (memberValue != null) {
-        memberValue.basicRoleType = CommunityRoleType.MEMBER
+        memberValue.basicRoleType = MemberRoleType.MEMBER
         trMenu(
             playerExecutor,
             "community.operation.member.promote.demote.success",

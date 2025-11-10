@@ -3,9 +3,10 @@ package com.imyvm.community.infra
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.CommunityRoleType
 import com.imyvm.community.domain.community.CommunityStatus
+import com.imyvm.community.domain.community.MemberRoleType
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.text.Text
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.IOException
@@ -96,6 +97,11 @@ object CommunityDatabase {
             stream.writeInt(memberAccount.basicRoleType.value)
             stream.writeBoolean(memberAccount.isCouncilMember)
             stream.writeInt(memberAccount.governorship)
+
+            stream.writeInt(memberAccount.communityMail.size)
+            for (mailItem in memberAccount.communityMail) {
+                stream.writeUTF(mailItem.string)
+            }
         }
     }
 
@@ -113,14 +119,23 @@ object CommunityDatabase {
             val uuid = UUID.fromString(stream.readUTF())
 
             val joinedTime = stream.readLong()
-            val role = CommunityRoleType.fromValue(stream.readInt())
+            val role = MemberRoleType.fromValue(stream.readInt())
             val isCouncilMember = stream.readBoolean()
             val governorship = stream.readInt()
+
+            val mailSize = stream.readInt()
+            val communityMail = ArrayList<Text>(mailSize)
+            for (k in 0 until mailSize) {
+                val mailString = stream.readUTF()
+                communityMail.add(Text.of(mailString))
+            }
+
             memberMap[uuid] = MemberAccount(
                 joinedTime = joinedTime,
                 basicRoleType = role,
                 isCouncilMember = isCouncilMember,
-                governorship = governorship
+                governorship = governorship,
+                communityMail = communityMail
             )
         }
         return memberMap

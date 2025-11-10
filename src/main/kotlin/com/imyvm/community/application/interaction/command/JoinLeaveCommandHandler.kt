@@ -4,7 +4,7 @@ import com.imyvm.community.application.interaction.common.helper.checkPlayerMemb
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.CommunityRoleType
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.util.Translator
@@ -19,7 +19,7 @@ fun onJoinCommunity(player: ServerPlayerEntity, targetCommunity: Community): Int
 fun checkMemberNumberManor(player: ServerPlayerEntity,targetCommunity: Community): Boolean {
     if (CommunityConfig.IS_CHECKING_MANOR_MEMBER_SIZE.value) {
         if ((targetCommunity.status == CommunityStatus.ACTIVE_MANOR  || targetCommunity.status == CommunityStatus.PENDING_MANOR) &&
-            targetCommunity.member.count { targetCommunity.getMemberRole(it.key) != CommunityRoleType.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value) {
+            targetCommunity.member.count { targetCommunity.getMemberRole(it.key) != MemberRoleType.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value) {
             player.sendMessage(Translator.tr("community.join.error.full", CommunityConfig.MIN_NUMBER_MEMBER_REALM.value))
             return false
         }
@@ -40,7 +40,7 @@ fun tryJoinByPolicy(player: ServerPlayerEntity, targetCommunity: Community): Int
 private fun joinUnderOpenPolicy(player: ServerPlayerEntity, targetCommunity: Community): Int {
     targetCommunity.member[player.uuid] = MemberAccount(
         joinedTime = System.currentTimeMillis(),
-        basicRoleType = CommunityRoleType.MEMBER
+        basicRoleType = MemberRoleType.MEMBER
     )
     player.sendMessage(Translator.tr("community.join.success", targetCommunity.regionNumberId))
     return 1
@@ -53,7 +53,7 @@ private fun joinUnderApplicationPolicy(player: ServerPlayerEntity, targetCommuni
     }
     targetCommunity.member[player.uuid] = MemberAccount(
         joinedTime = System.currentTimeMillis(),
-        basicRoleType = CommunityRoleType.APPLICANT
+        basicRoleType = MemberRoleType.APPLICANT
     )
     player.sendMessage(targetCommunity.getRegion()
         ?.let { Translator.tr("community.join.applied", it.name ,targetCommunity.regionNumberId) })

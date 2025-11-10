@@ -2,7 +2,7 @@ package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.inner_community.runOpenOperationMenu
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.community.CommunityRoleType
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
@@ -34,8 +34,8 @@ class CommunityMenu(
     }
 
     private fun addOperationButtonTrail(player: ServerPlayerEntity, community: Community) {
-        if (community.getMemberRole(player.uuid) == CommunityRoleType.OWNER ||
-            community.getMemberRole(player.uuid) == CommunityRoleType.ADMIN ){
+        if (community.getMemberRole(player.uuid) == MemberRoleType.OWNER ||
+            community.getMemberRole(player.uuid) == MemberRoleType.ADMIN ){
             addButton(
                 slot = 12,
                 name = Translator.tr("ui.community.button.interaction.operations")?.string ?: "Community Operations",
