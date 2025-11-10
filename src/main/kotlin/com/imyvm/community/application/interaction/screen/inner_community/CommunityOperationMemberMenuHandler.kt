@@ -8,7 +8,11 @@ import com.imyvm.community.util.Translator.trMenu
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun runOpenPlayerRegionalSettings(community: Community, playerObject: GameProfile, playerExecutor: ServerPlayerEntity) {
+fun runOpenPlayerRegionalSettings(
+    community: Community,
+    playerExecutor: ServerPlayerEntity,
+    playerObject: GameProfile
+) {
     CommunityMenuOpener.open(playerExecutor) { syncId ->  PlayerRegionalSettingMenu(syncId, community, playerObject) }
 }
 
@@ -35,8 +39,12 @@ fun runRemoveMember(
     )
 }
 
-fun runNotifyMember() {
-
+fun runNotifyMember(
+    community: Community,
+    playerExecutor: ServerPlayerEntity,
+    playerObject: GameProfile
+) {
+    TODO()
 }
 
 fun runPromoteMember(

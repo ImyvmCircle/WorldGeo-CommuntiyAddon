@@ -42,19 +42,19 @@ class CommunityOperationMemberMenu(
             slot = 12,
             name = Translator.tr("ui.community.operation.member.member_page.button.region")?.string ?: "Region Setting",
             item = Items.MAP
-        ) { runOpenPlayerRegionalSettings(community, playerObject, playerExecutor) }
+        ) { runOpenPlayerRegionalSettings(community, playerExecutor, playerObject) }
 
         addButton(
             slot = 14,
             name = Translator.tr("ui.community.operation.member.member_page.button.remove")?.string ?: "Remove Member",
             item = Items.ZOMBIE_VILLAGER_SPAWN_EGG
-        ) { runRemoveMember() }
+        ) { runRemoveMember(community, playerExecutor, playerObject) }
 
         addButton(
             slot = 19,
             name = Translator.tr("ui.community.operation.member.member_page.button.message")?.string ?: "Send Message",
             item = Items.PAPER
-        ) { runNotifyMember() }
+        ) { runNotifyMember(community, playerExecutor, playerObject) }
 
         if (community.getMemberRole(playerObject.id) == CommunityRoleType.OWNER) {
             addButton(
