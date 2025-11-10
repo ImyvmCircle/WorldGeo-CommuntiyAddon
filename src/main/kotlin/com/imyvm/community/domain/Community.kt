@@ -80,11 +80,25 @@ class Community(
     }
 
     private fun analyzeByRole(executorRole: CommunityRoleType, targetRole: CommunityRoleType): Boolean {
-        TODO()
+        return when (executorRole) {
+            CommunityRoleType.OWNER -> targetRole != CommunityRoleType.OWNER
+            CommunityRoleType.ADMIN -> targetRole == CommunityRoleType.MEMBER
+            CommunityRoleType.MEMBER -> false
+            CommunityRoleType.APPLICANT -> false
+        }
     }
 
     private fun analyzeByPrivilegeStatus(executorRole: CommunityRoleType, targetPlayerUuid: UUID): Boolean {
-        TODO()
+        if (executorRole == CommunityRoleType.OWNER) return true
+        else if (executorRole == CommunityRoleType.ADMIN) {
+            val memberAccount = member[targetPlayerUuid] ?: return false
+            if (memberAccount.isCouncilMember || memberAccount.governorship != -1) {
+                return false
+            }
+        } else {
+            return false
+        }
+        return true
     }
 
     @Deprecated("Temporary workaround. Will be replaced by UtilApi.parseRegionFoundingTime()",
