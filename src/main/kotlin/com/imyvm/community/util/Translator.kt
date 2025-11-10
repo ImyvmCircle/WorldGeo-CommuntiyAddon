@@ -4,6 +4,7 @@ import com.imyvm.community.WorldGeoCommunityAddon.Companion.MOD_ID
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.hoki.i18n.HokiLanguage
 import com.imyvm.hoki.i18n.HokiTranslator
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 object Translator : HokiTranslator() {
@@ -12,6 +13,17 @@ object Translator : HokiTranslator() {
     init {
         CommunityConfig.LANGUAGE.changeEvents.register { option, _, _ ->
             languageInstance = createLanguage(option.value)
+        }
+    }
+
+    fun trMenu(
+        playerExecutor: ServerPlayerEntity,
+        key: String,
+        vararg args: Any
+    ) {
+        tr(key, *args)?.let {
+            playerExecutor.closeHandledScreen()
+            playerExecutor.sendMessage(it)
         }
     }
 

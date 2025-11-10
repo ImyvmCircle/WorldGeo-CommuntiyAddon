@@ -2,8 +2,9 @@ package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.CommunityRoleType
-import com.imyvm.community.util.Translator
+import com.imyvm.community.util.Translator.trMenu
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -26,51 +27,98 @@ fun runPromoteMember(
     governorship: Int = -1,
     isPromote: Boolean = true
 ) {
-    if (isPromote){
+    if (isPromote) {
         if (governorship == -1) {
-            if (community.getMemberRole(playerObject.id) == CommunityRoleType.MEMBER) {
-                val memberValue = community.member[playerObject.id]
-                if (memberValue != null) {
-                    memberValue.basicRoleType = CommunityRoleType.ADMIN
-                    playerExecutor.closeHandledScreen()
-                    playerExecutor.sendMessage(Translator.tr("community.operation.member.promote.promote.success", playerObject.name))
-                } else {
-                    playerExecutor.closeHandledScreen()
-                    playerExecutor.sendMessage(Translator.tr("community.operation.member.promote.promote.fail.not_member", playerObject.name))
-                }
-                return
-            } else {
-                playerExecutor.closeHandledScreen()
-                playerExecutor.sendMessage(Translator.tr("community.operation.member.promote.promote.fail.not_member", playerObject.name))
-                return
-            }
+            handleRolePromotion(community, playerExecutor, playerObject)
         } else {
-            val memberValue = community.member[playerObject.id]
-            if (memberValue != null) {
-                memberValue.governorship = governorship
-                playerExecutor.closeHandledScreen()
-                playerExecutor.sendMessage(Translator.tr("community.operation.member.promote.governorship.success", playerObject.name, governorship))
-            } else {
-                playerExecutor.closeHandledScreen()
-                playerExecutor.sendMessage(Translator.tr("community.operation.member.promote.governorship.fail.not_member", playerObject.name))
-            }
+            handleGovernorshipUpdate(community, playerExecutor, playerObject, governorship)
         }
     } else {
-        if (community.getMemberRole(playerObject.id) == CommunityRoleType.ADMIN) {
-            val memberValue = community.member[playerObject.id]
-            if (memberValue != null) {
-                memberValue.basicRoleType = CommunityRoleType.MEMBER
-                playerExecutor.closeHandledScreen()
-                playerExecutor.sendMessage(Translator.tr("community.operation.member.promote.demote.success", playerObject.name))
-            } else {
-                playerExecutor.closeHandledScreen()
-                playerExecutor.sendMessage(Translator.tr("community.operation.member.promote.demote.fail.not_member", playerObject.name))
-            }
-            return
-        } else {
-            playerExecutor.closeHandledScreen()
-            playerExecutor.sendMessage(Translator.tr("community.operation.member.promote.demote.fail.not_admin", playerObject.name))
-            return
-        }
+        handleRoleDemotion(community, playerExecutor, playerObject)
     }
+}
+
+private fun handleRolePromotion(
+    community: Community,
+    playerExecutor: ServerPlayerEntity,
+    playerObject: GameProfile
+) {
+    if (community.getMemberRole(playerObject.id) != CommunityRoleType.MEMBER) {
+        trMenu(
+            playerExecutor,
+            "community.operation.member.promote.promote.fail.not_member",
+            playerObject.name
+        )
+        return
+    }
+
+    val memberValue = getMemberOrNotify(community, playerExecutor, playerObject, "promote.promote.fail.not_member")
+    if (memberValue != null) {
+        memberValue.basicRoleType = CommunityRoleType.ADMIN
+        trMenu(
+            playerExecutor,
+            "community.operation.member.promote.promote.success",
+            playerObject.name
+        )
+    }
+}
+
+private fun handleRoleDemotion(
+    community: Community,
+    playerExecutor: ServerPlayerEntity,
+    playerObject: GameProfile
+) {
+    if (community.getMemberRole(playerObject.id) != CommunityRoleType.ADMIN) {
+        trMenu(
+            playerExecutor,
+            "community.operation.member.promote.demote.fail.not_admin",
+            playerObject.name
+        )
+        return
+    }
+
+    val memberValue = getMemberOrNotify(community, playerExecutor, playerObject, "promote.demote.fail.not_member")
+    if (memberValue != null) {
+        memberValue.basicRoleType = CommunityRoleType.MEMBER
+        trMenu(
+            playerExecutor,
+            "community.operation.member.promote.demote.success",
+            playerObject.name
+        )
+    }
+}
+
+private fun handleGovernorshipUpdate(
+    community: Community,
+    playerExecutor: ServerPlayerEntity,
+    playerObject: GameProfile,
+    governorship: Int
+) {
+    val memberValue = getMemberOrNotify(community, playerExecutor, playerObject, "promote.governorship.fail.not_member")
+    if (memberValue != null) {
+        memberValue.governorship = governorship
+        trMenu(
+            playerExecutor,
+            "community.operation.member.promote.governorship.success",
+            playerObject.name,
+            governorship
+        )
+    }
+}
+
+private fun getMemberOrNotify(
+    community: Community,
+    playerExecutor: ServerPlayerEntity,
+    playerObject: GameProfile,
+    failTranslationKeySuffix: String
+): MemberAccount? {
+    val memberValue = community.member[playerObject.id]
+    if (memberValue == null) {
+        trMenu(
+            playerExecutor,
+            "community.operation.member.$failTranslationKeySuffix",
+            playerObject.name
+        )
+    }
+    return memberValue
 }

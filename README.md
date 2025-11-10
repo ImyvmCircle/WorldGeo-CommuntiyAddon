@@ -72,6 +72,11 @@ and so forth.
 The mechanics of voting grants members of a realm community the ability 
 to participate in the governance of their community, and operate themselves even without an active owner.
 
+#### Administration
+
+From the administration standpoint, a community is endowed with various capabilities,
+ranging from managing its members to regulating its region.
+
 ## Acknowledgements
 
 Were it not for the support of IMYVM fellows and players, this project would not have been possible.
