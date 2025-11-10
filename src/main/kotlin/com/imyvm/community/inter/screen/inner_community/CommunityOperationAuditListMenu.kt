@@ -6,6 +6,7 @@ import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
+import com.mojang.authlib.GameProfile
 import net.minecraft.item.Items
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
@@ -33,7 +34,7 @@ class CommunityOperationAuditListMenu(
         }
     }
 
-    private fun addApplicantButtons(applicants: List<Map.Entry<java.util.UUID, MemberAccount>>) {
+    private fun addApplicantButtons(applicants: List<Map.Entry<UUID, MemberAccount>>) {
         var slot = 10
         val server = playerExecutor.server
         for (applicant in applicants) {
@@ -42,21 +43,23 @@ class CommunityOperationAuditListMenu(
 
             val uuid = applicant.key
             val name = resolvePlayerName(server, uuid)
+            val objectProfile = getPlayerProfileByUuid(server, uuid) ?: continue
             addButton(
                 slot = slot,
                 name = name,
                 itemStack = createPlayerHeadItem(name, uuid)
-            ) { runOpenAuditMemberMenu() }
+            ) { runOpenAuditMemberMenu(objectProfile) }
             slot++
         }
     }
 
-    private fun runOpenAuditMemberMenu(){
+    private fun runOpenAuditMemberMenu(objectProfile: GameProfile){
         CommunityMenuOpener.open(playerExecutor) { syncId ->
             CommunityOperationAuditMenu(
                 syncId,
                 community = community,
-                playerExecutor = playerExecutor
+                playerExecutor = playerExecutor,
+                playerObject = objectProfile
             )
         }
     }
@@ -65,6 +68,9 @@ class CommunityOperationAuditListMenu(
         if (uuid == null) return "?"
         return server.userCache?.getByUuid(uuid)?.get()?.name ?: uuid.toString()
     }
+
+    fun getPlayerProfileByUuid(server: MinecraftServer, playerUuid: UUID) =
+        server.userCache?.getByUuid(playerUuid)?.orElse(null)
 
     companion object {
         fun generateMenuTitle(community: Community): Text = Text.of(community.generateCommunityMark() + " - Audit Requests:")

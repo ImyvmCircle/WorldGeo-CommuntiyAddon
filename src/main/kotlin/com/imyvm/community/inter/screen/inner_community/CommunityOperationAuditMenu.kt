@@ -1,8 +1,11 @@
 package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.inner_community.runAccept
+import com.imyvm.community.application.interaction.screen.inner_community.runRefuse
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
+import com.mojang.authlib.GameProfile
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -10,7 +13,8 @@ import net.minecraft.text.Text
 class CommunityOperationAuditMenu(
     syncId: Int,
     community: Community,
-    private val playerExecutor: ServerPlayerEntity
+    private val playerExecutor: ServerPlayerEntity,
+    playerObject: GameProfile
 ): AbstractMenu(
     syncId,
     menuTitle = generateCommunityOperationAuditMenuTitle()
@@ -20,13 +24,13 @@ class CommunityOperationAuditMenu(
             slot = 21,
             name = Translator.tr("ui.community.operation.audit.button.accept") ?.string ?: "Accept",
             item = Items.GREEN_WOOL
-        ) {}
+        ) { runAccept(community, playerExecutor, playerObject) }
 
         addButton(
             slot = 26,
             name = Translator.tr("ui.community.operation.audit.button.refuse") ?.string ?: "Refuse",
             item = Items.BARRIER
-        ) {}
+        ) { runRefuse(community, playerExecutor, playerObject) }
     }
     companion object {
         fun generateCommunityOperationAuditMenuTitle(): Text = Translator.tr("ui.community.operation.audit.title") ?: Text.of("Audit")
