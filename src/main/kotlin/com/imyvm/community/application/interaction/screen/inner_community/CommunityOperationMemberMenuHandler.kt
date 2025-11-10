@@ -48,7 +48,7 @@ fun runNotifyMember(
     val handler = CommunityNotificationMenuAnvil(
         playerExecutor,
         initialName = "(Edit your notification here)",
-        playerObect = playerObject,
+        playerObject = playerObject,
         community = community
     )
     handler.open()

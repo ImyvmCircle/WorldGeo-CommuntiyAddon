@@ -8,5 +8,5 @@ data class MemberAccount (
     var basicRoleType: MemberRoleType,
     val isCouncilMember: Boolean = false,
     var governorship: Int = -1,
-    var communityMail: List<Text> = emptyList()
+    var communityMail: ArrayList<Text> = arrayListOf()
 )
