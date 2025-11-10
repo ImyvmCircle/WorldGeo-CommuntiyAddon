@@ -4,6 +4,7 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.MemberRoleType
+import com.imyvm.community.inter.screen.inner_community.CommunityNotificationMenuAnvil
 import com.imyvm.community.util.Translator.trMenu
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
@@ -44,7 +45,13 @@ fun runNotifyMember(
     playerExecutor: ServerPlayerEntity,
     playerObject: GameProfile
 ) {
-    TODO()
+    val handler = CommunityNotificationMenuAnvil(
+        playerExecutor,
+        initialName = "(Edit your notification here)",
+        playerObect = playerObject,
+        community = community
+    )
+    handler.open()
 }
 
 fun runPromoteMember(
