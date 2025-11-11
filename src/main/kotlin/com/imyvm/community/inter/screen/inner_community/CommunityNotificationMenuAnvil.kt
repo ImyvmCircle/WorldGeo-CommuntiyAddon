@@ -2,9 +2,8 @@ package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractRenameMenuAnvil
-import com.imyvm.community.util.Translator.tr
 import com.imyvm.community.util.Translator.trMenu
-import com.imyvm.community.util.getFormattedMillsHour
+import com.imyvm.community.util.constructAndSendMail
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -22,7 +21,7 @@ class CommunityNotificationMenuAnvil(
         if (!checkPrerequisites(finalName)) return
         val member = community.member[playerObject.id]!!
 
-        val messageSent = constructAndSendMail(member.mail, finalName)
+        val messageSent = constructAndSendMail(member.mail, playerExecutor, community, finalName)
         if (messageSent) {
             trMenu(playerExecutor, "community.operation.member.message.sent", playerObject.name)
         } else {
@@ -42,25 +41,6 @@ class CommunityNotificationMenuAnvil(
             return false
         }
         return true
-    }
-
-    private fun constructAndSendMail(mailBox: MutableList<Text>, finalName: String): Boolean {
-        val formattedTime = getFormattedMillsHour(System.currentTimeMillis())
-        val regionName = community.getRegion()?.name ?: "Community#${community.regionNumberId}"
-
-        val message = tr(
-            "mail.notification.community.message",
-            formattedTime,
-            regionName,
-            playerExecutor.name.string,
-            finalName
-        )
-
-        if (message != null && message.string.isNotEmpty()) {
-            mailBox.add(message)
-            return true
-        }
-        return false
     }
 
 }

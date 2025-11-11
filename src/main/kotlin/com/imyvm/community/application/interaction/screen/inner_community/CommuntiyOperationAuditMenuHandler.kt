@@ -2,9 +2,8 @@ package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.MemberRoleType
-import com.imyvm.community.util.Translator.tr
 import com.imyvm.community.util.Translator.trMenu
-import com.imyvm.community.util.getFormattedMillsHour
+import com.imyvm.community.util.constructAndSendMail
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -24,15 +23,12 @@ fun runAccept(
 
     objectAccount.basicRoleType = MemberRoleType.MEMBER
     objectAccount.joinedTime = System.currentTimeMillis()
-
-    val formattedTime = getFormattedMillsHour(System.currentTimeMillis())
-    val regionName = community.getRegion()?.name ?: "Community#${community.regionNumberId}"
-    tr(
-        "mail.notification.community.message",
-        formattedTime,
-        regionName,
-        playerExecutor.name.string,
-        "ui.community.operation.audit.message.accept.mail")?.let { objectAccount.mail.add(it) }
+    constructAndSendMail(
+        objectAccount.mail,
+        playerExecutor,
+        community,
+        "ui.community.operation.audit.message.accept.mail"
+    )
     trMenu(
         playerExecutor,
         "ui.community.operation.audit.message.accept.success",
@@ -56,15 +52,12 @@ fun runRefuse(
 
     objectAccount.basicRoleType = MemberRoleType.REFUSED
     objectAccount.joinedTime = System.currentTimeMillis()
-
-    val formattedTime = getFormattedMillsHour(System.currentTimeMillis())
-    val regionName = community.getRegion()?.name ?: "Community#${community.regionNumberId}"
-    tr(
-        "mail.notification.community.message",
-        formattedTime,
-        regionName,
-        playerExecutor.name.string,
-        "ui.community.operation.audit.message.refuse.mail")?.let { objectAccount.mail.add(it) }
+    constructAndSendMail(
+        objectAccount.mail,
+        playerExecutor,
+        community,
+        "ui.community.operation.audit.message.refuse.mail"
+    )
     trMenu(
         playerExecutor,
         "ui.community.operation.audit.message.refuse.success",
