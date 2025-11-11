@@ -1,5 +1,6 @@
 package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.inner_community.runOPAdvancement
 import com.imyvm.community.application.interaction.screen.inner_community.runOPAuditRequests
 import com.imyvm.community.application.interaction.screen.inner_community.runOPRenameCommunity
 import com.imyvm.community.application.interaction.screen.inner_community.runOpManageMembers
@@ -63,7 +64,7 @@ class CommunityOperationMenu(
             slot = 15,
             name = Translator.tr("ui.community.operation.button.advancement")?.string ?: "Advancement",
             item = Items.ITEM_FRAME
-        ) {}
+        ) { runOPAdvancement(player, community) }
 
         addButton(
             slot = 16,
