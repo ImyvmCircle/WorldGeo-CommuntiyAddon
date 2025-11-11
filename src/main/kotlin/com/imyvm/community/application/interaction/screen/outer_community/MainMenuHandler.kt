@@ -30,7 +30,9 @@ fun runCreate(player: ServerPlayerEntity){
 
 fun runMyCommunity(player: ServerPlayerEntity) {
     val joinedCommunities = CommunityDatabase.communities.filter {
-        it.member.any { m -> m.key == player.uuid && it.getMemberRole(m.key) != MemberRoleType.APPLICANT }
+        it.member.any { m -> m.key == player.uuid &&
+                it.getMemberRole(m.key) != MemberRoleType.APPLICANT &&
+                it.getMemberRole(m.key) != MemberRoleType.REFUSED }
     }
 
     when {

@@ -1,8 +1,8 @@
 package com.imyvm.community.application.interaction.common.helper
 
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.domain.community.CommunityStatus
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator
 import net.minecraft.server.network.ServerPlayerEntity
@@ -50,6 +50,9 @@ private fun isJoinedTarget(player: ServerPlayerEntity, targetCommunity: Communit
         return if (targetCommunity.getMemberRole(player.uuid) == MemberRoleType.APPLICANT) {
             player.sendMessage(Translator.tr("community.join.error.already_applied", targetCommunity.regionNumberId))
             true
+        } else if (targetCommunity.getMemberRole(player.uuid) == MemberRoleType.REFUSED) {
+            player.sendMessage(Translator.tr("community.join.error.application_refused", targetCommunity.regionNumberId))
+            true
         } else {
             player.sendMessage(Translator.tr("community.join.error.already_member", targetCommunity.regionNumberId))
             true
@@ -62,7 +65,7 @@ private fun isJoinedRealmTargetingRealm(player: ServerPlayerEntity, targetCommun
     if (targetCommunity.status == CommunityStatus.RECRUITING_REALM || targetCommunity.status == CommunityStatus.PENDING_REALM || targetCommunity.status == CommunityStatus.ACTIVE_REALM) {
         val joinedCommunity = CommunityDatabase.communities.find {
             (it.status == CommunityStatus.ACTIVE_REALM || it.status == CommunityStatus.PENDING_REALM || it.status == CommunityStatus.RECRUITING_REALM)
-                    && it.member.containsKey(player.uuid)
+                    && (it.member.containsKey(player.uuid) && it.member[ player.uuid ]?.basicRoleType != MemberRoleType.REFUSED)
         }
         if (joinedCommunity != null) {
             player.sendMessage(Translator.tr("community.join.error.already_in_realm", joinedCommunity.regionNumberId))
@@ -76,7 +79,7 @@ private fun isJoinedManorTargetingManor(player: ServerPlayerEntity, targetCommun
     if (targetCommunity.status == CommunityStatus.ACTIVE_MANOR || targetCommunity.status == CommunityStatus.PENDING_MANOR) {
         val joinedCommunity = CommunityDatabase.communities.find {
             (it.status == CommunityStatus.ACTIVE_MANOR || it.status == CommunityStatus.PENDING_MANOR)
-                    && it.member.containsKey(player.uuid)
+                    && (it.member.containsKey(player.uuid) && it.member[ player.uuid ]?.basicRoleType != MemberRoleType.REFUSED)
         }
         if (joinedCommunity != null) {
             player.sendMessage(Translator.tr("community.join.error.already_in_manor", joinedCommunity.regionNumberId))

@@ -4,8 +4,8 @@ import com.imyvm.community.application.interaction.common.helper.checkPlayerMemb
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.CommunityJoinPolicy
-import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.domain.community.CommunityStatus
+import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.infra.CommunityConfig
 import com.imyvm.community.util.Translator
 import net.minecraft.server.network.ServerPlayerEntity
@@ -19,7 +19,10 @@ fun onJoinCommunity(player: ServerPlayerEntity, targetCommunity: Community): Int
 fun checkMemberNumberManor(player: ServerPlayerEntity,targetCommunity: Community): Boolean {
     if (CommunityConfig.IS_CHECKING_MANOR_MEMBER_SIZE.value) {
         if ((targetCommunity.status == CommunityStatus.ACTIVE_MANOR  || targetCommunity.status == CommunityStatus.PENDING_MANOR) &&
-            targetCommunity.member.count { targetCommunity.getMemberRole(it.key) != MemberRoleType.APPLICANT } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value) {
+            targetCommunity.member.count {
+                targetCommunity.getMemberRole(it.key) != MemberRoleType.APPLICANT &&
+                        targetCommunity.getMemberRole(it.key) != MemberRoleType.REFUSED
+            } >= CommunityConfig.MIN_NUMBER_MEMBER_REALM.value) {
             player.sendMessage(Translator.tr("community.join.error.full", CommunityConfig.MIN_NUMBER_MEMBER_REALM.value))
             return false
         }
