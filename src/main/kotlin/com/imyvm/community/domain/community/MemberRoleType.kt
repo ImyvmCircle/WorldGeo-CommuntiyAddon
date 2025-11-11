@@ -4,7 +4,8 @@ enum class MemberRoleType(val value: Int) {
     OWNER(0),
     ADMIN(1),
     MEMBER(2),
-    APPLICANT(3);
+    APPLICANT(3),
+    REFUSED(4);
 
     companion object {
         fun fromValue(value: Int): MemberRoleType {
