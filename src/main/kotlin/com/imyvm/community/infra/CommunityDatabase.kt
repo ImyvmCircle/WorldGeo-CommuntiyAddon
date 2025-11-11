@@ -69,10 +69,6 @@ object CommunityDatabase {
         communities.remove(targetCommunity)
     }
 
-    fun getCommunities(): List<Community> {
-        return communities
-    }
-
     fun getCommunityById(regionId: Int): Community? {
         return communities.find { it.regionNumberId == regionId }
     }

@@ -20,7 +20,7 @@ private fun checkPlayerMail(player: ServerPlayerEntity): List<Text> {
     val unreadMails = mutableListOf<Text>()
     val playerUuid = player.uuid
 
-    for (community in CommunityDatabase.getCommunities()) {
+    for (community in CommunityDatabase.communities) {
         val memberData = community.member[playerUuid] ?: continue
         val mailBox = memberData.mail
 
