@@ -64,12 +64,21 @@ class CommunityOperationAuditListMenu(
         }
     }
 
+    @Deprecated(
+        "Temporary workaround. Will be replaced by UtilApi.getPlayerName(server: MinecraftServer, uuid: UUID?)",
+        ReplaceWith("UtilApi.getPlayerName(server: MinecraftServer, uuid: UUID?)")
+    )
     private fun resolvePlayerName(server: MinecraftServer, uuid: UUID?): String {
         if (uuid == null) return "?"
         return server.userCache?.getByUuid(uuid)?.get()?.name ?: uuid.toString()
     }
 
-    fun getPlayerProfileByUuid(server: MinecraftServer, playerUuid: UUID) =
+
+    @Deprecated(
+        "Temporary workaround. Will be replaced by UtilApi.getPlayerProfile(server: MinecraftServer, playerUuid: UUID)",
+        ReplaceWith("UtilApi.getPlayerProfile(server: MinecraftServer, playerUuid: UUID)")
+    )
+    private fun getPlayerProfileByUuid(server: MinecraftServer, playerUuid: UUID) =
         server.userCache?.getByUuid(playerUuid)?.orElse(null)
 
     companion object {
