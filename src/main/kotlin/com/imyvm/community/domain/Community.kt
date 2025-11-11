@@ -75,6 +75,7 @@ class Community(
             MemberRoleType.ADMIN -> targetRole == MemberRoleType.MEMBER
             MemberRoleType.MEMBER -> false
             MemberRoleType.APPLICANT -> false
+            MemberRoleType.REFUSED -> false
         }
     }
 
