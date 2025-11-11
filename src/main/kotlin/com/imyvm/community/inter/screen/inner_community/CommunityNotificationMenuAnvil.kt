@@ -19,47 +19,48 @@ class CommunityNotificationMenuAnvil(
     initialName
 ) {
     override fun processRenaming(finalName: String) {
-        if (finalName.isBlank()) {
-            trMenu(
-                playerExecutor,
-                "community.operation.member.message.sent.fail.empty",
-                playerObject.name
-            )
-            return
-        } else if (community.member[playerObject.id] == null) {
-            trMenu(
-                playerExecutor,
-                "community.operation.member.message.sent.fail.not_member",
-                playerObject.name
-            )
-            return
+        if (!checkPrerequisites(finalName)) return
+        val member = community.member[playerObject.id]!!
+
+        val messageSent = constructAndSendMail(member.mail, finalName)
+        if (messageSent) {
+            trMenu(playerExecutor, "community.operation.member.message.sent", playerObject.name)
         } else {
-            val formattedTime = getFormattedMillsHour(System.currentTimeMillis())
-            val message = tr(
-                "mail.notification.community.message",
-                formattedTime,
-                community.getRegion()?.name ?: "Community#${community.regionNumberId}",
-                playerExecutor.name.string,
-                finalName
-            )
-
-            if ((message != null) && (message.string != "")) {
-                community.member[playerObject.id]!!.mail.add(message)
-                trMenu(
-                    playerExecutor,
-                    "community.operation.member.message.sent",
-                    playerObject.name
-                )
-            } else {
-                trMenu(
-                    playerExecutor,
-                    "community.operation.member.message.sent.fail.empty",
-                    playerObject.name
-                )
-            }
-
+            trMenu(playerExecutor, "community.operation.member.message.sent.error.empty", playerObject.name)
         }
     }
 
     override fun getMenuTitle(): Text  = Text.of("(Edit your notification here to ${playerObject.name})")
+
+    private fun checkPrerequisites(finalName: String): Boolean {
+        if (finalName.isBlank()) {
+            trMenu(playerExecutor, "community.operation.member.message.sent.error.empty", playerObject.name)
+            return false
+        }
+        if (community.member[playerObject.id] == null) {
+            trMenu(playerExecutor, "community.operation.member.message.sent.error.not_member", playerObject.name)
+            return false
+        }
+        return true
+    }
+
+    private fun constructAndSendMail(mailBox: MutableList<Text>, finalName: String): Boolean {
+        val formattedTime = getFormattedMillsHour(System.currentTimeMillis())
+        val regionName = community.getRegion()?.name ?: "Community#${community.regionNumberId}"
+
+        val message = tr(
+            "mail.notification.community.message",
+            formattedTime,
+            regionName,
+            playerExecutor.name.string,
+            finalName
+        )
+
+        if (message != null && message.string.isNotEmpty()) {
+            mailBox.add(message)
+            return true
+        }
+        return false
+    }
+
 }
