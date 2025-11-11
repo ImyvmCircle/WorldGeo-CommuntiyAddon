@@ -1,9 +1,9 @@
-package com.imyvm.community.inter.screen.inner_community
+package com.imyvm.community.inter.screen.inner_community.operation
 
-import com.imyvm.community.application.interaction.screen.inner_community.runNotifyMember
-import com.imyvm.community.application.interaction.screen.inner_community.runOpenPlayerRegionalSettings
-import com.imyvm.community.application.interaction.screen.inner_community.runPromoteMember
-import com.imyvm.community.application.interaction.screen.inner_community.runRemoveMember
+import com.imyvm.community.application.interaction.screen.inner_community.operation.runNotifyMember
+import com.imyvm.community.application.interaction.screen.inner_community.operation.runOpenPlayerRegionalSettings
+import com.imyvm.community.application.interaction.screen.inner_community.operation.runPromoteMember
+import com.imyvm.community.application.interaction.screen.inner_community.operation.runRemoveMember
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.AbstractMenu

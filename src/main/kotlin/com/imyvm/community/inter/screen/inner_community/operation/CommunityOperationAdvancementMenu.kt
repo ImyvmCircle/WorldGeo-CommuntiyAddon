@@ -1,11 +1,11 @@
-package com.imyvm.community.inter.screen.inner_community
+package com.imyvm.community.inter.screen.inner_community.operation
 
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-class CommunityAdvancementMenu(
+class CommunityOperationAdvancementMenu(
     syncId: Int,
     community: Community,
     playerExecutor: ServerPlayerEntity

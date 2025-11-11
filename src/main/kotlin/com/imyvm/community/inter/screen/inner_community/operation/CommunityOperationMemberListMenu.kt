@@ -1,7 +1,7 @@
-package com.imyvm.community.inter.screen.inner_community
+package com.imyvm.community.inter.screen.inner_community.operation
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
-import com.imyvm.community.application.interaction.screen.inner_community.runCommunityOperationMember
+import com.imyvm.community.application.interaction.screen.inner_community.operation.runCommunityOperationMember
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
@@ -124,7 +124,7 @@ class CommunityOperationMemberListMenu(
     }
 
     override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
-        CommunityMenuOpener.open(player) { syncId -> CommunityOperationMemberListMenu(syncId, community, player, newPage)}
+        CommunityMenuOpener.open(player) { syncId -> CommunityOperationMemberListMenu(syncId, community, player, newPage) }
     }
 
     @Deprecated(
