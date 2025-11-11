@@ -4,6 +4,7 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractRenameMenuAnvil
 import com.imyvm.community.util.Translator.tr
 import com.imyvm.community.util.Translator.trMenu
+import com.imyvm.community.util.getFormattedMillsHour
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -33,13 +34,17 @@ class CommunityNotificationMenuAnvil(
             )
             return
         } else {
+            val formattedTime = getFormattedMillsHour(System.currentTimeMillis())
             val message = tr(
-                "community.operation.member.message.received.content",
+                "mail.notification.community.message",
+                formattedTime,
+                community.getRegion()?.name ?: "Community#${community.regionNumberId}",
                 playerExecutor.name.string,
                 finalName
             )
-            if (message != null && message.string != "") {
-                community.member[playerObject.id]!!.communityMail.add(message)
+
+            if ((message != null) && (message.string != "")) {
+                community.member[playerObject.id]!!.mail.add(message)
                 trMenu(
                     playerExecutor,
                     "community.operation.member.message.sent",

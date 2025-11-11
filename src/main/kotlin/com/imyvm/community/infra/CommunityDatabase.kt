@@ -69,6 +69,10 @@ object CommunityDatabase {
         communities.remove(targetCommunity)
     }
 
+    fun getCommunities(): List<Community> {
+        return communities
+    }
+
     fun getCommunityById(regionId: Int): Community? {
         return communities.find { it.regionNumberId == regionId }
     }
@@ -98,8 +102,8 @@ object CommunityDatabase {
             stream.writeBoolean(memberAccount.isCouncilMember)
             stream.writeInt(memberAccount.governorship)
 
-            stream.writeInt(memberAccount.communityMail.size)
-            for (mailItem in memberAccount.communityMail) {
+            stream.writeInt(memberAccount.mail.size)
+            for (mailItem in memberAccount.mail) {
                 stream.writeUTF(mailItem.string)
             }
         }
@@ -135,7 +139,7 @@ object CommunityDatabase {
                 basicRoleType = role,
                 isCouncilMember = isCouncilMember,
                 governorship = governorship,
-                communityMail = communityMail
+                mail = communityMail
             )
         }
         return memberMap
