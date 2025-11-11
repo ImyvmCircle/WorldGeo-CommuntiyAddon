@@ -18,6 +18,6 @@ fun runOpManageMembers(player: ServerPlayerEntity, community: Community){
 
 fun runOPAuditRequests(player: ServerPlayerEntity, community: Community) {
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityOperationAuditListMenu(syncId, community, player)
+        CommunityOperationAuditListMenu(syncId, community, player, 0)
     }
 }

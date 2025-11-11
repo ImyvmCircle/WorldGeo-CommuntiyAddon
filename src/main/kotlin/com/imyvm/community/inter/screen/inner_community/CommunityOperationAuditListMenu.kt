@@ -3,7 +3,7 @@ package com.imyvm.community.inter.screen.inner_community
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.MemberAccount
-import com.imyvm.community.inter.screen.AbstractMenu
+import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
 import com.mojang.authlib.GameProfile
@@ -16,11 +16,18 @@ import java.util.*
 class CommunityOperationAuditListMenu(
     syncId: Int,
     private val community: Community,
-    private val playerExecutor: ServerPlayerEntity
-): AbstractMenu(
+    private val playerExecutor: ServerPlayerEntity,
+    private val page: Int
+): AbstractListMenu(
     syncId,
-    menuTitle = generateMenuTitle(community)
+    menuTitle = generateMenuTitle(community),
+    page
 ) {
+
+    private val playersPerPage = 35
+    private val startSlot = 10
+    private val endSlot = 44
+
     init {
         val applicants = community.member.entries.filter { it.value.basicRoleType.name == "APPLICANT" }
         if (applicants.isEmpty()) {
@@ -32,15 +39,31 @@ class CommunityOperationAuditListMenu(
         } else {
             addApplicantButtons(applicants)
         }
+
+        handlePage(applicants.size)
+    }
+
+    override fun calculateTotalPages(listSize: Int): Int {
+        return (listSize / playersPerPage) + 1
+    }
+
+    override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
+        CommunityMenuOpener.open(player) { syncId ->
+            CommunityOperationAuditListMenu(
+                syncId,
+                community = community,
+                playerExecutor = playerExecutor,
+                page = newPage
+            )
+        }
     }
 
     private fun addApplicantButtons(applicants: List<Map.Entry<UUID, MemberAccount>>) {
-        var slot = 10
-        val server = playerExecutor.server
-        for (applicant in applicants) {
-            if (slot == 17) slot = 19
-            if (slot == 26) slot = 28
+        val applicantInPage = applicants.drop(page * playersPerPage).take(playersPerPage)
 
+        var slot = startSlot
+        val server = playerExecutor.server
+        for (applicant in applicantInPage) {
             val uuid = applicant.key
             val name = resolvePlayerName(server, uuid)
             val objectProfile = getPlayerProfileByUuid(server, uuid) ?: continue
@@ -49,7 +72,8 @@ class CommunityOperationAuditListMenu(
                 name = name,
                 itemStack = createPlayerHeadItem(name, uuid)
             ) { runOpenAuditMemberMenu(objectProfile) }
-            slot++
+            slot = super.incrementSlotIndex(slot)
+            if (slot > endSlot) break
         }
     }
 
