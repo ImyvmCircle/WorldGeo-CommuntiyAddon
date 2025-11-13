@@ -1,9 +1,6 @@
 package com.imyvm.community.inter.screen.inner_community
 
-import com.imyvm.community.application.interaction.screen.inner_community.runOPAdvancement
-import com.imyvm.community.application.interaction.screen.inner_community.runOPAuditRequests
-import com.imyvm.community.application.interaction.screen.inner_community.runOPRenameCommunity
-import com.imyvm.community.application.interaction.screen.inner_community.runOpManageMembers
+import com.imyvm.community.application.interaction.screen.inner_community.*
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityJoinPolicy
 import com.imyvm.community.inter.screen.AbstractMenu
@@ -70,13 +67,13 @@ class CommunityOperationMenu(
             slot = 19,
             name = Translator.tr("ui.community.operation.button.region.geography")?.string ?: "Region Geography Modification",
             item = Items.MAP
-        ){}
+        ){ runOPRegion(player, community, isGeographic = true) }
 
         addButton(
             slot = 20,
             name = Translator.tr("ui.community.operation.button.region.settings")?.string ?: "Region Settings",
             item = Items.HEART_OF_THE_SEA
-        ){}
+        ){ runOPRegion(player, community, isGeographic = false) }
     }
 
     private fun addChangeableButtons(player: ServerPlayerEntity, community: Community) {

@@ -122,7 +122,9 @@
   "ui.community.operation.member_list.member": "Members",
   "ui.community.member_list.error.member_not_found": "Managing member not found.",
 
-  "ui.community.operation.member.title": "- Member Management",
+  "ui.community.operation.member.title.component": "- Member Management",
+
+  "ui.community.operation.region.geography.title.component": "Choose scope to modify geographic shape",
 
   "ui.general.list.prev": "Previous Page",
   "ui.general.list.next": "Next Page",

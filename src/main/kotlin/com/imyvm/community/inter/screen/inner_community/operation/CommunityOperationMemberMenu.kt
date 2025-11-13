@@ -72,7 +72,7 @@ class CommunityOperationMemberMenu(
             return Text.of(
                 "${community.getRegion()?.name}" +
                         " - ${playerObject.name}" +
-                        Translator.tr("ui.community.operation.member.title")
+                        Translator.tr("ui.community.operation.member.title.component")
             )
         }
     }
