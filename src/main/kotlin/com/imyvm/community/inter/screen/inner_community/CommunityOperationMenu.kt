@@ -50,27 +50,33 @@ class CommunityOperationMenu(
 
         addButton(
             slot = 13,
-            name = Translator.tr("ui.community.operation.button.scope")?.string ?: "Scope",
-            item = Items.MAP
-        ){}
-
-        addButton(
-            slot = 14,
             name = Translator.tr("ui.community.operation.button.announcement")?.string ?: "Announcement",
             item = Items.PAPER
         ) {}
 
         addButton(
-            slot = 15,
+            slot = 14,
             name = Translator.tr("ui.community.operation.button.advancement")?.string ?: "Advancement",
             item = Items.ITEM_FRAME
         ) { runOPAdvancement(player, community) }
 
         addButton(
-            slot = 16,
+            slot = 15,
             name = Translator.tr("ui.community.operation.button.assets")?.string ?: "Assets",
             item = Items.EMERALD_ORE
         ) {}
+
+        addButton(
+            slot = 19,
+            name = Translator.tr("ui.community.operation.button.region.geography")?.string ?: "Region Geography Modification",
+            item = Items.MAP
+        ){}
+
+        addButton(
+            slot = 20,
+            name = Translator.tr("ui.community.operation.button.region.settings")?.string ?: "Region Settings",
+            item = Items.HEART_OF_THE_SEA
+        ){}
     }
 
     private fun addChangeableButtons(player: ServerPlayerEntity, community: Community) {
