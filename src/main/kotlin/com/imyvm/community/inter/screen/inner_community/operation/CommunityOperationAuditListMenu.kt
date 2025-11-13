@@ -17,7 +17,7 @@ class CommunityOperationAuditListMenu(
     syncId: Int,
     private val community: Community,
     private val playerExecutor: ServerPlayerEntity,
-    private val page: Int
+    page: Int
 ): AbstractListMenu(
     syncId,
     menuTitle = generateMenuTitle(community),

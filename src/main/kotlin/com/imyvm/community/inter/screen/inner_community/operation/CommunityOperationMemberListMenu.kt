@@ -17,7 +17,7 @@ class CommunityOperationMemberListMenu(
     syncId: Int,
     val community: Community,
     val player: ServerPlayerEntity,
-    private val page: Int = 0
+    page: Int = 0
 ) : AbstractListMenu(
     syncId,
     menuTitle = generateCommunityMemberListMenuTitle(community),

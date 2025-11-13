@@ -11,7 +11,7 @@ import java.util.*
 abstract class AbstractCommunityListMenu(
     syncId: Int,
     menuTitle: Text?,
-    private val page: Int = 0
+    page: Int = 0
 ) : AbstractListMenu(
     syncId,
     menuTitle = menuTitle,

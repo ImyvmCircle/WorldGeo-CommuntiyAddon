@@ -47,8 +47,8 @@ class CommunityOperationRegionMenu(
             scopes.drop((page - 1) * unitsPerPage + unitsInPageZero).take(unitsPerPage)
         }
 
-        val slotIndex = if (page == 0) startSlotInPageZero else startSlot
-        val index = 1
+        var index = 1
+        var slotIndex = if (page == 0) startSlotInPageZero else startSlot
         for (scope in scopesInPage) {
             val item = when (slotIndex % 9) {
                 0 -> Items.WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE
@@ -59,12 +59,16 @@ class CommunityOperationRegionMenu(
                 5 -> Items.RAISER_ARMOR_TRIM_SMITHING_TEMPLATE
                 6 -> Items.FLOW_ARMOR_TRIM_SMITHING_TEMPLATE
                 7 -> Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE
+                else -> Items.ITEM_FRAME
             }
             addButton(
                 slot = slotIndex,
                 name = index.toString(),
                 item = item
             ) {}
+
+            index++
+            slotIndex = incrementSlotIndex(slotIndex)
         }
     }
 
