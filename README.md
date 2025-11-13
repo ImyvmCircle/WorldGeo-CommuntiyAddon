@@ -77,6 +77,46 @@ to participate in the governance of their community, and operate themselves even
 From the administration standpoint, a community is endowed with various capabilities,
 ranging from managing its members to regulating its region.
 
+By now, a community can be renamed via modifications operated by owners or admins,
+provided that they are unique around the server world and are not blank.
+Later on, more community identifiers will be supported for alteration.
+And permissions to modify them may be granted or revoked to admins or councilors as well,
+depending on the preferences of the owner.
+
+Members are players who joined the community member list as the owners, admins or regular members.
+To acquire membership of a community, 
+players must have not joined any other community with the identical type of the target community,
+and the way they join still depends on the community citizenship policies defined by the community itself.
+Communities have a few options for citizenship policies,
+including open enrollment, invitation only, application with approval by owner/admins/council.
+Members may be expelled from the community by owner/admins/council,
+yet they can also voluntarily withdraw from it at any time,
+unless they are owners.
+
+The region of a community is designated at the time when the community launches, and is deemed as its territory.
+A region is composed of multiple scopes that can be configured with different settings.
+Intertwined with its region,
+a community is entitled to expand or shrink its territory by adjusting the scopes of its region or adding/removing scopes,
+to modify the settings of scopes,
+or even to sell/buy scopes with other communities(if both parties agree and the trade will not result in regions without scopes),
+but not to delete or unbind its region.
+
+By definition, the assets and advancements of a community should be introduced as a part of this section as well.
+Owing to complexity, however, their characteristics will be detailed independently in their own sections below.
+
+#### Advancement
+
+To develop a sense of community and diversity,
+an advancement system is implemented guiding communities to achieve various milestones,
+along with indexes helping to construct advancement items in detail.
+
+#### Asset
+
+
+#### Announcement
+
+
+
 ## Acknowledgements
 
 Were it not for the support of IMYVM fellows and players, this project would not have been possible.
