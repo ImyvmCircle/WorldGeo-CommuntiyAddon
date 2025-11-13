@@ -9,7 +9,7 @@ import net.minecraft.text.Text
 abstract class AbstractListMenu(
     syncId: Int,
     menuTitle: Text?,
-    private val page: Int = 0
+    val page: Int = 0
 ) : AbstractMenu(
     syncId,
     menuTitle = menuTitle

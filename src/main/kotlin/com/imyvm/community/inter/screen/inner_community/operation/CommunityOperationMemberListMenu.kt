@@ -120,7 +120,7 @@ class CommunityOperationMemberListMenu(
     }
 
     override fun calculateTotalPages(listSize: Int): Int {
-        return (listSize + 2 * 7 + 2 + playersPerPage - 1 / playersPerPage)
+        return ((listSize + 2 * 7 + 2 + playersPerPage - 1) / playersPerPage)
     }
 
     override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
