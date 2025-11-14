@@ -6,9 +6,9 @@ import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
+import com.imyvm.iwg.inter.api.UtilApi
 import com.mojang.authlib.GameProfile
 import net.minecraft.item.Items
-import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import java.util.*
@@ -65,8 +65,8 @@ class CommunityOperationAuditListMenu(
         val server = playerExecutor.server
         for (applicant in applicantInPage) {
             val uuid = applicant.key
-            val name = resolvePlayerName(server, uuid)
-            val objectProfile = getPlayerProfileByUuid(server, uuid) ?: continue
+            val name = UtilApi.getPlayerName(server, uuid)
+            val objectProfile = UtilApi.getPlayerProfile(server, uuid) ?: continue
             addButton(
                 slot = slot,
                 name = name,
@@ -87,23 +87,6 @@ class CommunityOperationAuditListMenu(
             )
         }
     }
-
-    @Deprecated(
-        "Temporary workaround. Will be replaced by UtilApi.getPlayerName(server: MinecraftServer, uuid: UUID?)",
-        ReplaceWith("UtilApi.getPlayerName(server: MinecraftServer, uuid: UUID?)")
-    )
-    private fun resolvePlayerName(server: MinecraftServer, uuid: UUID?): String {
-        if (uuid == null) return "?"
-        return server.userCache?.getByUuid(uuid)?.get()?.name ?: uuid.toString()
-    }
-
-
-    @Deprecated(
-        "Temporary workaround. Will be replaced by UtilApi.getPlayerProfile(server: MinecraftServer, playerUuid: UUID)",
-        ReplaceWith("UtilApi.getPlayerProfile(server: MinecraftServer, playerUuid: UUID)")
-    )
-    private fun getPlayerProfileByUuid(server: MinecraftServer, playerUuid: UUID) =
-        server.userCache?.getByUuid(playerUuid)?.orElse(null)
 
     companion object {
         fun generateMenuTitle(community: Community): Text = Text.of(community.generateCommunityMark() + " - Audit Requests:")

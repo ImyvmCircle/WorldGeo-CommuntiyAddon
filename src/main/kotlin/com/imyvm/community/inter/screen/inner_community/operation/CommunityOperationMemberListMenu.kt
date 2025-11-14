@@ -6,17 +6,16 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItem
 import com.imyvm.community.util.Translator
-import com.imyvm.iwg.util.translator.resolvePlayerName
+import com.imyvm.iwg.inter.api.UtilApi
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
-import java.util.*
 
 class CommunityOperationMemberListMenu(
     syncId: Int,
     val community: Community,
-    val player: ServerPlayerEntity,
+    val playerExecutor: ServerPlayerEntity,
     page: Int = 0
 ) : AbstractListMenu(
     syncId,
@@ -50,7 +49,7 @@ class CommunityOperationMemberListMenu(
         ) {}
 
         val ownerUUID = community.getOwnerUUID()
-        val ownerName = resolveNameFromUUID(ownerUUID, player)
+        val ownerName = UtilApi.getPlayerName(playerExecutor, ownerUUID)
         addButton(
             slot = 12,
             name = ownerName,
@@ -71,7 +70,7 @@ class CommunityOperationMemberListMenu(
 
         val adminUUIDs = community.getAdminUUIDs()
         for (uuid in adminUUIDs) {
-            val adminName = resolveNameFromUUID(uuid, player)
+            val adminName = UtilApi.getPlayerName(playerExecutor, uuid)
             val slotIndex = 21 + adminUUIDs.indexOf(uuid)
             addButton(
                 slot = slotIndex,
@@ -81,7 +80,7 @@ class CommunityOperationMemberListMenu(
                 } else {
                     ItemStack(Items.PLAYER_HEAD)
                 }
-            ) { runCommunityOperationMember(community, uuid, player) }
+            ) { runCommunityOperationMember(community, uuid, playerExecutor) }
         }
 
     }
@@ -102,7 +101,7 @@ class CommunityOperationMemberListMenu(
 
         var slotIndex = if (page == 0) startSlotInPageZero else startSlot
         for (uuid in memberInPageList) {
-            val memberName = resolveNameFromUUID(uuid, player)
+            val memberName = UtilApi.getPlayerName(playerExecutor, uuid)
 
             addButton(
                 slot = slotIndex,
@@ -112,7 +111,7 @@ class CommunityOperationMemberListMenu(
                 } else {
                     ItemStack(Items.PLAYER_HEAD)
                 }
-            ) { runCommunityOperationMember(community, uuid, player) }
+            ) { runCommunityOperationMember(community, uuid, playerExecutor) }
 
             slotIndex = super.incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -125,14 +124,6 @@ class CommunityOperationMemberListMenu(
 
     override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
         CommunityMenuOpener.open(player) { syncId -> CommunityOperationMemberListMenu(syncId, community, player, newPage) }
-    }
-
-    @Deprecated(
-        message = "Temporary implementation. Use UtilApi.getPlayerName() after dependency upgrade",
-        replaceWith = ReplaceWith("UtilApi.getPlayerName(player, ownerUUID)")
-    )
-    private fun resolveNameFromUUID(ownerUUID: UUID?, player: ServerPlayerEntity): String? {
-        return player.getServer()?.let { resolvePlayerName(it, ownerUUID) }
     }
 
     companion object {

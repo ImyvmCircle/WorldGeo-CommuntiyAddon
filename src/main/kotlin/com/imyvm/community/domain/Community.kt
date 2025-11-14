@@ -5,10 +5,10 @@ import com.imyvm.community.domain.community.CommunityStatus
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.util.Translator
 import com.imyvm.community.util.getFormattedMillsHour
-import com.imyvm.iwg.application.region.parseFoundingTimeFromRegionId
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.inter.api.RegionDataApi
+import com.imyvm.iwg.inter.api.UtilApi
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 
@@ -23,7 +23,7 @@ class Community(
     }
 
     fun getFormattedFoundingTime(): String {
-        val foundingTimeMillis = this.regionNumberId?.let { parseRegionFoundingTime(it) }
+        val foundingTimeMillis = this.regionNumberId?.let { UtilApi.parseRegionFoundingTime(it) }
         return getFormattedMillsHour(foundingTimeMillis ?: 0L)
     }
 
@@ -90,12 +90,5 @@ class Community(
             return false
         }
         return true
-    }
-
-    @Deprecated("Temporary workaround. Will be replaced by UtilApi.parseRegionFoundingTime()",
-        ReplaceWith("UtilApi.parseRegionFoundingTime(regionNumberId)")
-    )
-    private fun parseRegionFoundingTime(regionNumberId: Int): Long {
-        return parseFoundingTimeFromRegionId(regionNumberId)
     }
 }
