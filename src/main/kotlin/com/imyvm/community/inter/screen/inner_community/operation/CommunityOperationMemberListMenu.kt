@@ -69,7 +69,7 @@ class CommunityOperationMemberListMenu(
             val slotIndex = 21 + adminUUIDs.indexOf(uuid)
             addButton(
                 slot = slotIndex,
-                name = adminName ?: "Unknown Admin",
+                name = adminName,
                 itemStack = createPlayerHeadItem(adminName, uuid)
             ) { runCommunityOperationMember(community, uuid, playerExecutor) }
         }
@@ -96,7 +96,7 @@ class CommunityOperationMemberListMenu(
 
             addButton(
                 slot = slotIndex,
-                name = memberName ?: "Unknown Member",
+                name = memberName,
                 itemStack = createPlayerHeadItem(memberName, uuid)
             ) { runCommunityOperationMember(community, uuid, playerExecutor) }
 
