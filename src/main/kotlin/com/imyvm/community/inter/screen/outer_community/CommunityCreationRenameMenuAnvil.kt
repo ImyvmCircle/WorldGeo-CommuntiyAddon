@@ -3,14 +3,14 @@ package com.imyvm.community.inter.screen.outer_community
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.inter.screen.AbstractRenameMenuAnvil
 import com.imyvm.community.util.Translator
-import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.domain.component.GeoShapeType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 class CommunityCreationRenameMenuAnvil(
     player: ServerPlayerEntity,
     initialName: String,
-    private val currentShape: Region.Companion.GeoShapeType,
+    private val currentShape: GeoShapeType,
     private val isManor: Boolean,
 ) : AbstractRenameMenuAnvil(player, initialName) {
 

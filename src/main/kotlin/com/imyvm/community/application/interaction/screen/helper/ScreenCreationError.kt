@@ -5,12 +5,12 @@ import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.util.Translator
 import com.imyvm.economy.EconomyMod
 import com.imyvm.iwg.ImyvmWorldGeo
-import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.domain.component.GeoShapeType
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun generateCreationError(
     currentName: String,
-    currentShape: Region.Companion.GeoShapeType,
+    currentShape: GeoShapeType,
     isCurrentCommunityTypeManor: Boolean,
     playerEntity: ServerPlayerEntity
 ): String {
@@ -19,11 +19,11 @@ fun generateCreationError(
         errors.add(Translator.tr("ui.create.error.name_empty")?.string ?: "NameEmpty")
     } else if (CommunityDatabase.communities.any { it.getRegion()?.name == currentName }) {
         errors.add(Translator.tr("ui.create.error.name_duplicated")?.string ?: "NameDuplicated")
-    } else if (currentShape == Region.Companion.GeoShapeType.UNKNOWN) {
+    } else if (currentShape == GeoShapeType.UNKNOWN) {
         errors.add(Translator.tr("ui.create.error.shape_unknown")?.string ?: "ShapeUnknown")
     }
 
-    if (currentShape == Region.Companion.GeoShapeType.POLYGON) {
+    if (currentShape == GeoShapeType.POLYGON) {
         val points = ImyvmWorldGeo.pointSelectingPlayers[playerEntity.uuid]
         if (points == null || points.size < 3) {
             errors.add(
@@ -31,7 +31,7 @@ fun generateCreationError(
                     ?: "PolygonNeed3Points+Selected"
             )
         }
-    } else if (currentShape == Region.Companion.GeoShapeType.CIRCLE || currentShape == Region.Companion.GeoShapeType.RECTANGLE) {
+    } else if (currentShape == GeoShapeType.CIRCLE || currentShape == GeoShapeType.RECTANGLE) {
         val points = ImyvmWorldGeo.pointSelectingPlayers[playerEntity.uuid]
         if (points == null || points.size < 2) {
             errors.add(

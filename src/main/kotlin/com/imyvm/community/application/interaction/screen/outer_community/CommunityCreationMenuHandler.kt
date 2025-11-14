@@ -3,13 +3,13 @@ package com.imyvm.community.application.interaction.screen.outer_community
 import com.imyvm.community.application.interaction.common.onCreateCommunity
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.inter.screen.outer_community.CommunityCreationMenu
-import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.domain.component.GeoShapeType
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun runRenameNewCommunity(
     player: ServerPlayerEntity,
     currentName: String,
-    currentShape: Region.Companion.GeoShapeType,
+    currentShape: GeoShapeType,
     isManor: Boolean
 ) {
     CommunityMenuOpener.openCreationRenameAnvilMenu(player, currentName, currentShape, isManor)
@@ -18,14 +18,14 @@ fun runRenameNewCommunity(
 fun runSwitchCommunityShape(
     player: ServerPlayerEntity,
     communityName: String,
-    geoShapeType: Region.Companion.GeoShapeType,
+    geoShapeType: GeoShapeType,
     isManor: Boolean
 ){
     val newType = when(geoShapeType){
-        Region.Companion.GeoShapeType.CIRCLE -> Region.Companion.GeoShapeType.RECTANGLE
-        Region.Companion.GeoShapeType.RECTANGLE -> Region.Companion.GeoShapeType.POLYGON
-        Region.Companion.GeoShapeType.POLYGON -> Region.Companion.GeoShapeType.CIRCLE
-        Region.Companion.GeoShapeType.UNKNOWN -> Region.Companion.GeoShapeType.RECTANGLE
+        GeoShapeType.CIRCLE -> GeoShapeType.RECTANGLE
+        GeoShapeType.RECTANGLE -> GeoShapeType.POLYGON
+        GeoShapeType.POLYGON -> GeoShapeType.CIRCLE
+        GeoShapeType.UNKNOWN -> GeoShapeType.RECTANGLE
     }
 
     CommunityMenuOpener.open(player) { syncId ->
@@ -36,7 +36,7 @@ fun runSwitchCommunityShape(
 fun runSwitchCommunityType(
     player: ServerPlayerEntity,
     communityName: String,
-    geoShapeType: Region.Companion.GeoShapeType,
+    geoShapeType: GeoShapeType,
     isManor: Boolean
 ){
     CommunityMenuOpener.open(player) { syncId ->
@@ -47,7 +47,7 @@ fun runSwitchCommunityType(
 fun runConfirmCommunityCreation(
     player: ServerPlayerEntity,
     communityName: String,
-    geoShapeType: Region.Companion.GeoShapeType,
+    geoShapeType: GeoShapeType,
     isManor: Boolean
 ){
     player.closeHandledScreen()

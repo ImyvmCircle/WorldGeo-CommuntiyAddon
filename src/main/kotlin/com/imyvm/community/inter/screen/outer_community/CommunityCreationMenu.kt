@@ -7,7 +7,7 @@ import com.imyvm.community.application.interaction.screen.outer_community.runSwi
 import com.imyvm.community.application.interaction.screen.outer_community.runSwitchCommunityType
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
-import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.domain.component.GeoShapeType
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -15,7 +15,7 @@ import net.minecraft.text.Text
 class CommunityCreationMenu(
     syncId: Int,
     currentName: String = Translator.tr("ui.create.title")?.string ?: "New-Creating-Community",
-    currentShape: Region.Companion.GeoShapeType = Region.Companion.GeoShapeType.RECTANGLE,
+    currentShape: GeoShapeType = GeoShapeType.RECTANGLE,
     isCurrentCommunityTypeManor: Boolean = true,
     playerEntity: ServerPlayerEntity
 ) : AbstractMenu(
@@ -34,10 +34,10 @@ class CommunityCreationMenu(
             name = (Translator.tr("ui.create.button.shape.prefix")?.string ?: "Current Shape(Click to change):")
                     + currentShape.toString(),
             item = when (currentShape) {
-                Region.Companion.GeoShapeType.CIRCLE -> Items.CLOCK
-                Region.Companion.GeoShapeType.RECTANGLE -> Items.MAP
-                Region.Companion.GeoShapeType.POLYGON -> Items.NETHER_STAR
-                Region.Companion.GeoShapeType.UNKNOWN -> Items.STRUCTURE_BLOCK
+                GeoShapeType.CIRCLE -> Items.CLOCK
+                GeoShapeType.RECTANGLE -> Items.MAP
+                GeoShapeType.POLYGON -> Items.NETHER_STAR
+                GeoShapeType.UNKNOWN -> Items.STRUCTURE_BLOCK
             }
         ) { runSwitchCommunityShape(it, currentName, currentShape, isCurrentCommunityTypeManor) }
 
@@ -58,7 +58,7 @@ class CommunityCreationMenu(
     companion object {
         private fun createMenuTitle(
             currentName: String,
-            currentShape: Region.Companion.GeoShapeType,
+            currentShape: GeoShapeType,
             isCurrentCommunityTypeManor: Boolean,
             playerEntity: ServerPlayerEntity
         ): Text {

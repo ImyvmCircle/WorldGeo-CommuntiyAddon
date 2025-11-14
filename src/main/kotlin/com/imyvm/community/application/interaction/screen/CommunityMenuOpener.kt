@@ -5,7 +5,7 @@ import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityMenu
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationRenameMenuAnvil
 import com.imyvm.community.inter.screen.outer_community.CommunityCreationRenameMenuAnvil
-import com.imyvm.iwg.domain.Region
+import com.imyvm.iwg.domain.component.GeoShapeType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.screen.NamedScreenHandlerFactory
@@ -34,7 +34,7 @@ object CommunityMenuOpener {
     fun openCreationRenameAnvilMenu(
         player: ServerPlayerEntity,
         currentName: String,
-        currentShape: Region.Companion.GeoShapeType,
+        currentShape: GeoShapeType,
         isManor: Boolean
     ) {
         val handler = CommunityCreationRenameMenuAnvil(player, currentName, currentShape, isManor)
