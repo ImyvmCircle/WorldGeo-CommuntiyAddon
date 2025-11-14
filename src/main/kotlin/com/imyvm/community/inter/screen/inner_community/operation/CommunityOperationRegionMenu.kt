@@ -47,7 +47,6 @@ class CommunityOperationRegionMenu(
             scopes.drop((page - 1) * unitsPerPage + unitsInPageZero).take(unitsPerPage)
         }
 
-        var index = 1
         var slotIndex = if (page == 0) startSlotInPageZero else startSlot
         for (scope in scopesInPage) {
             val item = when (slotIndex % 9) {
@@ -63,11 +62,10 @@ class CommunityOperationRegionMenu(
             }
             addButton(
                 slot = slotIndex,
-                name = index.toString(),
+                name = scope.scopeName,
                 item = item
             ) {}
 
-            index++
             slotIndex = incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
         }
