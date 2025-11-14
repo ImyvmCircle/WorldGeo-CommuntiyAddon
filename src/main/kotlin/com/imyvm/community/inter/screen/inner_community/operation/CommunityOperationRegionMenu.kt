@@ -69,6 +69,7 @@ class CommunityOperationRegionMenu(
 
             index++
             slotIndex = incrementSlotIndex(slotIndex)
+            if (slotIndex > endSlot) break
         }
     }
 
