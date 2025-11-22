@@ -4,6 +4,7 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.util.Translator
+import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -12,7 +13,7 @@ class CommunityOperationRegionMenu(
     syncId: Int,
     val community: Community,
     private val isGeographic: Boolean,
-    playerExecutor: ServerPlayerEntity,
+    val playerExecutor: ServerPlayerEntity,
     page: Int = 0
 ): AbstractListMenu(
     syncId,
@@ -49,6 +50,8 @@ class CommunityOperationRegionMenu(
 
         var slotIndex = if (page == 0) startSlotInPageZero else startSlot
         for (scope in scopesInPage) {
+
+            val scopeName = scope.scopeName
             val item = when (slotIndex % 9) {
                 0 -> Items.WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE
                 1 -> Items.WARD_ARMOR_TRIM_SMITHING_TEMPLATE
@@ -60,11 +63,12 @@ class CommunityOperationRegionMenu(
                 7 -> Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE
                 else -> Items.ITEM_FRAME
             }
+
             addButton(
                 slot = slotIndex,
-                name = scope.scopeName,
+                name = scopeName,
                 item = item
-            ) {}
+            ) { executeScope(scopeName) }
 
             slotIndex = incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -78,6 +82,13 @@ class CommunityOperationRegionMenu(
     override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
         CommunityMenuOpener.open(player) { syncId ->
             CommunityOperationRegionMenu(syncId, community, isGeographic, player, newPage)
+        }
+    }
+
+    private fun executeScope(scopeName: String) {
+        if (isGeographic) {
+            val communityRegion = community.getRegion()
+            communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scopeName) }
         }
     }
 
