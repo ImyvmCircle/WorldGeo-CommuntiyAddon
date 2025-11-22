@@ -1,9 +1,11 @@
 package com.imyvm.community.inter.screen.inner_community.operation
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
+import com.imyvm.community.application.interaction.screen.inner_community.operation.RegionalSettingMenu
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.util.Translator
+import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
@@ -51,7 +53,6 @@ class CommunityOperationRegionMenu(
         var slotIndex = if (page == 0) startSlotInPageZero else startSlot
         for (scope in scopesInPage) {
 
-            val scopeName = scope.scopeName
             val item = when (slotIndex % 9) {
                 0 -> Items.WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE
                 1 -> Items.WARD_ARMOR_TRIM_SMITHING_TEMPLATE
@@ -66,9 +67,9 @@ class CommunityOperationRegionMenu(
 
             addButton(
                 slot = slotIndex,
-                name = scopeName,
+                name = scope.scopeName,
                 item = item
-            ) { executeScope(scopeName) }
+            ) { executeScope(scope) }
 
             slotIndex = incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -85,10 +86,19 @@ class CommunityOperationRegionMenu(
         }
     }
 
-    private fun executeScope(scopeName: String) {
+    private fun executeScope(scope: GeoScope) {
         if (isGeographic) {
             val communityRegion = community.getRegion()
-            communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scopeName) }
+            communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scope.scopeName) }
+        } else {
+            CommunityMenuOpener.open(playerExecutor) {syncId ->
+                RegionalSettingMenu(
+                    syncId = syncId,
+                    playerExecutor = playerExecutor,
+                    community = community,
+                    scope = scope
+                )
+            }
         }
     }
 

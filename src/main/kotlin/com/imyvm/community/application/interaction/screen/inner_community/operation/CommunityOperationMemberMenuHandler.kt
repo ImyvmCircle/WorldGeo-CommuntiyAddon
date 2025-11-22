@@ -14,7 +14,12 @@ fun runOpenPlayerRegionalSettings(
     playerExecutor: ServerPlayerEntity,
     playerObject: GameProfile
 ) {
-    CommunityMenuOpener.open(playerExecutor) { syncId ->  PlayerRegionalSettingMenu(syncId, community, playerObject) }
+    CommunityMenuOpener.open(playerExecutor) { syncId ->  RegionalSettingMenu(
+        syncId = syncId,
+        playerExecutor = playerExecutor,
+        community = community,
+        playerProfile = playerObject
+    ) }
 }
 
 fun runRemoveMember(
