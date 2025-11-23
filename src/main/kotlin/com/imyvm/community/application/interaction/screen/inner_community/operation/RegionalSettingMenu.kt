@@ -20,6 +20,38 @@ class RegionalSettingMenu(
         playerProfile = playerProfile
     )
 ) {
+    init {
+        addPermissionSettingButtons()
+        addEffectSettingButtons()
+        addRuleSettingButtons()
+    }
+
+    private fun addPermissionSettingButtons(){
+        addButton(
+            slot = 10,
+            name = "Permission Settings",
+            item = net.minecraft.item.Items.SHIELD
+        ) {}
+
+    }
+
+    private fun addEffectSettingButtons(){
+        addButton(
+            slot = 19,
+            name = "Effect Settings",
+            item = net.minecraft.item.Items.BEACON
+        ) {}
+    }
+
+    private fun addRuleSettingButtons(){
+        addButton(
+            slot = 28,
+            name = "Rule Settings",
+            item = net.minecraft.item.Items.WRITABLE_BOOK
+        ) {}
+
+    }
+
     companion object {
         fun generateRegionSettingMenuTitle(
             community: Community,
