@@ -27,7 +27,7 @@ class RegionalSettingMenu(
     init {
         addPermissionSettingButtons()
         addEffectSettingButtons()
-        addRuleSettingButtons()
+        if (playerProfile == null) addRuleSettingButtons()
     }
 
     private fun addPermissionSettingButtons(){
