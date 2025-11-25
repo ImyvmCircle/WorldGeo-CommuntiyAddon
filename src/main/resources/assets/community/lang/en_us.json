@@ -133,6 +133,9 @@
   "ui.community.operation.region.setting.list.permission.header": "Permissions",
   "ui.community.operation.region.setting.list.effect.header": "Effects",
   "ui.community.operation.region.setting.list.rule.header": "Rules",
+  "ui.community.operation.region.setting.list.permission.build_break": "Allow Building/Breaking",
+  "ui.community.operation.region.setting.list.permission.fly": "Allow Flying",
+  "ui.community.operation.region.setting.list.permission.container": "Allow PvP",
 
   "ui.general.list.prev": "Previous Page",
   "ui.general.list.next": "Next Page",

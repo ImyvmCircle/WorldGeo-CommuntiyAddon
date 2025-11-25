@@ -5,6 +5,7 @@ import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.component.GeoScope
 import com.mojang.authlib.GameProfile
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
@@ -31,15 +32,31 @@ class RegionalSettingMenu(
         addButton(
             slot = 10,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.header")?.string ?: "Permission Settings",
-            item = net.minecraft.item.Items.SHIELD
+            item = Items.SHIELD
         ) {}
 
+        addButton(
+            slot = 12,
+            name = Translator.tr("ui.community.operation.region.setting.list.permission.build_break")?.string ?: "Build/Break Permission",
+            item = Items.DIAMOND_PICKAXE
+        ) {}
 
+        addButton(
+            slot = 13,
+            name = Translator.tr("ui.community.operation.region.setting.list.permission.fly")?.string ?: "Fly Permission",
+            item = Items.ELYTRA
+        ) {}
+
+        addButton(
+            slot = 14,
+            name = Translator.tr("ui.community.operation.region.setting.list.permission.container")?.string ?: "Container Permission",
+            item = Items.CHEST
+        ) {}
     }
 
     private fun addEffectSettingButtons(){
         addButton(
-            slot = 19,
+            slot = 28,
             name = Translator.tr("ui.community.operation.region.setting.list.effect.header")?.string ?: "Effect Settings",
             item = net.minecraft.item.Items.BEACON
         ) {}
@@ -47,7 +64,7 @@ class RegionalSettingMenu(
 
     private fun addRuleSettingButtons(){
         addButton(
-            slot = 28,
+            slot = 46,
             name = Translator.tr("ui.community.operation.region.setting.list.rule.header")?.string ?: "Rule Settings",
             item = net.minecraft.item.Items.WRITABLE_BOOK
         ) {}
