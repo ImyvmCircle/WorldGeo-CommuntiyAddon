@@ -5,6 +5,7 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityNotificationMenuAnvil
+import com.imyvm.community.inter.screen.inner_community.operation.RegionalSettingMenu
 import com.imyvm.community.util.Translator.trMenu
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
