@@ -91,7 +91,7 @@ class CommunityOperationRegionMenu(
             val communityRegion = community.getRegion()
             communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scope.scopeName) }
         } else {
-            CommunityMenuOpener.open(playerExecutor) {syncId ->
+            CommunityMenuOpener.open(playerExecutor) { syncId ->
                 RegionalSettingMenu(
                     syncId = syncId,
                     playerExecutor = playerExecutor,

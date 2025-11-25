@@ -128,6 +128,12 @@
   "ui.community.operation.region.setting.title.component": "Choose scope to modify region settings",
   "ui.community.operation.region.global": "Global Modification",
 
+  "ui.community.operation.region.setting.list.title.setting": "Region Settings",
+  "ui.community.operation.region.setting.list.title.unknown": "Unknown",
+  "ui.community.operation.region.setting.list.permission.header": "Permissions",
+  "ui.community.operation.region.setting.list.effect.header": "Effects",
+  "ui.community.operation.region.setting.list.rule.header": "Rules",
+
   "ui.general.list.prev": "Previous Page",
   "ui.general.list.next": "Next Page",
   "ui.general.button.close": "Close",
