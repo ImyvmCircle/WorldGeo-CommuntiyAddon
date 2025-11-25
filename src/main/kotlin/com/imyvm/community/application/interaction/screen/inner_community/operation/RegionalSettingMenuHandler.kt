@@ -13,11 +13,11 @@ fun togglePermissionSetting(
     playerObject: GameProfile?,
     permissionKey: PermissionKey
 ) {
-    toggleSettingInRegion(community, scope, playerObject, permissionKey)
+    togglePermissionSettingInRegion(community, scope, playerObject, permissionKey)
     refreshSettingInMenu(playerExecutor, community)
 }
 
-private fun toggleSettingInRegion(
+private fun togglePermissionSettingInRegion(
     community: Community,
     scope: GeoScope?,
     playerObject: GameProfile?,
