@@ -28,42 +28,43 @@ private fun togglePermissionSettingInRegion(
     scope: GeoScope?,
     playerObject: GameProfile?,
     permissionKey: PermissionKey
-){
+) {
     val region = community.getRegion() ?: return
-    if (scope == null) {
-        val currentPermissionSet = RegionDataApi.getRegionGlobalSettingsByType(region, SettingTypes.PERMISSION)
-        for (settingItem in currentPermissionSet) {
-            if ((settingItem.key == permissionKey) && ((!settingItem.isPersonal && (playerObject == null)) || ((playerObject != null) && (settingItem.playerUUID == playerObject.id)))) {
-                val newValue = settingItem.value == true
-                PlayerInteractionApi.removeSettingRegion(playerExecutor, region, permissionKey.toString(),
-                    playerObject?.id?.toString()
-                )
-                PlayerInteractionApi.addSettingRegion(playerExecutor, region, permissionKey.toString(),
-                    newValue.toString(), playerObject?.id?.toString()
-                )
-            } else {
-                PlayerInteractionApi.addSettingRegion(playerExecutor, region, permissionKey.toString(),
-                    false.toString(), playerObject?.id?.toString()
-                )
-            }
-        }
+
+    val targetPlayerId = playerObject?.id
+    val targetPlayerIdStr = targetPlayerId?.toString()
+    val permissionKeyStr = permissionKey.toString()
+
+    val currentPermissionSet = if (scope == null) {
+        RegionDataApi.getRegionGlobalSettingsByType(region, SettingTypes.PERMISSION)
     } else {
-        val currentPermissionSet = RegionDataApi.getScopeGlobalSettingsByType(scope, SettingTypes.PERMISSION)
-        for (settingItem in currentPermissionSet) {
-            if ((settingItem.key == permissionKey) && ((!settingItem.isPersonal && (playerObject == null)) || ((playerObject != null) && (settingItem.playerUUID == playerObject.id)))) {
-                val newValue = settingItem.value == true
-                PlayerInteractionApi.removeSettingScope(playerExecutor, region, scope.scopeName, permissionKey.toString(),
-                    playerObject?.id?.toString()
-                )
-                PlayerInteractionApi.addSettingScope(playerExecutor, region, scope.scopeName, permissionKey.toString(),
-                    newValue.toString(), playerObject?.id?.toString()
-                )
-            } else {
-                PlayerInteractionApi.addSettingScope(playerExecutor, region, scope.scopeName, permissionKey.toString(),
-                    false.toString(), playerObject?.id?.toString()
-                )
-            }
-        }
+        RegionDataApi.getScopeGlobalSettingsByType(scope, SettingTypes.PERMISSION)
+    }
+
+    val existingSetting = currentPermissionSet.find { setting ->
+        val isKeyMatch = setting.key == permissionKey
+        val isPlayerMatch = (setting.playerUUID == targetPlayerId)
+        isKeyMatch && isPlayerMatch
+    }
+
+    val currentValue = existingSetting?.value == true
+    val newValueStr = (!currentValue).toString()
+
+    if (scope == null) {
+        PlayerInteractionApi.removeSettingRegion(
+            playerExecutor, region, permissionKeyStr, targetPlayerIdStr
+        )
+        PlayerInteractionApi.addSettingRegion(
+            playerExecutor, region, permissionKeyStr, newValueStr, targetPlayerIdStr
+        )
+    } else {
+        val scopeName = scope.scopeName
+        PlayerInteractionApi.removeSettingScope(
+            playerExecutor, region, scopeName, permissionKeyStr, targetPlayerIdStr
+        )
+        PlayerInteractionApi.addSettingScope(
+            playerExecutor, region, scopeName, permissionKeyStr, newValueStr, targetPlayerIdStr
+        )
     }
 }
 
@@ -72,7 +73,7 @@ private fun refreshSettingInMenu(
     community: Community,
     scope: GeoScope?,
     playerProfile: GameProfile?
-){
+) {
     CommunityMenuOpener.open(playerExecutor) { syncId ->
         RegionalSettingMenu(syncId, playerExecutor, community, scope, playerProfile)
     }
