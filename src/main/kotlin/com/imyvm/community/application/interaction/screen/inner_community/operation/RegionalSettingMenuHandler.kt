@@ -9,7 +9,19 @@ import com.imyvm.iwg.domain.component.SettingTypes
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.inter.api.RegionDataApi
 import com.mojang.authlib.GameProfile
+import net.minecraft.item.ItemStack
+import net.minecraft.item.Item
 import net.minecraft.server.network.ServerPlayerEntity
+
+fun getPermissionButtonItemStack(
+    item: Item,
+    community: Community,
+    scope: GeoScope?,
+    playerObject: GameProfile?,
+    permissionKey: PermissionKey
+): ItemStack {
+    TODO()
+}
 
 fun togglePermissionSetting(
     playerExecutor: ServerPlayerEntity,

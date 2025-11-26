@@ -1,5 +1,6 @@
 package com.imyvm.community.inter.screen.inner_community.operation
 
+import com.imyvm.community.application.interaction.screen.inner_community.operation.getPermissionButtonItemStack
 import com.imyvm.community.application.interaction.screen.inner_community.operation.togglePermissionSetting
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
@@ -40,19 +41,19 @@ class RegionalSettingMenu(
         addButton(
             slot = 12,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.build_break")?.string ?: "Build/Break Permission",
-            item = Items.DIAMOND_PICKAXE
+            itemStack = getPermissionButtonItemStack(Items.DIAMOND_PICKAXE, community, scope, playerProfile, PermissionKey.BUILD_BREAK)
         ) { togglePermissionSetting(playerExecutor, community, scope, playerProfile, PermissionKey.BUILD_BREAK) }
 
         addButton(
             slot = 13,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.fly")?.string ?: "Fly Permission",
-            item = Items.ELYTRA
+            itemStack = getPermissionButtonItemStack(Items.ELYTRA, community, scope, playerProfile, PermissionKey.FLY)
         ) { togglePermissionSetting(playerExecutor, community, scope, playerProfile, PermissionKey.FLY)  }
 
         addButton(
             slot = 14,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.container")?.string ?: "Container Permission",
-            item = Items.CHEST
+            itemStack = getPermissionButtonItemStack(Items.CHEST, community, scope, playerProfile, PermissionKey.CONTAINER)
         ) { togglePermissionSetting(playerExecutor, community, scope, playerProfile, PermissionKey.CONTAINER) }
     }
 
@@ -74,7 +75,7 @@ class RegionalSettingMenu(
     }
 
     companion object {
-        fun generateRegionSettingMenuTitle(
+        private fun generateRegionSettingMenuTitle(
             community: Community,
             scope: GeoScope? = null,
             playerProfile: GameProfile? = null
