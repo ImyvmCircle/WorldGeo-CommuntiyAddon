@@ -46,7 +46,7 @@ private fun togglePermissionSettingInRegion(
     val region = community.getRegion() ?: return
     val targetPlayerId = targetPlayer?.id
 
-    val newValueStr = getNewPermissionValue(region, scope, targetPlayerId, permissionKey) ?: "false" // Temporary
+    val newValueStr = getCurrentPermissionValue(region, scope, targetPlayerId, permissionKey)
 
     val permissionKeyStr = permissionKey.toString()
     val targetPlayerIdStr = targetPlayerId?.toString()
@@ -73,7 +73,8 @@ private fun refreshSettingInMenu(
     }
 }
 
-private fun getNewPermissionValue(
+@Deprecated("Temporary function, to be replaced with ImyvmWorldGeo Api")
+private fun getCurrentPermissionValue(
     region: Region,
     scope: GeoScope?,
     targetPlayerId: UUID?,
@@ -89,7 +90,7 @@ private fun getNewPermissionValue(
         setting.key == permissionKey && setting.playerUUID == targetPlayerId
     }
 
-    return existingSetting?.value?.toString()?.lowercase()
+    return existingSetting?.value?.toString()?.lowercase() ?: "false"
 }
 
 private fun setRegionSetting(
