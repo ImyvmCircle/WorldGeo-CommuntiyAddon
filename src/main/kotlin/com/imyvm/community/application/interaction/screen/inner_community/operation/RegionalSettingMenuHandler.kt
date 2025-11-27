@@ -52,11 +52,11 @@ private fun togglePermissionSettingInRegion(
     val targetPlayerIdStr = targetPlayerId?.toString()
 
     if (scope == null) {
-        setRegionSetting(
+        setNewRegionSetting(
             playerExecutor, region, permissionKeyStr, newValueStr, targetPlayerIdStr
         )
     } else {
-        setScopeSetting(
+        setNewScopeSetting(
             playerExecutor, region, scope.scopeName, permissionKeyStr, newValueStr, targetPlayerIdStr
         )
     }
@@ -79,7 +79,7 @@ private fun getCurrentPermissionValue(
     scope: GeoScope?,
     targetPlayerId: UUID?,
     permissionKey: PermissionKey
-): String? {
+): String {
     val currentPermissionSet = if (scope == null) {
         RegionDataApi.getRegionGlobalSettingsByType(region, SettingTypes.PERMISSION)
     } else {
@@ -93,7 +93,7 @@ private fun getCurrentPermissionValue(
     return existingSetting?.value?.toString()?.lowercase() ?: "false"
 }
 
-private fun setRegionSetting(
+private fun setNewRegionSetting(
     playerExecutor: ServerPlayerEntity,
     region: Region,
     permissionKeyStr: String,
@@ -108,7 +108,7 @@ private fun setRegionSetting(
     )
 }
 
-private fun setScopeSetting(
+private fun setNewScopeSetting(
     playerExecutor: ServerPlayerEntity,
     region: Region,
     scopeName: String,
