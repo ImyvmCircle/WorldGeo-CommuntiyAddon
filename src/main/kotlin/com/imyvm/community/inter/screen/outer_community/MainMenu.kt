@@ -17,5 +17,6 @@ class MainMenu(syncId: Int) :
         addButton(slot = 10, name = Translator.tr("ui.main.button.list")?.string ?: "List", item = Items.WRITABLE_BOOK) { runList(it) }
         addButton(slot = 13, name = Translator.tr("ui.main.button.create")?.string ?: "Create", item = Items.DIAMOND_PICKAXE) { runCreate(it) }
         addButton(slot = 16, name = Translator.tr("ui.main.button.my")?.string ?: "My Village", item = Items.RED_BED) { runMyCommunity(it) }
+        addButton(slot = 19, name = Translator.tr("ui.main.button.op")?.string ?: "OP", item = Items.COMMAND_BLOCK ) {}
     }
 }
