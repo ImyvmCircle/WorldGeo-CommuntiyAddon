@@ -6,9 +6,7 @@ import com.imyvm.community.inter.screen.inner_community.operation.RegionalSettin
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.domain.component.PermissionKey
-import com.imyvm.iwg.domain.component.SettingTypes
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
-import com.imyvm.iwg.inter.api.RegionDataApi
 import com.mojang.authlib.GameProfile
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -46,18 +44,18 @@ private fun togglePermissionSettingInRegion(
     val region = community.getRegion() ?: return
     val targetPlayerId = targetPlayer?.id
 
-    val newValueStr = getCurrentPermissionValue(region, scope, targetPlayerId, permissionKey)
+    val newValueStr = getCurrentPermissionValue(playerExecutor, region, scope, targetPlayerId, permissionKey)
 
     val permissionKeyStr = permissionKey.toString()
     val targetPlayerIdStr = targetPlayerId?.toString()
 
     if (scope == null) {
         setNewRegionSetting(
-            playerExecutor, region, permissionKeyStr, newValueStr, targetPlayerIdStr
+            playerExecutor, region, permissionKeyStr, newValueStr.toString(), targetPlayerIdStr
         )
     } else {
         setNewScopeSetting(
-            playerExecutor, region, scope.scopeName, permissionKeyStr, newValueStr, targetPlayerIdStr
+            playerExecutor, region, scope.scopeName, permissionKeyStr, newValueStr.toString(), targetPlayerIdStr
         )
     }
 }
@@ -73,24 +71,14 @@ private fun refreshSettingInMenu(
     }
 }
 
-@Deprecated("Temporary function, to be replaced with ImyvmWorldGeo Api")
 private fun getCurrentPermissionValue(
+    playerExecutor: ServerPlayerEntity,
     region: Region,
     scope: GeoScope?,
     targetPlayerId: UUID?,
     permissionKey: PermissionKey
-): String {
-    val currentPermissionSet = if (scope == null) {
-        RegionDataApi.getRegionGlobalSettingsByType(region, SettingTypes.PERMISSION)
-    } else {
-        RegionDataApi.getScopeGlobalSettingsByType(scope, SettingTypes.PERMISSION)
-    }
-
-    val existingSetting = currentPermissionSet.find { setting ->
-        setting.key == permissionKey && setting.playerUUID == targetPlayerId
-    }
-
-    return existingSetting?.value?.toString()?.lowercase() ?: "false"
+): Boolean {
+    return PlayerInteractionApi.getPermissionValueRegion(playerExecutor, region, scope?.scopeName , permissionKey.toString(), targetPlayerId.toString())
 }
 
 private fun setNewRegionSetting(
