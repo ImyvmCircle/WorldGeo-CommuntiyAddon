@@ -105,11 +105,11 @@ class CommunityOperationRegionMenu(
         fun generateMenuTitle(community: Community, isGeographic: Boolean, playerExecutor: ServerPlayerEntity): Text {
             val baseTitle = community.generateCommunityMark() + " - "
             val specificTitle = if (isGeographic) {
-                Translator.tr("ui.community.operation.region.geography.title.component")?: "Choose scope to modify geographic shape"
+                Translator.tr("ui.community.operation.region.geography.title.component")?.string ?: "Choose scope to modify geographic shape"
             } else {
-                Translator.tr("ui.community.operation.region.setting.title.component")?: "Choose scope to modify region settings"
+                Translator.tr("ui.community.operation.region.setting.title.component")?.string ?: "Choose scope to modify region settings"
             }
-            return Text.of("$baseTitle$specificTitle: ${playerExecutor.name}")
+            return Text.of("$baseTitle$specificTitle: ${playerExecutor.name.string}")
         }
     }
 }

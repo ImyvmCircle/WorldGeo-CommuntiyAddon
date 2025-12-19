@@ -71,7 +71,7 @@ class CommunityOperationMenu(
 
         addButton(
             slot = 20,
-            name = Translator.tr("ui.community.operation.button.region.settings")?.string ?: "Region Settings",
+            name = Translator.tr("ui.community.operation.button.region.setting")?.string ?: "Region Settings",
             item = Items.HEART_OF_THE_SEA
         ){ runOPRegion(player, community, isGeographic = false) }
     }
@@ -79,8 +79,8 @@ class CommunityOperationMenu(
     private fun addChangeableButtons(player: ServerPlayerEntity, community: Community) {
         addButton(
             slot = 19,
-            name = Translator.tr("ui.community.operation.button.join_policy")?.string
-                ?: ("Join Policy: " + community.joinPolicy.toString()),
+            name = (Translator.tr("ui.community.operation.button.join_policy")?.string
+                ?: "Join Policy: ") + community.joinPolicy.toString(),
             item = when (community.joinPolicy) {
                 CommunityJoinPolicy.OPEN -> Items.GREEN_WOOL
                 CommunityJoinPolicy.APPLICATION -> Items.YELLOW_WOOL
