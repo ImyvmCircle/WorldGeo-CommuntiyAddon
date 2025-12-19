@@ -12,21 +12,20 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 class CommunityMenu(
     syncId: Int,
-    content: Pair<ServerPlayerEntity, Community>
+    val player: ServerPlayerEntity,
+    val community: Community
 ) : AbstractMenu(
     syncId,
-    menuTitle = content.second.getRegion()?.let { Translator.tr("ui.community.title", it.name , it.numberID)}
+    menuTitle = community.getRegion()?.let { Translator.tr("ui.community.title", it.name , it.numberID)}
 ) {
     init {
-        val (player, community) = content
-
-        addOwnerHeadButton(player, community)
-        addOperationButtonTrail(player, community)
-        addDescriptionButton(player, community)
-        addInteractionButton(player, community)
+        addOwnerHeadButton()
+        addOperationButtonTrail()
+        addDescriptionButton()
+        addInteractionButton()
     }
 
-    private fun addOwnerHeadButton(player: ServerPlayerEntity, community: Community) {
+    private fun addOwnerHeadButton() {
         addButton(
             slot = 10,
             name = community.generateCommunityMark(),
@@ -34,7 +33,7 @@ class CommunityMenu(
         ) {}
     }
 
-    private fun addOperationButtonTrail(player: ServerPlayerEntity, community: Community) {
+    private fun addOperationButtonTrail() {
         if (community.getMemberRole(player.uuid) == MemberRoleType.OWNER ||
             community.getMemberRole(player.uuid) == MemberRoleType.ADMIN ){
             addButton(
@@ -45,7 +44,7 @@ class CommunityMenu(
         }
     }
 
-    private fun addDescriptionButton(player: ServerPlayerEntity, community: Community){
+    private fun addDescriptionButton(){
         addButton(
             slot = 19,
             name = Translator.tr("ui.community.button.description.region")?.string ?: "Description",
@@ -75,7 +74,7 @@ class CommunityMenu(
         ) {}
     }
 
-    private fun addInteractionButton(player: ServerPlayerEntity, community: Community){
+    private fun addInteractionButton(){
         addButton(
             slot = 23,
             name = Translator.tr("ui.community.button.interaction.settings")?.string ?: "Settings",
