@@ -89,6 +89,7 @@ class CommunityOperationRegionMenu(
         if (isGeographic) {
             val communityRegion = community.getRegion()
             communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scope.scopeName) }
+            playerExecutor.closeHandledScreen()
         } else {
             CommunityMenuOpener.open(playerExecutor) { syncId ->
                 RegionalSettingMenu(

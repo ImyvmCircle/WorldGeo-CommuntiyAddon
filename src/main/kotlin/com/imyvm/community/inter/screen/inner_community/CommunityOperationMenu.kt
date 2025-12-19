@@ -78,7 +78,7 @@ class CommunityOperationMenu(
 
     private fun addChangeableButtons(player: ServerPlayerEntity, community: Community) {
         addButton(
-            slot = 19,
+            slot = 28,
             name = (Translator.tr("ui.community.operation.button.join_policy")?.string
                 ?: "Join Policy: ") + community.joinPolicy.toString(),
             item = when (community.joinPolicy) {
