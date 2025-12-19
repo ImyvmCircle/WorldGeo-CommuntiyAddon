@@ -1,6 +1,7 @@
 package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.inner_community.runOpenOperationMenu
+import com.imyvm.community.application.interaction.screen.inner_community.runTeleportCommunity
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.AbstractMenu
@@ -22,7 +23,7 @@ class CommunityMenu(
         addOwnerHeadButton(player, community)
         addOperationButtonTrail(player, community)
         addDescriptionButton(player, community)
-        addInteractionButton()
+        addInteractionButton(player, community)
     }
 
     private fun addOwnerHeadButton(player: ServerPlayerEntity, community: Community) {
@@ -74,7 +75,7 @@ class CommunityMenu(
         ) {}
     }
 
-    private fun addInteractionButton(){
+    private fun addInteractionButton(player: ServerPlayerEntity, community: Community){
         addButton(
             slot = 23,
             name = Translator.tr("ui.community.button.interaction.settings")?.string ?: "Settings",
@@ -85,7 +86,7 @@ class CommunityMenu(
             slot = 24,
             name = Translator.tr("ui.community.button.interaction.teleport")?.string ?: "Teleport to Community",
             item = Items.ENDER_PEARL
-        ) {}
+        ) { runTeleportCommunity(player, community) }
 
         addButton(
             slot = 25,

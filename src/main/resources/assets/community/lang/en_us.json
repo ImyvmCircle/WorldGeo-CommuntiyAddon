@@ -95,6 +95,7 @@
   "ui.community.button.description.assets": "Asset",
   "ui.community.button.interaction.settings": "Settings",
   "ui.community.button.interaction.teleport": "Teleport to Community",
+  "ui.community.button.interaction.teleport.execution.error.no_region": "No valid region found for teleportation.",
   "ui.community.button.interaction.teleport.scope": "Teleportation Scope",
   "ui.community.button.interaction.chat": "Community Chat",
   "ui.community.button.interaction.advancement": "Advancement",
