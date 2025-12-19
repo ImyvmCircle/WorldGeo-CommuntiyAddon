@@ -86,6 +86,6 @@ class CommunityOperationMenu(
                 CommunityJoinPolicy.APPLICATION -> Items.YELLOW_WOOL
                 CommunityJoinPolicy.INVITE_ONLY -> Items.RED_WOOL
             }
-        ) {}
+        ) { runOPChangeJoinPolicy(player, community, community.joinPolicy) }
     }
 }

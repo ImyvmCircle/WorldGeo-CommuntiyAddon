@@ -2,6 +2,8 @@ package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.community.CommunityJoinPolicy
+import com.imyvm.community.inter.screen.inner_community.CommunityOperationMenu
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationAdvancementMenu
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationAuditListMenu
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationMemberListMenu
@@ -24,14 +26,25 @@ fun runOPAuditRequests(player: ServerPlayerEntity, community: Community) {
     }
 }
 
+fun runOPAdvancement(player: ServerPlayerEntity, community: Community){
+    CommunityMenuOpener.open(player) { syncId ->
+        CommunityOperationAdvancementMenu(syncId, community, player)
+    }
+}
+
 fun runOPRegion(player: ServerPlayerEntity, community: Community, isGeographic: Boolean) {
     CommunityMenuOpener.open(player) { syncId ->
         CommunityOperationRegionMenu(syncId, community, isGeographic, player)
     }
 }
 
-fun runOPAdvancement(player: ServerPlayerEntity, community: Community){
+fun runOPChangeJoinPolicy(player: ServerPlayerEntity,community: Community, policy: CommunityJoinPolicy) {
+    community.joinPolicy = when (policy) {
+        CommunityJoinPolicy.OPEN -> CommunityJoinPolicy.APPLICATION
+        CommunityJoinPolicy.APPLICATION -> CommunityJoinPolicy.INVITE_ONLY
+        CommunityJoinPolicy.INVITE_ONLY -> CommunityJoinPolicy.OPEN
+    }
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityOperationAdvancementMenu(syncId, community, player)
+        CommunityOperationMenu(syncId, community, player)
     }
 }
