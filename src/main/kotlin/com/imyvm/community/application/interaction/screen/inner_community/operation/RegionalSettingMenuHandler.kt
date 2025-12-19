@@ -9,10 +9,12 @@ import com.imyvm.iwg.domain.component.PermissionKey
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.inter.api.RegionDataApi
 import com.mojang.authlib.GameProfile
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.component.type.LoreComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
+import net.minecraft.text.Text
 
 fun getPermissionButtonItemStack(
     item: Item,
@@ -21,7 +23,30 @@ fun getPermissionButtonItemStack(
     playerObject: GameProfile?,
     permissionKey: PermissionKey
 ): ItemStack {
-    TODO()
+    val hasPermission = community.getRegion()?.let {
+        RegionDataApi.getPermissionValueRegion(
+            it,
+            scope,
+            playerObject?.id,
+            permissionKey
+        )
+    } ?: return ItemStack.EMPTY
+
+    val itemStack = ItemStack(item)
+
+    val loreLines = mutableListOf<Text>()
+    loreLines.add(Text.literal(hasPermission.toString()))
+    scope?.let {
+        loreLines.add(Text.literal(scope.scopeName))
+    }
+    playerObject?.let {
+        loreLines.add(Text.literal(playerObject.name))
+    }
+
+    val lore = LoreComponent(loreLines)
+    itemStack.set(DataComponentTypes.LORE, lore)
+
+    return itemStack
 }
 
 fun togglePermissionSetting(
@@ -45,7 +70,7 @@ private fun togglePermissionSettingInRegion(
     val region = community.getRegion() ?: return
     val targetPlayerId = targetPlayer?.id
 
-    val newValueStr = getCurrentPermissionValue(region, scope, targetPlayerId, permissionKey).toString()
+    val newValueStr = (!RegionDataApi.getPermissionValueRegion(region, scope, targetPlayerId, permissionKey)).toString()
 
     val permissionKeyStr = permissionKey.toString()
     val targetPlayerIdStr = targetPlayerId?.toString()
@@ -70,15 +95,6 @@ private fun refreshSettingInMenu(
     CommunityMenuOpener.open(playerExecutor) { syncId ->
         RegionalSettingMenu(syncId, playerExecutor, community, scope, playerProfile)
     }
-}
-
-private fun getCurrentPermissionValue(
-    region: Region,
-    scope: GeoScope?,
-    targetPlayerId: UUID?,
-    permissionKey: PermissionKey
-): Boolean {
-    return RegionDataApi.getPermissionValueRegion(region, scope, targetPlayerId, permissionKey)
 }
 
 private fun setNewRegionSetting(
