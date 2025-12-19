@@ -22,6 +22,7 @@ class RegionalSettingMenu(
     syncId,
     menuTitle = generateRegionSettingMenuTitle(
         community = community,
+        scope = scope,
         playerProfile = playerProfile
     )
 ) {

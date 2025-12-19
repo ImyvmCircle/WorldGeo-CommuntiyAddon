@@ -50,7 +50,10 @@ abstract class AbstractMenu(
     }
 
     protected fun addButton(slot: Int, itemStack: ItemStack, name: String? = null, onClick: (ServerPlayerEntity) -> Unit) {
-        val finalName = name ?: itemStack.get(DataComponentTypes.CUSTOM_NAME)?.string ?: "?"
+        val finalName = name ?: itemStack.name.string
+        if (name != null) {
+            itemStack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(name))
+        }
         buttons.add(MenuButton(slot, itemStack.item, finalName, onClick))
         inventory.setStack(slot, itemStack)
     }
