@@ -1,7 +1,7 @@
 package com.imyvm.community.inter.screen.inner_community.operation
 
 import com.imyvm.community.application.interaction.screen.inner_community.operation.getPermissionButtonItemStack
-import com.imyvm.community.application.interaction.screen.inner_community.operation.togglePermissionSetting
+import com.imyvm.community.application.interaction.screen.inner_community.operation.runTogglingPermissionSetting
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
@@ -43,19 +43,19 @@ class RegionalSettingMenu(
             slot = 12,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.build_break")?.string ?: "Build/Break Permission",
             itemStack = getPermissionButtonItemStack(Items.DIAMOND_PICKAXE, community, scope, playerObject, PermissionKey.BUILD_BREAK)
-        ) { togglePermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.BUILD_BREAK) }
+        ) { runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.BUILD_BREAK) }
 
         addButton(
             slot = 13,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.fly")?.string ?: "Fly Permission",
             itemStack = getPermissionButtonItemStack(Items.ELYTRA, community, scope, playerObject, PermissionKey.FLY)
-        ) { togglePermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.FLY)  }
+        ) { runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.FLY)  }
 
         addButton(
             slot = 14,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.container")?.string ?: "Container Permission",
             itemStack = getPermissionButtonItemStack(Items.CHEST, community, scope, playerObject, PermissionKey.CONTAINER)
-        ) { togglePermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.CONTAINER) }
+        ) { runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.CONTAINER) }
     }
 
     private fun addEffectSettingButtons(){

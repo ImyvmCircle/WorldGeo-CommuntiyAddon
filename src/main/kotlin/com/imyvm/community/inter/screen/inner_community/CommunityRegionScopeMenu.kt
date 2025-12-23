@@ -1,8 +1,8 @@
 package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
-import com.imyvm.community.application.interaction.screen.inner_community.executeRegion
-import com.imyvm.community.application.interaction.screen.inner_community.executeScope
+import com.imyvm.community.application.interaction.screen.inner_community.runExecuteRegion
+import com.imyvm.community.application.interaction.screen.inner_community.runExecuteScope
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.inter.screen.AbstractListMenu
@@ -41,7 +41,7 @@ class CommunityRegionScopeMenu(
             slot = 10,
             name = Translator.tr("ui.community.operation.region.global")?.string ?: "Region Global",
             item = Items.ELYTRA
-        ) { executeRegion(playerExecutor, community, geographicFunctionType, playerObject) }
+        ) { runExecuteRegion(playerExecutor, community, geographicFunctionType, playerObject) }
     }
 
     private fun addLocalButton() {
@@ -71,7 +71,7 @@ class CommunityRegionScopeMenu(
                 slot = slotIndex,
                 name = scope.scopeName,
                 item = item
-            ) { executeScope(playerExecutor, community, scope, geographicFunctionType, playerObject) }
+            ) { runExecuteScope(playerExecutor, community, scope, geographicFunctionType, playerObject) }
 
             slotIndex = incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break

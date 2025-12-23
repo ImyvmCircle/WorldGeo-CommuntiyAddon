@@ -30,17 +30,19 @@ fun getPermissionButtonItemStack(
             playerObject?.id,
             permissionKey
         )
-    } ?: return ItemStack.EMPTY
+    }
 
     val itemStack = ItemStack(item)
 
     val loreLines = mutableListOf<Text>()
-    loreLines.add(Text.literal(hasPermission.toString()))
-    scope?.let {
-        loreLines.add(Text.literal(scope.scopeName))
-    }
-    playerObject?.let {
-        loreLines.add(Text.literal(playerObject.name))
+    if (hasPermission != null) {
+        loreLines.add(Text.literal(hasPermission.toString()))
+        scope?.let {
+            loreLines.add(Text.literal(scope.scopeName))
+        }
+        playerObject?.let {
+            loreLines.add(Text.literal(playerObject.name))
+        }
     }
 
     val lore = LoreComponent(loreLines)
@@ -49,7 +51,7 @@ fun getPermissionButtonItemStack(
     return itemStack
 }
 
-fun togglePermissionSetting(
+fun runTogglingPermissionSetting(
     playerExecutor: ServerPlayerEntity,
     community: Community,
     scope: GeoScope?,

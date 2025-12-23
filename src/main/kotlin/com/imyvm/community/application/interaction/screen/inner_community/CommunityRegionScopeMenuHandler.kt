@@ -10,7 +10,7 @@ import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun executeRegion(
+fun runExecuteRegion(
     playerExecutor: ServerPlayerEntity,
     community: Community,
     geographicFunctionType: GeographicFunctionType,
@@ -28,7 +28,7 @@ fun executeRegion(
     }
 }
 
-fun executeScope(
+fun runExecuteScope(
     playerExecutor: ServerPlayerEntity,
     community: Community,
     scope: GeoScope,
