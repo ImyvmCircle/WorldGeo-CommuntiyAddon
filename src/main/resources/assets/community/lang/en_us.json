@@ -127,7 +127,7 @@
 
   "ui.community.operation.member.title.component": "- Member Management",
 
-  "ui.community.operation.region.geography.title.component": "Choose scope to modify geographic shape",
+  "ui.community.operation.region.geometry.title.component": "Choose scope to modify geographic shape",
   "ui.community.operation.region.setting.title.component": "Choose scope to modify region settings",
   "ui.community.operation.region.global": "Global Modification",
 

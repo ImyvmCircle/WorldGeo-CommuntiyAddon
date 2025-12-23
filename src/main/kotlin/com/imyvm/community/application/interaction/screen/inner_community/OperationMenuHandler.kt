@@ -2,12 +2,13 @@ package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.domain.community.CommunityJoinPolicy
 import com.imyvm.community.inter.screen.inner_community.CommunityOperationMenu
+import com.imyvm.community.inter.screen.inner_community.CommunityRegionScopeMenu
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationAdvancementMenu
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationAuditListMenu
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationMemberListMenu
-import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationRegionMenu
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun runOPRenameCommunity(player: ServerPlayerEntity, community: Community){
@@ -32,13 +33,13 @@ fun runOPAdvancement(player: ServerPlayerEntity, community: Community){
     }
 }
 
-fun runOPRegion(player: ServerPlayerEntity, community: Community, isGeographic: Boolean) {
+fun runOPRegion(player: ServerPlayerEntity, community: Community, geographicFunctionType: GeographicFunctionType) {
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityOperationRegionMenu(
+        CommunityRegionScopeMenu(
             syncId = syncId,
             playerExecutor = player,
             community = community,
-            isGeographic = isGeographic
+            geographicFunctionType = geographicFunctionType
         )
     }
 }

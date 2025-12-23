@@ -2,6 +2,7 @@ package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.inner_community.*
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.domain.community.CommunityJoinPolicy
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
@@ -64,22 +65,22 @@ class CommunityOperationMenu(
         ) {}
 
         addButton(
-            slot = 16,
-            name = Translator.tr("ui.community.operation.button.teleport")?.string ?: "Teleport Point Management",
-            item = Items.ENDER_PEARL
-        ) {}
-
-        addButton(
             slot = 19,
             name = Translator.tr("ui.community.operation.button.region.geography")?.string ?: "Region Geography Modification",
             item = Items.MAP
-        ){ runOPRegion(player, community, isGeographic = true) }
+        ){ runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.GEOMETRY_MODIFICATION) }
 
         addButton(
             slot = 20,
             name = Translator.tr("ui.community.operation.button.region.setting")?.string ?: "Region Settings",
             item = Items.HEART_OF_THE_SEA
-        ){ runOPRegion(player, community, isGeographic = false) }
+        ){ runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.SETTING_ADJUSTMENT) }
+
+        addButton(
+            slot = 21,
+            name = Translator.tr("ui.community.operation.button.teleport")?.string ?: "Teleport Point Management",
+            item = Items.ENDER_PEARL
+        ) { runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.TELEPORT_POINT_LOCATING)}
     }
 
     private fun addChangeableButtons(player: ServerPlayerEntity, community: Community) {

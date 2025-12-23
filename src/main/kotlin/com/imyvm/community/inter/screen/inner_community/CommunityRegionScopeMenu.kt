@@ -1,9 +1,10 @@
-package com.imyvm.community.inter.screen.inner_community.operation
+package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.application.interaction.screen.inner_community.operation.executeRegion
 import com.imyvm.community.application.interaction.screen.inner_community.operation.executeScope
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.util.Translator
 import com.mojang.authlib.GameProfile
@@ -11,16 +12,16 @@ import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-class CommunityOperationRegionMenu(
+class CommunityRegionScopeMenu(
     syncId: Int,
     val playerExecutor: ServerPlayerEntity,
     val community: Community,
-    private val isGeographic: Boolean,
+    private val geographicFunctionType: GeographicFunctionType,
     val playerObject: GameProfile? = null,
     page: Int = 0
 ): AbstractListMenu(
     syncId,
-    menuTitle = generateMenuTitle(community, isGeographic, playerObject),
+    menuTitle = generateMenuTitle(community, geographicFunctionType, playerObject),
     page = page
 ) {
 
@@ -70,7 +71,7 @@ class CommunityOperationRegionMenu(
                 slot = slotIndex,
                 name = scope.scopeName,
                 item = item
-            ) { executeScope(playerExecutor, community, scope, isGeographic, playerObject) }
+            ) { executeScope(playerExecutor, community, scope, geographicFunctionType, playerObject) }
 
             slotIndex = incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -83,11 +84,11 @@ class CommunityOperationRegionMenu(
 
     override fun openNewPage(playerExecutor: ServerPlayerEntity, newPage: Int) {
         CommunityMenuOpener.open(playerExecutor) { syncId ->
-            CommunityOperationRegionMenu(
+            CommunityRegionScopeMenu(
                 syncId = syncId,
                 playerExecutor = playerExecutor,
                 community = community,
-                isGeographic = isGeographic,
+                geographicFunctionType = geographicFunctionType,
                 playerObject = playerObject,
                 page = newPage
             )
@@ -95,12 +96,21 @@ class CommunityOperationRegionMenu(
     }
 
     companion object {
-        fun generateMenuTitle(community: Community, isGeographic: Boolean, playerObject: GameProfile?): Text {
+        fun generateMenuTitle(community: Community, geographicFunctionType: GeographicFunctionType, playerObject: GameProfile?): Text {
             val baseTitle = community.generateCommunityMark() + " - "
-            val specificTitle = if (isGeographic) {
-                Translator.tr("ui.community.operation.region.geography.title.component")?.string ?: "Choose scope to modify geographic shape"
-            } else {
-                Translator.tr("ui.community.operation.region.setting.title.component")?.string ?: "Choose scope to modify region settings"
+            val specificTitle = when (geographicFunctionType) {
+                GeographicFunctionType.GEOMETRY_MODIFICATION -> {
+                    Translator.tr("ui.community.operation.region.geometry.title.component")?.string
+                        ?: "Choose scale to modifying geographic shape"
+                }
+                GeographicFunctionType.SETTING_ADJUSTMENT -> {
+                    Translator.tr("ui.community.operation.region.setting.title.component")?.string
+                        ?: "Choose scale to modifying region settings"
+                }
+                GeographicFunctionType.TELEPORT_POINT_LOCATING -> {
+                    Translator.tr("ui.community.operation.region.teleport_point.component")?.string
+                        ?: "Choose scale managing teleport point"
+                }
             }
             return if (playerObject != null) {
                 Text.of("$baseTitle$specificTitle: ${playerObject.name}")

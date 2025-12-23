@@ -42,7 +42,8 @@ class CommunityOperationMemberMenu(
             slot = 12,
             name = Translator.tr("ui.community.operation.member.member_page.button.setting")?.string ?: "Setting",
             item = Items.MAP
-        ) { runOpenPlayerRegionScopeChoice(
+        ) {
+            runOpenPlayerRegionScopeChoice(
             community = community,
             playerExecutor = playerExecutor,
             playerObject = playerObject

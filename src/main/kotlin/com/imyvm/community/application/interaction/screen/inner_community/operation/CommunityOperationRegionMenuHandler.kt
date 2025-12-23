@@ -2,6 +2,7 @@ package com.imyvm.community.application.interaction.screen.inner_community.opera
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.inter.screen.inner_community.operation.RegionalSettingMenu
 import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
@@ -27,22 +28,28 @@ fun executeScope(
     playerExecutor: ServerPlayerEntity,
     community: Community,
     scope: GeoScope,
-    isGeographic: Boolean,
+    geographicFunctionType: GeographicFunctionType,
     playerObject: GameProfile? = null
 ) {
-    if (isGeographic) {
-        val communityRegion = community.getRegion()
-        communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scope.scopeName) }
-        playerExecutor.closeHandledScreen()
-    } else {
-        CommunityMenuOpener.open(playerExecutor) { syncId ->
-            RegionalSettingMenu(
-                syncId = syncId,
-                playerExecutor = playerExecutor,
-                community = community,
-                scope = scope,
-                playerObject = playerObject
-            )
+    when (geographicFunctionType){
+        GeographicFunctionType.GEOMETRY_MODIFICATION -> {
+            val communityRegion = community.getRegion()
+            communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scope.scopeName) }
+            playerExecutor.closeHandledScreen()
+        }
+        GeographicFunctionType.SETTING_ADJUSTMENT -> {
+            CommunityMenuOpener.open(playerExecutor) { syncId ->
+                RegionalSettingMenu(
+                    syncId = syncId,
+                    playerExecutor = playerExecutor,
+                    community = community,
+                    scope = scope,
+                    playerObject = playerObject
+                )
+            }
+        }
+        GeographicFunctionType.TELEPORT_POINT_LOCATING -> {
+
         }
     }
 }
