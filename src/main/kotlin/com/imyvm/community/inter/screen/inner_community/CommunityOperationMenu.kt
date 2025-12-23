@@ -64,6 +64,12 @@ class CommunityOperationMenu(
         ) {}
 
         addButton(
+            slot = 16,
+            name = Translator.tr("ui.community.operation.button.teleport")?.string ?: "Teleport Point Management",
+            item = Items.ENDER_PEARL
+        ) {}
+
+        addButton(
             slot = 19,
             name = Translator.tr("ui.community.operation.button.region.geography")?.string ?: "Region Geography Modification",
             item = Items.MAP
