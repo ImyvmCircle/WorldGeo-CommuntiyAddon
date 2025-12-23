@@ -140,6 +140,8 @@
   "ui.community.operation.region.setting.list.permission.fly": "Allow Flying",
   "ui.community.operation.region.setting.list.permission.container": "Allow PvP",
 
+  "ui.community.operation.teleport_point.title": "Teleport Point - community {0} Scope {1}",
+
   "ui.general.list.prev": "Previous Page",
   "ui.general.list.next": "Next Page",
   "ui.general.button.close": "Close",

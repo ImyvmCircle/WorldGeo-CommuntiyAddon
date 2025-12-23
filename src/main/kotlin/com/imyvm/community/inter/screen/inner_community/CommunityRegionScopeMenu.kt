@@ -41,7 +41,7 @@ class CommunityRegionScopeMenu(
             slot = 10,
             name = Translator.tr("ui.community.operation.region.global")?.string ?: "Region Global",
             item = Items.ELYTRA
-        ) { executeRegion(playerExecutor, community, playerObject) }
+        ) { executeRegion(playerExecutor, community, geographicFunctionType, playerObject) }
     }
 
     private fun addLocalButton() {

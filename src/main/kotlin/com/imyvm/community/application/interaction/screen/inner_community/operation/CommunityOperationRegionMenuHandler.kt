@@ -3,6 +3,7 @@ package com.imyvm.community.application.interaction.screen.inner_community.opera
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.GeographicFunctionType
+import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationTeleportPointMenu
 import com.imyvm.community.inter.screen.inner_community.operation.RegionalSettingMenu
 import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
@@ -12,15 +13,18 @@ import net.minecraft.server.network.ServerPlayerEntity
 fun executeRegion(
     playerExecutor: ServerPlayerEntity,
     community: Community,
+    geographicFunctionType: GeographicFunctionType,
     playerObject: GameProfile? = null
 ) {
-    CommunityMenuOpener.open(playerExecutor) { syncId ->
-        RegionalSettingMenu(
-            syncId = syncId,
-            playerExecutor = playerExecutor,
-            community = community,
-            playerObject = playerObject
-        )
+    if (geographicFunctionType == GeographicFunctionType.SETTING_ADJUSTMENT) {
+        CommunityMenuOpener.open(playerExecutor) { syncId ->
+            RegionalSettingMenu(
+                syncId = syncId,
+                playerExecutor = playerExecutor,
+                community = community,
+                playerObject = playerObject
+            )
+        }
     }
 }
 
@@ -49,7 +53,14 @@ fun executeScope(
             }
         }
         GeographicFunctionType.TELEPORT_POINT_LOCATING -> {
-
+            CommunityMenuOpener.open(playerExecutor) { syncId ->
+                CommunityOperationTeleportPointMenu(
+                    syncId = syncId,
+                    playerExecutor = playerExecutor,
+                    community = community,
+                    scope = scope
+                )
+            }
         }
     }
 }
