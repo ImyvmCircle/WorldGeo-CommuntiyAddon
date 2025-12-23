@@ -1,5 +1,6 @@
 package com.imyvm.community.inter.screen.inner_community.operation
 
+import com.imyvm.community.application.interaction.screen.inner_community.operation.*
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
@@ -23,29 +24,35 @@ class CommunityOperationTeleportPointMenu(
             slot = 10,
             name = Translator.tr("ui.community.operation.teleport_point.set")?.string ?: "Set Location of Current Feet as Teleport Point",
             item = Items.COMPASS
-        ) {}
+        ) { runSettingTeleportPoint(playerExecutor, community, scope) }
 
         addButton(
             slot = 12,
             name = Translator.tr("ui.community.operation.teleport_point.reset")?.string ?: "Reset current teleport point to null.",
             item = Items.BARRIER
-        ) {}
+        ) { runResetTeleportPoint(playerExecutor, community, scope) }
 
         addButton(
             slot = 14,
-            name = Translator.tr("ui.community.operation.teleport_point.toogle")?.string ?: "Toggle teleport point accessibility.",
+            name = Translator.tr("ui.community.operation.teleport_point.toggle")?.string ?: "Toggle teleport point accessibility.",
             item = if(RegionDataApi.inquireTeleportPointAccessibility(scope)) {
-                Items.RED_WOOL
-            } else {
                 Items.GREEN_WOOL
+            } else {
+                Items.RED_WOOL
             }
-        ) {}
+        ) { runToggleTeleportPointAccessibility(playerExecutor, community, scope) }
 
         addButton(
             slot = 16,
+            name = Translator.tr("ui.community.operation.teleport_point.inquiry")?.string ?: "Inquiry Teleport Point",
+            item = Items.COMMAND_BLOCK
+        ) { runInquiryTeleportPoint(playerExecutor, community, scope) }
+
+        addButton(
+            slot = 19,
             name = Translator.tr("ui.community.operation.teleport_point.teleport")?.string ?: "Teleport to the teleport point of this scope.",
             item = Items.ENDER_PEARL
-        ) {}
+        ) { runTeleportToPoint(playerExecutor, community, scope) }
     }
     companion object {
         private fun generateTeleportPointManagingMenuTitle(community: Community, scope: GeoScope): Text {
