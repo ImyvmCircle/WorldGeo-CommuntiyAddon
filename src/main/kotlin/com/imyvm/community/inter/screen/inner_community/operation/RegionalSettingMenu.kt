@@ -17,19 +17,19 @@ class RegionalSettingMenu(
     val playerExecutor: ServerPlayerEntity,
     val community: Community,
     val scope: GeoScope? = null,
-    private val playerProfile: GameProfile? = null
+    private val playerObject: GameProfile? = null
 ) : AbstractMenu(
     syncId,
     menuTitle = generateRegionSettingMenuTitle(
         community = community,
         scope = scope,
-        playerProfile = playerProfile
+        playerProfile = playerObject
     )
 ) {
     init {
         addPermissionSettingButtons()
         addEffectSettingButtons()
-        if (playerProfile == null) addRuleSettingButtons()
+        if (playerObject == null) addRuleSettingButtons()
     }
 
     private fun addPermissionSettingButtons(){
@@ -42,20 +42,20 @@ class RegionalSettingMenu(
         addButton(
             slot = 12,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.build_break")?.string ?: "Build/Break Permission",
-            itemStack = getPermissionButtonItemStack(Items.DIAMOND_PICKAXE, community, scope, playerProfile, PermissionKey.BUILD_BREAK)
-        ) { togglePermissionSetting(playerExecutor, community, scope, playerProfile, PermissionKey.BUILD_BREAK) }
+            itemStack = getPermissionButtonItemStack(Items.DIAMOND_PICKAXE, community, scope, playerObject, PermissionKey.BUILD_BREAK)
+        ) { togglePermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.BUILD_BREAK) }
 
         addButton(
             slot = 13,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.fly")?.string ?: "Fly Permission",
-            itemStack = getPermissionButtonItemStack(Items.ELYTRA, community, scope, playerProfile, PermissionKey.FLY)
-        ) { togglePermissionSetting(playerExecutor, community, scope, playerProfile, PermissionKey.FLY)  }
+            itemStack = getPermissionButtonItemStack(Items.ELYTRA, community, scope, playerObject, PermissionKey.FLY)
+        ) { togglePermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.FLY)  }
 
         addButton(
             slot = 14,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.container")?.string ?: "Container Permission",
-            itemStack = getPermissionButtonItemStack(Items.CHEST, community, scope, playerProfile, PermissionKey.CONTAINER)
-        ) { togglePermissionSetting(playerExecutor, community, scope, playerProfile, PermissionKey.CONTAINER) }
+            itemStack = getPermissionButtonItemStack(Items.CHEST, community, scope, playerObject, PermissionKey.CONTAINER)
+        ) { togglePermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.CONTAINER) }
     }
 
     private fun addEffectSettingButtons(){

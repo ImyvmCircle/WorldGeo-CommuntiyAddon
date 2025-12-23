@@ -22,7 +22,7 @@ fun runTeleportCommunity(player: ServerPlayerEntity, community: Community) {
         return
     }
 
-    val mainScope = region?.geometryScope?.firstOrNull()
+    val mainScope = region.geometryScope.firstOrNull()
     if (mainScope == null) {
         player.sendMessage(Translator.tr("ui.community.button.interaction.teleport.execution.error.no_scope"),)
         return

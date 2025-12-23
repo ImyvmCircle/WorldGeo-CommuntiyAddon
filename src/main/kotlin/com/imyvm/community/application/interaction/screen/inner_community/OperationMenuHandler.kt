@@ -34,7 +34,12 @@ fun runOPAdvancement(player: ServerPlayerEntity, community: Community){
 
 fun runOPRegion(player: ServerPlayerEntity, community: Community, isGeographic: Boolean) {
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityOperationRegionMenu(syncId, community, isGeographic, player)
+        CommunityOperationRegionMenu(
+            syncId = syncId,
+            playerExecutor = player,
+            community = community,
+            isGeographic = isGeographic
+        )
     }
 }
 

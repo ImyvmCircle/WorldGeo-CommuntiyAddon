@@ -5,20 +5,31 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.inner_community.operation.RegionalSettingMenu
 import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
+import com.mojang.authlib.GameProfile
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun executeRegion(playerExecutor: ServerPlayerEntity, community: Community) {
-    CommunityMenuOpener.open(playerExecutor) {syncId ->
+fun executeRegion(
+    playerExecutor: ServerPlayerEntity,
+    community: Community,
+    playerObject: GameProfile? = null
+) {
+    CommunityMenuOpener.open(playerExecutor) { syncId ->
         RegionalSettingMenu(
             syncId = syncId,
             playerExecutor = playerExecutor,
             community = community,
-            scope = null
+            playerObject = playerObject
         )
     }
 }
 
-fun executeScope(playerExecutor: ServerPlayerEntity, community: Community, scope: GeoScope, isGeographic: Boolean) {
+fun executeScope(
+    playerExecutor: ServerPlayerEntity,
+    community: Community,
+    scope: GeoScope,
+    isGeographic: Boolean,
+    playerObject: GameProfile? = null
+) {
     if (isGeographic) {
         val communityRegion = community.getRegion()
         communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scope.scopeName) }
@@ -29,7 +40,8 @@ fun executeScope(playerExecutor: ServerPlayerEntity, community: Community, scope
                 syncId = syncId,
                 playerExecutor = playerExecutor,
                 community = community,
-                scope = scope
+                scope = scope,
+                playerObject = playerObject
             )
         }
     }

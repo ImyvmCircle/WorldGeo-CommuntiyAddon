@@ -6,19 +6,21 @@ import com.imyvm.community.application.interaction.screen.inner_community.operat
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.util.Translator
+import com.mojang.authlib.GameProfile
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 class CommunityOperationRegionMenu(
     syncId: Int,
+    val playerExecutor: ServerPlayerEntity,
     val community: Community,
     private val isGeographic: Boolean,
-    val playerExecutor: ServerPlayerEntity,
+    val playerObject: GameProfile? = null,
     page: Int = 0
 ): AbstractListMenu(
     syncId,
-    menuTitle = generateMenuTitle(community, isGeographic, playerExecutor),
+    menuTitle = generateMenuTitle(community, isGeographic, playerObject),
     page = page
 ) {
 
@@ -38,7 +40,7 @@ class CommunityOperationRegionMenu(
             slot = 10,
             name = Translator.tr("ui.community.operation.region.global")?.string ?: "Region Global",
             item = Items.ELYTRA
-        ) { executeRegion(playerExecutor, community) }
+        ) { executeRegion(playerExecutor, community, playerObject) }
     }
 
     private fun addLocalButton() {
@@ -68,7 +70,7 @@ class CommunityOperationRegionMenu(
                 slot = slotIndex,
                 name = scope.scopeName,
                 item = item
-            ) { executeScope(playerExecutor, community, scope, isGeographic) }
+            ) { executeScope(playerExecutor, community, scope, isGeographic, playerObject) }
 
             slotIndex = incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -79,21 +81,32 @@ class CommunityOperationRegionMenu(
         return (listSize + 2 + unitsPerPage - 1) / unitsPerPage
     }
 
-    override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
-        CommunityMenuOpener.open(player) { syncId ->
-            CommunityOperationRegionMenu(syncId, community, isGeographic, player, newPage)
+    override fun openNewPage(playerExecutor: ServerPlayerEntity, newPage: Int) {
+        CommunityMenuOpener.open(playerExecutor) { syncId ->
+            CommunityOperationRegionMenu(
+                syncId = syncId,
+                playerExecutor = playerExecutor,
+                community = community,
+                isGeographic = isGeographic,
+                playerObject = playerObject,
+                page = newPage
+            )
         }
     }
 
     companion object {
-        fun generateMenuTitle(community: Community, isGeographic: Boolean, playerExecutor: ServerPlayerEntity): Text {
+        fun generateMenuTitle(community: Community, isGeographic: Boolean, playerObject: GameProfile?): Text {
             val baseTitle = community.generateCommunityMark() + " - "
             val specificTitle = if (isGeographic) {
                 Translator.tr("ui.community.operation.region.geography.title.component")?.string ?: "Choose scope to modify geographic shape"
             } else {
                 Translator.tr("ui.community.operation.region.setting.title.component")?.string ?: "Choose scope to modify region settings"
             }
-            return Text.of("$baseTitle$specificTitle: ${playerExecutor.name.string}")
+            return if (playerObject != null) {
+                Text.of("$baseTitle$specificTitle: ${playerObject.name}")
+            } else {
+                Text.of("$baseTitle$specificTitle")
+            }
         }
     }
 }

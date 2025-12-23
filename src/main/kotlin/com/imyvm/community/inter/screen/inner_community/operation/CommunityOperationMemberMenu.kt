@@ -1,7 +1,7 @@
 package com.imyvm.community.inter.screen.inner_community.operation
 
 import com.imyvm.community.application.interaction.screen.inner_community.operation.runNotifyMember
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runOpenPlayerRegionalSettings
+import com.imyvm.community.application.interaction.screen.inner_community.operation.runOpenPlayerRegionScopeChoice
 import com.imyvm.community.application.interaction.screen.inner_community.operation.runPromoteMember
 import com.imyvm.community.application.interaction.screen.inner_community.operation.runRemoveMember
 import com.imyvm.community.domain.Community
@@ -40,9 +40,13 @@ class CommunityOperationMemberMenu(
     private fun addManageButtons() {
         addButton(
             slot = 12,
-            name = Translator.tr("ui.community.operation.member.member_page.button.region")?.string ?: "Region Setting",
+            name = Translator.tr("ui.community.operation.member.member_page.button.setting")?.string ?: "Setting",
             item = Items.MAP
-        ) { runOpenPlayerRegionalSettings(community, playerExecutor, playerObject) }
+        ) { runOpenPlayerRegionScopeChoice(
+            community = community,
+            playerExecutor = playerExecutor,
+            playerObject = playerObject
+        ) }
 
         addButton(
             slot = 14,
