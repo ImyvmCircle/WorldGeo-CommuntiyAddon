@@ -1,11 +1,11 @@
 package com.imyvm.community.inter.screen.inner_community.operation
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
+import com.imyvm.community.application.interaction.screen.inner_community.operation.executeRegion
+import com.imyvm.community.application.interaction.screen.inner_community.operation.executeScope
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.util.Translator
-import com.imyvm.iwg.domain.component.GeoScope
-import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -38,7 +38,7 @@ class CommunityOperationRegionMenu(
             slot = 10,
             name = Translator.tr("ui.community.operation.region.global")?.string ?: "Region Global",
             item = Items.ELYTRA
-        ) {}
+        ) { executeRegion(playerExecutor, community) }
     }
 
     private fun addLocalButton() {
@@ -68,7 +68,7 @@ class CommunityOperationRegionMenu(
                 slot = slotIndex,
                 name = scope.scopeName,
                 item = item
-            ) { executeScope(scope) }
+            ) { executeScope(playerExecutor, community, scope, isGeographic) }
 
             slotIndex = incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -82,23 +82,6 @@ class CommunityOperationRegionMenu(
     override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
         CommunityMenuOpener.open(player) { syncId ->
             CommunityOperationRegionMenu(syncId, community, isGeographic, player, newPage)
-        }
-    }
-
-    private fun executeScope(scope: GeoScope) {
-        if (isGeographic) {
-            val communityRegion = community.getRegion()
-            communityRegion?.let { PlayerInteractionApi.modifyScope(playerExecutor, it, scope.scopeName) }
-            playerExecutor.closeHandledScreen()
-        } else {
-            CommunityMenuOpener.open(playerExecutor) { syncId ->
-                RegionalSettingMenu(
-                    syncId = syncId,
-                    playerExecutor = playerExecutor,
-                    community = community,
-                    scope = scope
-                )
-            }
         }
     }
 
