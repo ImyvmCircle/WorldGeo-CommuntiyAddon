@@ -101,11 +101,11 @@ class CommunityRegionScopeMenu(
             val specificTitle = when (geographicFunctionType) {
                 GeographicFunctionType.GEOMETRY_MODIFICATION -> {
                     Translator.tr("ui.community.operation.region.geometry.title.component")?.string
-                        ?: "Choose scale to modifying geographic shape"
+                        ?: "Choose scale modifying geographic shape"
                 }
                 GeographicFunctionType.SETTING_ADJUSTMENT -> {
                     Translator.tr("ui.community.operation.region.setting.title.component")?.string
-                        ?: "Choose scale to modifying region settings"
+                        ?: "Choose scale modifying region settings"
                 }
                 GeographicFunctionType.TELEPORT_POINT_LOCATING -> {
                     Translator.tr("ui.community.operation.region.teleport_point.component")?.string

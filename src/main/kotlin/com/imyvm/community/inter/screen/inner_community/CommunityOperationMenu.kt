@@ -66,7 +66,7 @@ class CommunityOperationMenu(
 
         addButton(
             slot = 19,
-            name = Translator.tr("ui.community.operation.button.region.geography")?.string ?: "Region Geography Modification",
+            name = Translator.tr("ui.community.operation.button.region.geometry")?.string ?: "Region Geography Modification",
             item = Items.MAP
         ){ runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.GEOMETRY_MODIFICATION) }
 

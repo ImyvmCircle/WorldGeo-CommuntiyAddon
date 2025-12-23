@@ -113,7 +113,7 @@
   "ui.community.operation.button.announcement": "Edit Announcement",
   "ui.community.operation.button.advancement": "Advancement Plan",
   "ui.community.operation.button.assets": "Manage Assets",
-  "ui.community.operation.button.region.geography": "Region Geography Modification",
+  "ui.community.operation.button.region.geometry": "Region Geometry Modification",
   "ui.community.operation.button.region.setting": "Region Setting Items Modification",
   "ui.community.operation.button.join_policy": "Join Policy: ",
 
@@ -127,12 +127,15 @@
 
   "ui.community.operation.member.title.component": "- Member Management",
 
-  "ui.community.operation.region.geometry.title.component": "Choose scope to modify geographic shape",
-  "ui.community.operation.region.setting.title.component": "Choose scope to modify region settings",
+  "ui.community.operation.region.geometry.title.component": "Choose scale modifying geometry shape",
+  "ui.community.operation.region.setting.title.component": "Choose scale modifying region settings",
+  "ui.community.operation.region.teleport_point.component": "Choose scale managing teleport point",
+
   "ui.community.operation.region.global": "Global Modification",
 
   "ui.community.operation.region.setting.list.title.setting": "Region Settings",
   "ui.community.operation.region.setting.list.title.unknown": "Unknown",
+
   "ui.community.operation.region.setting.list.permission.header": "Permissions",
   "ui.community.operation.region.setting.list.effect.header": "Effects",
   "ui.community.operation.region.setting.list.rule.header": "Rules",
