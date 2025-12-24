@@ -4,6 +4,7 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.inner_community.CommunityMemberListMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityOperationMenu
+import com.imyvm.community.inter.screen.inner_community.CommunityRegionScopeMenu
 import com.imyvm.community.inter.screen.inner_community.CommunitySettingMenu
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.util.text.Translator
@@ -48,4 +49,15 @@ fun runTeleportCommunity(player: ServerPlayerEntity, community: Community) {
     }
 
     PlayerInteractionApi.teleportPlayerToScope(player, region, mainScope)
+}
+
+fun runTeleportToScope(player: ServerPlayerEntity, community: Community) {
+    CommunityMenuOpener.open(player) { syncId ->
+        CommunityRegionScopeMenu(
+            syncId = syncId,
+            playerExecutor = player,
+            community = community,
+            geographicFunctionType = com.imyvm.community.domain.GeographicFunctionType.TELEPORT_POINT_EXECUTION
+        )
+    }
 }

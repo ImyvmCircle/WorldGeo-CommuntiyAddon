@@ -135,6 +135,7 @@
   "ui.community.operation.region.geometry.title.component": "Choose scale modifying geometry shape",
   "ui.community.operation.region.setting.manage.title.component": "Choose scale modifying region settings",
   "ui.community.operation.region.teleport_point.component": "Choose scale managing teleport point",
+  "ui.community.operation.region.teleport_point.execution.title.component": "Choose scale teleporting to",
 
   "ui.community.operation.region.global": "Global Modification",
 

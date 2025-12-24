@@ -25,6 +25,8 @@ fun runExecuteRegion(
                 playerObject = playerObject
             )
         }
+    } else if (geographicFunctionType == GeographicFunctionType.TELEPORT_POINT_EXECUTION) {
+        runTeleportCommunity(playerExecutor, community)
     }
 }
 
@@ -61,6 +63,11 @@ fun runExecuteScope(
                     scope = scope
                 )
             }
+        }
+        GeographicFunctionType.TELEPORT_POINT_EXECUTION -> {
+            val communityRegion = community.getRegion()
+            communityRegion?.let { PlayerInteractionApi.teleportPlayerToScope(playerExecutor, it, scope) }
+            playerExecutor.closeHandledScreen()
         }
     }
 }

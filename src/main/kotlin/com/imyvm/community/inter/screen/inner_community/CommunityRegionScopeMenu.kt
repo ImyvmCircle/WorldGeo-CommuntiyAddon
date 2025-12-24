@@ -111,6 +111,10 @@ class CommunityRegionScopeMenu(
                     Translator.tr("ui.community.operation.region.teleport_point.component")?.string
                         ?: "Choose scale managing teleport point"
                 }
+                GeographicFunctionType.TELEPORT_POINT_EXECUTION -> {
+                    Translator.tr("ui.community.operation.region.teleport_point.execution.title.component")?.string
+                        ?: "Choose scale teleporting to"
+                }
             }
             return if (playerObject != null) {
                 Text.of("$baseTitle$specificTitle: ${playerObject.name}")

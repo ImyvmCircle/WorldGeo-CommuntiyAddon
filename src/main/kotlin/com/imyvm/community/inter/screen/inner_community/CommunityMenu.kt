@@ -87,7 +87,7 @@ class CommunityMenu(
             slot = 25,
             Translator.tr("ui.community.button.interaction.teleport.scope")?.string ?: "Teleportation Scope",
             item = Items.COMPASS
-        ) {}
+        ) { runTeleportToScope(player, community) }
 
         addButton(
             slot = 28,
