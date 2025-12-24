@@ -1,5 +1,7 @@
 package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.inner_community.runOpenSettingPlayerTargeted
+import com.imyvm.community.application.interaction.screen.inner_community.runOpenSettingRegional
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItemStack
@@ -28,13 +30,13 @@ class CommunitySettingMenu(
             slot = 19,
             name = Translator.tr("ui.community.setting.button.regional")?.string ?: "Regional Settings",
             item = Items.GRASS_BLOCK
-        ) {}
+        ) { runOpenSettingRegional(playerExecutor, community) }
 
         addButton(
             slot = 21,
             name = Translator.tr("ui.community.setting.button.player")?.string ?: "Player-targeted Settings",
             itemStack = createPlayerHeadItemStack(playerExecutor.name.string, playerExecutor.uuid)
-        ) {}
+        ) { runOpenSettingPlayerTargeted(playerExecutor, community) }
     }
 
     companion object {

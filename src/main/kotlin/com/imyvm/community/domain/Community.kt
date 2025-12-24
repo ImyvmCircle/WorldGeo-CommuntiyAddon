@@ -69,6 +69,11 @@ class Community(
         return true
     }
 
+    fun isManageable(playerExecutor: ServerPlayerEntity): Boolean {
+        val memberRole = getMemberRole(playerExecutor.uuid) ?: return false
+        return memberRole == MemberRoleType.OWNER || memberRole == MemberRoleType.ADMIN
+    }
+
     private fun analyzeByRole(executorRole: MemberRoleType, targetRole: MemberRoleType): Boolean {
         return when (executorRole) {
             MemberRoleType.OWNER -> targetRole != MemberRoleType.OWNER

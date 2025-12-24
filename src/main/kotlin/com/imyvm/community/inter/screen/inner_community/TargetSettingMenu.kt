@@ -1,7 +1,7 @@
-package com.imyvm.community.inter.screen.inner_community.operation_only
+package com.imyvm.community.inter.screen.inner_community
 
-import com.imyvm.community.application.interaction.screen.inner_community.operation_only.getPermissionButtonItemStack
-import com.imyvm.community.application.interaction.screen.inner_community.operation_only.runTogglingPermissionSetting
+import com.imyvm.community.application.interaction.screen.inner_community.getPermissionButtonItemStack
+import com.imyvm.community.application.interaction.screen.inner_community.runTogglingPermissionSetting
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
@@ -12,7 +12,7 @@ import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-class RegionalSettingMenu(
+class TargetSettingMenu(
     syncId: Int,
     val playerExecutor: ServerPlayerEntity,
     val community: Community,
@@ -33,6 +33,8 @@ class RegionalSettingMenu(
     }
 
     private fun addPermissionSettingButtons(){
+        val isManageable = community.isManageable(playerExecutor)
+
         addButton(
             slot = 10,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.header")?.string ?: "Permission Settings",
@@ -43,19 +45,19 @@ class RegionalSettingMenu(
             slot = 12,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.build_break")?.string ?: "Build/Break Permission",
             itemStack = getPermissionButtonItemStack(Items.DIAMOND_PICKAXE, community, scope, playerObject, PermissionKey.BUILD_BREAK)
-        ) { runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.BUILD_BREAK) }
+        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.BUILD_BREAK) }
 
         addButton(
             slot = 13,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.fly")?.string ?: "Fly Permission",
             itemStack = getPermissionButtonItemStack(Items.ELYTRA, community, scope, playerObject, PermissionKey.FLY)
-        ) { runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.FLY)  }
+        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.FLY)  }
 
         addButton(
             slot = 14,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.container")?.string ?: "Container Permission",
             itemStack = getPermissionButtonItemStack(Items.CHEST, community, scope, playerObject, PermissionKey.CONTAINER)
-        ) { runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.CONTAINER) }
+        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.CONTAINER) }
     }
 
     private fun addEffectSettingButtons(){

@@ -104,7 +104,7 @@ class CommunityRegionScopeMenu(
                         ?: "Choose scale modifying geographic shape"
                 }
                 GeographicFunctionType.SETTING_ADJUSTMENT -> {
-                    Translator.tr("ui.community.operation.region.setting.title.component")?.string
+                    Translator.tr("ui.community.operation.region.setting.manage.title.component")?.string
                         ?: "Choose scale modifying region settings"
                 }
                 GeographicFunctionType.TELEPORT_POINT_LOCATING -> {

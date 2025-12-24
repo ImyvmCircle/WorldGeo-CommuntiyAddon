@@ -3,8 +3,8 @@ package com.imyvm.community.application.interaction.screen.inner_community
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.GeographicFunctionType
+import com.imyvm.community.inter.screen.inner_community.TargetSettingMenu
 import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityOperationTeleportPointMenu
-import com.imyvm.community.inter.screen.inner_community.operation_only.RegionalSettingMenu
 import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.mojang.authlib.GameProfile
@@ -18,7 +18,7 @@ fun runExecuteRegion(
 ) {
     if (geographicFunctionType == GeographicFunctionType.SETTING_ADJUSTMENT) {
         CommunityMenuOpener.open(playerExecutor) { syncId ->
-            RegionalSettingMenu(
+            TargetSettingMenu(
                 syncId = syncId,
                 playerExecutor = playerExecutor,
                 community = community,
@@ -43,7 +43,7 @@ fun runExecuteScope(
         }
         GeographicFunctionType.SETTING_ADJUSTMENT -> {
             CommunityMenuOpener.open(playerExecutor) { syncId ->
-                RegionalSettingMenu(
+                TargetSettingMenu(
                     syncId = syncId,
                     playerExecutor = playerExecutor,
                     community = community,

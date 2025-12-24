@@ -1,9 +1,9 @@
-package com.imyvm.community.application.interaction.screen.inner_community.operation_only
+package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.component.getLoreButton
-import com.imyvm.community.inter.screen.inner_community.operation_only.RegionalSettingMenu
+import com.imyvm.community.inter.screen.inner_community.TargetSettingMenu
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.domain.component.PermissionKey
@@ -90,7 +90,7 @@ private fun refreshSettingInMenu(
     playerProfile: GameProfile?
 ) {
     CommunityMenuOpener.open(playerExecutor) { syncId ->
-        RegionalSettingMenu(syncId, playerExecutor, community, scope, playerProfile)
+        TargetSettingMenu(syncId, playerExecutor, community, scope, playerProfile)
     }
 }
 
