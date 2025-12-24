@@ -4,6 +4,7 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.inner_community.CommunityMemberListMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityOperationMenu
+import com.imyvm.community.inter.screen.inner_community.CommunitySettingMenu
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.util.text.Translator
 import net.minecraft.server.network.ServerPlayerEntity
@@ -22,6 +23,12 @@ fun runSendingCommunityDescription(player: ServerPlayerEntity, community: Commun
 fun runOpenMemberListMenu(player: ServerPlayerEntity, community: Community) {
     CommunityMenuOpener.open(player) { syncId ->
         CommunityMemberListMenu(syncId, community, player)
+    }
+}
+
+fun runOpenSettingMenu(player: ServerPlayerEntity,community: Community) {
+    CommunityMenuOpener.open(player) { syncId ->
+        CommunitySettingMenu(syncId, player, community)
     }
 }
 
