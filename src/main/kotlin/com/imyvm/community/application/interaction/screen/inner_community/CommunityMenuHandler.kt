@@ -2,6 +2,7 @@ package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
+import com.imyvm.community.inter.screen.inner_community.CommunityMemberListMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityOperationMenu
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.util.text.Translator
@@ -10,6 +11,17 @@ import net.minecraft.server.network.ServerPlayerEntity
 fun runOpenOperationMenu(player: ServerPlayerEntity, community: Community) {
     CommunityMenuOpener.open(player) { syncId ->
         CommunityOperationMenu(syncId, community, player)
+    }
+}
+
+fun runSendingCommunityDescription(player: ServerPlayerEntity, community: Community) {
+    community.sendCommunityRegionDescription(player)
+    player.closeHandledScreen()
+}
+
+fun runOpenMemberListMenu(player: ServerPlayerEntity, community: Community) {
+    CommunityMenuOpener.open(player) { syncId ->
+        CommunityMemberListMenu(syncId, community, player)
     }
 }
 

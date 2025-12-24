@@ -1,6 +1,8 @@
 package com.imyvm.community.inter.screen.inner_community
 
+import com.imyvm.community.application.interaction.screen.inner_community.runOpenMemberListMenu
 import com.imyvm.community.application.interaction.screen.inner_community.runOpenOperationMenu
+import com.imyvm.community.application.interaction.screen.inner_community.runSendingCommunityDescription
 import com.imyvm.community.application.interaction.screen.inner_community.runTeleportCommunity
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.MemberRoleType
@@ -49,10 +51,7 @@ class CommunityMenu(
             slot = 19,
             name = Translator.tr("ui.community.button.description.region")?.string ?: "Description",
             item = Items.BOOKSHELF
-        ) {
-            community.sendCommunityRegionDescription(player)
-            it.closeHandledScreen()
-        }
+        ) { runSendingCommunityDescription(player, community) }
 
         addButton(
             slot = 20,
@@ -65,7 +64,7 @@ class CommunityMenu(
             slot = 22,
             name = Translator.tr("ui.community.button.description.members")?.string ?: "Member",
             item = Items.ARMOR_STAND
-        ) {}
+        ) { runOpenMemberListMenu(player, community) }
 
         addButton(
             slot = 21,

@@ -6,9 +6,9 @@ import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.domain.community.CommunityJoinPolicy
 import com.imyvm.community.inter.screen.inner_community.CommunityOperationMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityRegionScopeMenu
-import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationAdvancementMenu
-import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationAuditListMenu
-import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationMemberListMenu
+import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityOperationAdvancementMenu
+import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityOperationAuditListMenu
+import com.imyvm.community.inter.screen.inner_community.CommunityMemberListMenu
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun runOPRenameCommunity(player: ServerPlayerEntity, community: Community){
@@ -17,7 +17,7 @@ fun runOPRenameCommunity(player: ServerPlayerEntity, community: Community){
 
 fun runOpManageMembers(player: ServerPlayerEntity, community: Community){
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityOperationMemberListMenu(syncId, community, player)
+        CommunityMemberListMenu(syncId, community, player)
     }
 }
 

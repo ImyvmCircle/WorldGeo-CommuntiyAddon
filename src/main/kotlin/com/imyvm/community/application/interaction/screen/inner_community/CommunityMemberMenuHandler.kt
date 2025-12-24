@@ -1,4 +1,4 @@
-package com.imyvm.community.application.interaction.screen.inner_community.operation
+package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
@@ -6,7 +6,7 @@ import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.inner_community.CommunityRegionScopeMenu
-import com.imyvm.community.inter.screen.inner_community.operation.CommunityNotificationMenuAnvil
+import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityNotificationMenuAnvil
 import com.imyvm.community.util.Translator
 import com.imyvm.community.util.Translator.trMenu
 import com.mojang.authlib.GameProfile

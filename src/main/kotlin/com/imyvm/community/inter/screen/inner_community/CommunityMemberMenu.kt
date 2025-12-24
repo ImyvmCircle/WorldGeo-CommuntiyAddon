@@ -1,9 +1,9 @@
-package com.imyvm.community.inter.screen.inner_community.operation
+package com.imyvm.community.inter.screen.inner_community
 
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runNotifyMember
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runOpenPlayerRegionScopeChoice
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runPromoteMember
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runRemoveMember
+import com.imyvm.community.application.interaction.screen.inner_community.runNotifyMember
+import com.imyvm.community.application.interaction.screen.inner_community.runOpenPlayerRegionScopeChoice
+import com.imyvm.community.application.interaction.screen.inner_community.runPromoteMember
+import com.imyvm.community.application.interaction.screen.inner_community.runRemoveMember
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.AbstractMenu
@@ -14,7 +14,7 @@ import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-class CommunityOperationMemberMenu(
+class CommunityMemberMenu(
     syncId: Int,
     val community: Community,
     private val playerObject: GameProfile,
@@ -39,7 +39,7 @@ class CommunityOperationMemberMenu(
 
     private fun addManageButtons() {
         addButton(
-            slot = 12,
+            slot = 19,
             name = Translator.tr("ui.community.operation.member.member_page.button.setting")?.string ?: "Setting",
             item = Items.MAP
         ) {
@@ -50,20 +50,20 @@ class CommunityOperationMemberMenu(
         ) }
 
         addButton(
-            slot = 14,
+            slot = 21,
             name = Translator.tr("ui.community.operation.member.member_page.button.remove")?.string ?: "Remove Member",
             item = Items.ZOMBIE_VILLAGER_SPAWN_EGG
         ) { runRemoveMember(community, playerExecutor, playerObject) }
 
         addButton(
-            slot = 19,
+            slot = 23,
             name = Translator.tr("ui.community.operation.member.member_page.button.message")?.string ?: "Send Message",
             item = Items.PAPER
         ) { runNotifyMember(community, playerExecutor, playerObject) }
 
         if (community.getMemberRole(playerObject.id) == MemberRoleType.OWNER) {
             addButton(
-                slot = 21,
+                slot = 25,
                 name = Translator.tr("ui.community.operation.member.member_page.button.promote.admin")?.string ?: "Promote to Admin",
                 item = Items.COMMAND_BLOCK
             ) { runPromoteMember(community, playerExecutor, playerObject) }

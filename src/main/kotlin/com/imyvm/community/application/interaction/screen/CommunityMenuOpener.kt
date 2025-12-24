@@ -3,7 +3,7 @@ package com.imyvm.community.application.interaction.screen
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityMenu
-import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationRenameMenuAnvil
+import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityOperationRenameMenuAnvil
 import com.imyvm.community.inter.screen.outer_community.CommunityCreationRenameMenuAnvil
 import com.imyvm.iwg.domain.component.GeoShapeType
 import net.minecraft.entity.player.PlayerEntity

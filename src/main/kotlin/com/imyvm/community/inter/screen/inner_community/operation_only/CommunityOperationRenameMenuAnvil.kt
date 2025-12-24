@@ -1,4 +1,4 @@
-package com.imyvm.community.inter.screen.inner_community.operation
+package com.imyvm.community.inter.screen.inner_community.operation_only
 
 import com.imyvm.community.application.interaction.common.onCommunityRegionInteraction
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener

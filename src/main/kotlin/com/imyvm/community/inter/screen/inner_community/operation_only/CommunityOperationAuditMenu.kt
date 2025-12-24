@@ -1,7 +1,7 @@
-package com.imyvm.community.inter.screen.inner_community.operation
+package com.imyvm.community.inter.screen.inner_community.operation_only
 
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runAccept
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runRefuse
+import com.imyvm.community.application.interaction.screen.inner_community.operation_only.runAccept
+import com.imyvm.community.application.interaction.screen.inner_community.operation_only.runRefuse
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator

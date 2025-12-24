@@ -1,7 +1,7 @@
-package com.imyvm.community.inter.screen.inner_community.operation
+package com.imyvm.community.inter.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runCommunityOperationMember
+import com.imyvm.community.application.interaction.screen.inner_community.runCommunityOpenMember
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
 import com.imyvm.community.inter.screen.component.createPlayerHeadItemStack
@@ -11,7 +11,7 @@ import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
-class CommunityOperationMemberListMenu(
+class CommunityMemberListMenu(
     syncId: Int,
     val community: Community,
     val playerExecutor: ServerPlayerEntity,
@@ -71,7 +71,7 @@ class CommunityOperationMemberListMenu(
                 slot = slotIndex,
                 name = adminName,
                 itemStack = createPlayerHeadItemStack(adminName, uuid)
-            ) { runCommunityOperationMember(community, uuid, playerExecutor) }
+            ) { runCommunityOpenMember(community, uuid, playerExecutor) }
         }
 
     }
@@ -98,7 +98,7 @@ class CommunityOperationMemberListMenu(
                 slot = slotIndex,
                 name = memberName,
                 itemStack = createPlayerHeadItemStack(memberName, uuid)
-            ) { runCommunityOperationMember(community, uuid, playerExecutor) }
+            ) { runCommunityOpenMember(community, uuid, playerExecutor) }
 
             slotIndex = super.incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -110,7 +110,7 @@ class CommunityOperationMemberListMenu(
     }
 
     override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
-        CommunityMenuOpener.open(player) { syncId -> CommunityOperationMemberListMenu(syncId, community, player, newPage) }
+        CommunityMenuOpener.open(player) { syncId -> CommunityMemberListMenu(syncId, community, player, newPage) }
     }
 
     companion object {

@@ -1,7 +1,7 @@
-package com.imyvm.community.inter.screen.inner_community.operation
+package com.imyvm.community.inter.screen.inner_community.operation_only
 
-import com.imyvm.community.application.interaction.screen.inner_community.operation.getPermissionButtonItemStack
-import com.imyvm.community.application.interaction.screen.inner_community.operation.runTogglingPermissionSetting
+import com.imyvm.community.application.interaction.screen.inner_community.operation_only.getPermissionButtonItemStack
+import com.imyvm.community.application.interaction.screen.inner_community.operation_only.runTogglingPermissionSetting
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator

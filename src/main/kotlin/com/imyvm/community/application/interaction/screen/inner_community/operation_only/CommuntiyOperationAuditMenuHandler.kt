@@ -1,4 +1,4 @@
-package com.imyvm.community.application.interaction.screen.inner_community.operation
+package com.imyvm.community.application.interaction.screen.inner_community.operation_only
 
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.MemberRoleType
