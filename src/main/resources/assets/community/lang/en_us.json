@@ -145,6 +145,15 @@
 
   "ui.community.operation.teleport_point.title": "Teleport Point - community {0} Scope {1}",
 
+  "ui.community.operation.teleport_point.button.inquiry": "Inquiry Teleport Point",
+  "ui.community.operation.teleport_point.button.toggle": "Toggle teleport point accessibility",
+  "ui.community.operation.teleport_point.button.set": "Set Location of Current Feet as Teleport Point",
+  "ui.community.operation.teleport_point.button.reset":  "Reset current teleport point to null",
+  "ui.community.operation.teleport_point.button.teleport":  "Teleport to the teleport point of this scope",
+  "ui.community.operation.teleport_point.inquiry.lore.no_point": "No teleport point set for this scope.",
+  "ui.community.operation.teleport_point.inquiry.success.result": "Teleport point for this scope is set at:\n X:{0},\n Y:{1},\n Z:{2}.",
+  "ui.community.operation.teleport_point.inquiry.success.no_point": "No teleport point set for this scope.",
+
   "ui.general.list.prev": "Previous Page",
   "ui.general.list.next": "Next Page",
   "ui.general.button.close": "Close",

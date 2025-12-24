@@ -22,13 +22,13 @@ class CommunityOperationTeleportPointMenu(
     init {
         addButton(
             slot = 10,
-            name = Translator.tr("ui.community.operation.teleport_point.inquiry")?.string ?: "Inquiry Teleport Point",
+            name = Translator.tr("ui.community.operation.teleport_point.button.inquiry")?.string ?: "Inquiry Teleport Point",
             itemStack = getTeleportPointInformationItemStack(Items.COMMAND_BLOCK, scope)
         ) { runInquiryTeleportPoint(playerExecutor, community, scope) }
 
         addButton(
             slot = 12,
-            name = Translator.tr("ui.community.operation.teleport_point.toggle")?.string ?: "Toggle teleport point accessibility.",
+            name = Translator.tr("ui.community.operation.teleport_point.button.toggle")?.string ?: "Toggle teleport point accessibility",
             item = if(RegionDataApi.inquireTeleportPointAccessibility(scope)) {
                 Items.GREEN_WOOL
             } else {
@@ -38,19 +38,19 @@ class CommunityOperationTeleportPointMenu(
 
         addButton(
             slot = 19,
-            name = Translator.tr("ui.community.operation.teleport_point.set")?.string ?: "Set Location of Current Feet as Teleport Point",
+            name = Translator.tr("ui.community.operation.teleport_point.button.set")?.string ?: "Set Location of Current Feet as Teleport Point",
             item = Items.COMPASS
         ) { runSettingTeleportPoint(playerExecutor, community, scope) }
 
         addButton(
             slot = 21,
-            name = Translator.tr("ui.community.operation.teleport_point.reset")?.string ?: "Reset current teleport point to null.",
+            name = Translator.tr("ui.community.operation.teleport_point.button.reset")?.string ?: "Reset current teleport point to null",
             item = Items.BARRIER
         ) { runResetTeleportPoint(playerExecutor, community, scope) }
 
         addButton(
             slot = 23,
-            name = Translator.tr("ui.community.operation.teleport_point.teleport")?.string ?: "Teleport to the teleport point of this scope.",
+            name = Translator.tr("ui.community.operation.teleport_point.button.teleport")?.string ?: "Teleport to the teleport point of this scope",
             item = Items.ENDER_PEARL
         ) { runTeleportToPoint(playerExecutor, community, scope) }
     }

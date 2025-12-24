@@ -24,11 +24,11 @@ fun getTeleportPointInformationItemStack(
     val loreLines = mutableListOf<Text>()
 
     if (blockPos != null) {
-        loreLines.add(Text.of("x =" + blockPos.x))
-        loreLines.add(Text.of("y =" + blockPos.y))
-        loreLines.add(Text.of("z =" + blockPos.z))
+        loreLines.add(Text.of("x=" + blockPos.x))
+        loreLines.add(Text.of("y=" + blockPos.y))
+        loreLines.add(Text.of("z=" + blockPos.z))
     } else {
-        loreLines.add(Translator.tr("community.teleport_point.inquiry.lore.no_point")!!)
+        loreLines.add(Translator.tr("ui.community.operation.teleport_point.inquiry.lore.no_point")!!)
     }
 
     val lore = LoreComponent(loreLines)
@@ -38,23 +38,24 @@ fun getTeleportPointInformationItemStack(
 }
 
 fun runInquiryTeleportPoint(playerExecutor: ServerPlayerEntity, community: Community, scope: GeoScope) {
+    playerExecutor.closeHandledScreen()
+
     val region = community.getRegion()
     if (region != null) {
         val blockPos = PlayerInteractionApi.getTeleportPoint(scope)
         if (blockPos != null) {
             playerExecutor.sendMessage(
                 Translator.tr(
-                    "community.teleport_point.inquiry.success.result",
+                    "ui.community.operation.teleport_point.inquiry.success.result",
                     blockPos.x,
                     blockPos.y,
                     blockPos.z
                 )
             )
         } else {
-            playerExecutor.sendMessage(Translator.tr("community.teleport_point.inquiry.success.no_point"))
+            playerExecutor.sendMessage(Translator.tr("ui.community.operation.teleport_point.inquiry.success.no_point"))
         }
     } else {
-        playerExecutor.closeHandledScreen()
         playerExecutor.sendMessage(Translator.tr("community.not_found.region"))
     }
 }
@@ -78,31 +79,34 @@ fun runToggleTeleportPointAccessibility(playerExecutor: ServerPlayerEntity, comm
 }
 
 fun runSettingTeleportPoint(playerExecutor: ServerPlayerEntity, community: Community, scope: GeoScope) {
+    playerExecutor.closeHandledScreen()
+
     val region = community.getRegion()
     if (region != null) {
         PlayerInteractionApi.addTeleportPoint(playerExecutor, region, scope)
     } else {
-        playerExecutor.closeHandledScreen()
         playerExecutor.sendMessage(Translator.tr("community.not_found.region"))
     }
 }
 
 fun runResetTeleportPoint(playerExecutor: ServerPlayerEntity, community: Community, scope: GeoScope) {
+    playerExecutor.closeHandledScreen()
+
     val region = community.getRegion()
     if (region != null) {
         PlayerInteractionApi.resetTeleportPoint(playerExecutor, region, scope)
     } else {
-        playerExecutor.closeHandledScreen()
         playerExecutor.sendMessage(Translator.tr("community.not_found.region"))
     }
 }
 
 fun runTeleportToPoint(playerExecutor: ServerPlayerEntity, community: Community, scope: GeoScope) {
+    playerExecutor.closeHandledScreen()
+
     val region = community.getRegion()
     if (region != null) {
         PlayerInteractionApi.teleportPlayerToScope(playerExecutor, region, scope)
     } else {
-        playerExecutor.closeHandledScreen()
         playerExecutor.sendMessage(Translator.tr("community.not_found.region"))
     }
 }
