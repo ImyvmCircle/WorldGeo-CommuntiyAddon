@@ -2,12 +2,11 @@ package com.imyvm.community.application.interaction.screen.inner_community.opera
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
+import com.imyvm.community.inter.screen.component.getLoreButton
 import com.imyvm.community.inter.screen.inner_community.operation.CommunityOperationTeleportPointMenu
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.LoreComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
@@ -17,12 +16,10 @@ fun getTeleportPointInformationItemStack(
     item: Item,
     scope: GeoScope
 ): ItemStack {
-    val blockPos = PlayerInteractionApi.getTeleportPoint(scope)
-
     val itemStack = ItemStack(item)
 
     val loreLines = mutableListOf<Text>()
-
+    val blockPos = PlayerInteractionApi.getTeleportPoint(scope)
     if (blockPos != null) {
         loreLines.add(Text.of("x=" + blockPos.x))
         loreLines.add(Text.of("y=" + blockPos.y))
@@ -31,10 +28,7 @@ fun getTeleportPointInformationItemStack(
         loreLines.add(Translator.tr("ui.community.operation.teleport_point.inquiry.lore.no_point")!!)
     }
 
-    val lore = LoreComponent(loreLines)
-    itemStack.set(DataComponentTypes.LORE, lore)
-
-    return itemStack
+    return getLoreButton(itemStack, loreLines)
 }
 
 fun runInquiryTeleportPoint(playerExecutor: ServerPlayerEntity, community: Community, scope: GeoScope) {

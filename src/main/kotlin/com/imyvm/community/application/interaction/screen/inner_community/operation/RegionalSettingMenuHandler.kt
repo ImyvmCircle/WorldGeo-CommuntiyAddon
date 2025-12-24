@@ -2,6 +2,7 @@ package com.imyvm.community.application.interaction.screen.inner_community.opera
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
+import com.imyvm.community.inter.screen.component.getLoreButton
 import com.imyvm.community.inter.screen.inner_community.operation.RegionalSettingMenu
 import com.imyvm.iwg.domain.Region
 import com.imyvm.iwg.domain.component.GeoScope
@@ -9,8 +10,6 @@ import com.imyvm.iwg.domain.component.PermissionKey
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.inter.api.RegionDataApi
 import com.mojang.authlib.GameProfile
-import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.LoreComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
@@ -23,6 +22,9 @@ fun getPermissionButtonItemStack(
     playerObject: GameProfile?,
     permissionKey: PermissionKey
 ): ItemStack {
+    val itemStack = ItemStack(item)
+
+    val loreLines = mutableListOf<Text>()
     val hasPermission = community.getRegion()?.let {
         RegionDataApi.getPermissionValueRegion(
             it,
@@ -31,10 +33,6 @@ fun getPermissionButtonItemStack(
             permissionKey
         )
     }
-
-    val itemStack = ItemStack(item)
-
-    val loreLines = mutableListOf<Text>()
     if (hasPermission != null) {
         loreLines.add(Text.literal(hasPermission.toString()))
         scope?.let {
@@ -45,10 +43,7 @@ fun getPermissionButtonItemStack(
         }
     }
 
-    val lore = LoreComponent(loreLines)
-    itemStack.set(DataComponentTypes.LORE, lore)
-
-    return itemStack
+    return getLoreButton(itemStack, loreLines)
 }
 
 fun runTogglingPermissionSetting(
