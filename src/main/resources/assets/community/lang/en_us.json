@@ -160,6 +160,10 @@
   "ui.community.operation.teleport_point.inquiry.success.result": "Teleport point for this scope is set at:\n X:{0},\n Y:{1},\n Z:{2}.",
   "ui.community.operation.teleport_point.inquiry.success.no_point": "No teleport point set for this scope.",
 
+  "ui.community.setting.title.full": "Community {0} Settings",
+  "ui.community.setting.button.regional": "Regional Settings",
+  "ui.community.setting.button.player": "Player-targeting Settings",
+
   "ui.general.list.prev": "Previous Page",
   "ui.general.list.next": "Next Page",
   "ui.general.button.close": "Close",

@@ -34,7 +34,7 @@ class CommunitySettingMenu(
 
         addButton(
             slot = 21,
-            name = Translator.tr("ui.community.setting.button.player")?.string ?: "Player-targeted Settings",
+            name = Translator.tr("ui.community.setting.button.player")?.string ?: "Player-targeting Settings",
             itemStack = createPlayerHeadItemStack(playerExecutor.name.string, playerExecutor.uuid)
         ) { runOpenSettingPlayerTargeted(playerExecutor, community) }
     }
