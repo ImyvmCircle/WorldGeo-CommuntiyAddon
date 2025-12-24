@@ -7,7 +7,7 @@ import com.imyvm.community.application.interaction.screen.inner_community.operat
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.AbstractMenu
-import com.imyvm.community.inter.screen.component.createPlayerHeadItem
+import com.imyvm.community.inter.screen.component.createPlayerHeadItemStack
 import com.imyvm.community.util.Translator
 import com.mojang.authlib.GameProfile
 import net.minecraft.item.Items
@@ -33,7 +33,7 @@ class CommunityOperationMemberMenu(
         addButton(
             slot = 10,
             name = playerObject.name,
-            itemStack = createPlayerHeadItem(playerObject.name, playerObject.id)
+            itemStack = createPlayerHeadItemStack(playerObject.name, playerObject.id)
         ) {}
     }
 

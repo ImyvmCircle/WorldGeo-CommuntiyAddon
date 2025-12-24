@@ -2,11 +2,9 @@ package com.imyvm.community.inter.screen
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
-import com.imyvm.community.domain.community.MemberRoleType
-import com.imyvm.community.inter.screen.component.createPlayerHeadItem
+import com.imyvm.community.inter.screen.component.getPlayerHeadButtonItemStackCommunity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
-import java.util.*
 
 abstract class AbstractCommunityListMenu(
     syncId: Int,
@@ -29,12 +27,7 @@ abstract class AbstractCommunityListMenu(
         var slot = startSlot
 
         for (community in communityList) {
-            val owner = community.member.entries.find { community.getMemberRole(it.key) == MemberRoleType.OWNER }?.key ?: continue
-            val displayName = community.getRegion()?.name ?: "Community #${community.regionNumberId}"
-
-            addPlayerHeadButton(slot, displayName, owner) { player ->
-                onCommunityButtonClick(player, community)
-            }
+            if (!addPlayerHeadButton(slot, community) { player -> onCommunityButtonClick(player, community) }) continue
 
             slot = super.incrementSlotIndex(slot)
             if (slot > endSlot) break
@@ -55,8 +48,13 @@ abstract class AbstractCommunityListMenu(
 
     protected abstract fun createNewMenu(syncId: Int, newPage: Int): AbstractListMenu
 
-    private fun addPlayerHeadButton(slot: Int, name: String, uuid: UUID, onClick: (ServerPlayerEntity) -> Unit) {
-        addButton(slot = slot, name = name, itemStack = createPlayerHeadItem(name, uuid), onClick = onClick)
+    private fun addPlayerHeadButton(slot: Int, community: Community, onClick: (ServerPlayerEntity) -> Unit): Boolean {
+        addButton(
+            slot = slot,
+            name = community.generateCommunityMark(),
+            itemStack = getPlayerHeadButtonItemStackCommunity(community), onClick = onClick
+        )
+        return true
     }
 }
 

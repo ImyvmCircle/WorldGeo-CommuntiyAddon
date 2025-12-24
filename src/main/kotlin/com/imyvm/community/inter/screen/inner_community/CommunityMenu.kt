@@ -5,7 +5,7 @@ import com.imyvm.community.application.interaction.screen.inner_community.runTel
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.inter.screen.AbstractMenu
-import com.imyvm.community.inter.screen.component.createPlayerHeadItem
+import com.imyvm.community.inter.screen.component.getPlayerHeadButtonItemStackCommunity
 import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
@@ -29,7 +29,7 @@ class CommunityMenu(
         addButton(
             slot = 10,
             name = community.generateCommunityMark(),
-            itemStack = createPlayerHeadItem(community.generateCommunityMark(), player.uuid)
+            itemStack = getPlayerHeadButtonItemStackCommunity(community)
         ) {}
     }
 

@@ -4,7 +4,7 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.application.interaction.screen.inner_community.operation.runCommunityOperationMember
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractListMenu
-import com.imyvm.community.inter.screen.component.createPlayerHeadItem
+import com.imyvm.community.inter.screen.component.createPlayerHeadItemStack
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.inter.api.UtilApi
 import net.minecraft.item.Items
@@ -52,7 +52,7 @@ class CommunityOperationMemberListMenu(
         addButton(
             slot = 12,
             name = ownerName,
-            itemStack = createPlayerHeadItem(ownerName, ownerUUID!!)
+            itemStack = createPlayerHeadItemStack(ownerName, ownerUUID!!)
         ) {}
     }
 
@@ -70,7 +70,7 @@ class CommunityOperationMemberListMenu(
             addButton(
                 slot = slotIndex,
                 name = adminName,
-                itemStack = createPlayerHeadItem(adminName, uuid)
+                itemStack = createPlayerHeadItemStack(adminName, uuid)
             ) { runCommunityOperationMember(community, uuid, playerExecutor) }
         }
 
@@ -97,7 +97,7 @@ class CommunityOperationMemberListMenu(
             addButton(
                 slot = slotIndex,
                 name = memberName,
-                itemStack = createPlayerHeadItem(memberName, uuid)
+                itemStack = createPlayerHeadItemStack(memberName, uuid)
             ) { runCommunityOperationMember(community, uuid, playerExecutor) }
 
             slotIndex = super.incrementSlotIndex(slotIndex)

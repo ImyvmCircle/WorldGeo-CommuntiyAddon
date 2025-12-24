@@ -85,6 +85,11 @@
   "ui.list.button.auditing.alter": "Switched to AUDITING mode.",
   "ui.list.button.active.alter": "Switched to ACTIVE mode.",
   "ui.list.button.revoked.alter": "Switched to REVOKED mode.",
+  "ui.list.button.lore.id": "Community ID: {0}",
+  "ui.list.button.lore.status": "Status: {0}",
+  "ui.list.button.lore.founding_time": "Founding Time: {0}",
+  "ui.list.button.lore.member_size": "Member Size: {0}",
+  "ui.list.button.lore.join_policy": "Join Policy: {0}",
 
   "ui.my_communities.title": "JOINED Communities, choose one to open.",
 

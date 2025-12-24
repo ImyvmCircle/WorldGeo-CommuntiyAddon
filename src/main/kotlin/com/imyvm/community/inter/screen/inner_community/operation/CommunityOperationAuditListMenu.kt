@@ -4,7 +4,7 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.inter.screen.AbstractListMenu
-import com.imyvm.community.inter.screen.component.createPlayerHeadItem
+import com.imyvm.community.inter.screen.component.createPlayerHeadItemStack
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.inter.api.UtilApi
 import com.mojang.authlib.GameProfile
@@ -70,7 +70,7 @@ class CommunityOperationAuditListMenu(
             addButton(
                 slot = slot,
                 name = name,
-                itemStack = createPlayerHeadItem(name, uuid)
+                itemStack = createPlayerHeadItemStack(name, uuid)
             ) { runOpenAuditMemberMenu(objectProfile) }
             slot = super.incrementSlotIndex(slot)
             if (slot > endSlot) break
