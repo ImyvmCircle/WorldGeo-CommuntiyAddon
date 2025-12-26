@@ -74,7 +74,7 @@ class CommunityMenu(
         addButton(
             slot = 23,
             name = Translator.tr("ui.community.button.interaction.settings")?.string ?: "Settings",
-            item = Items.REDSTONE_TORCH
+            item = Items.HEART_OF_THE_SEA
         ) { runOpenSettingMenu(player, community) }
 
         addButton(
