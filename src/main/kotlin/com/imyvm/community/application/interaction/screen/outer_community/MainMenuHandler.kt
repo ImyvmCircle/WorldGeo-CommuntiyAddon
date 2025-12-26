@@ -17,8 +17,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 fun runList(player: ServerPlayerEntity) {
     val mode = CommunityListFilterType.JOIN_ABLE
-    CommunityMenuOpener.open(player) { syncId -> CommunityListMenu(syncId, mode)
-    }
+    CommunityMenuOpener.open(player) { syncId -> CommunityListMenu(syncId, mode) { CommunityMenuOpener.open(player) { MainMenu(syncId)} } }
 }
 
 fun runCreate(player: ServerPlayerEntity){

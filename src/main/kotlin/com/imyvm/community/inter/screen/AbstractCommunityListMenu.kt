@@ -11,11 +11,13 @@ import net.minecraft.text.Text
 abstract class AbstractCommunityListMenu(
     syncId: Int,
     menuTitle: Text?,
-    page: Int = 0
+    page: Int = 0,
+    runBack: ((ServerPlayerEntity) -> Unit)? = null
 ) : AbstractListMenu(
     syncId,
     menuTitle = menuTitle,
-    page
+    page = page,
+    runBack = runBack
 ) {
 
     private val communitiesPerPage = 26

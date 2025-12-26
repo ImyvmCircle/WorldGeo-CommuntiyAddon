@@ -14,8 +14,14 @@ import net.minecraft.server.network.ServerPlayerEntity
 class CommunityListMenu(
     syncId: Int,
     private val mode: CommunityListFilterType = CommunityListFilterType.JOIN_ABLE,
-    page: Int = 0
-) : AbstractCommunityListMenu(syncId, Translator.tr("ui.list.title"), page) {
+    page: Int = 0,
+    runBack: ((ServerPlayerEntity) -> Unit)? = null
+) : AbstractCommunityListMenu(
+    syncId = syncId,
+    menuTitle = Translator.tr("ui.list.title"),
+    page = page,
+    runBack = runBack
+) {
 
     init {
         addCommunityButtons()
@@ -24,7 +30,7 @@ class CommunityListMenu(
     }
 
     override fun createNewMenu(syncId: Int, newPage: Int): AbstractCommunityListMenu {
-        return CommunityListMenu(syncId, mode, newPage)
+        return CommunityListMenu(syncId, mode, newPage) { CommunityMenuOpener.open(it) { MainMenu(syncId)} }
     }
 
     override fun getCommunities(): List<Community> = filterCommunitiesByType(mode)

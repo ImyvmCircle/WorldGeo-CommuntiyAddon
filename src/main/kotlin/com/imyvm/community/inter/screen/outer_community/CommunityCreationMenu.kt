@@ -20,7 +20,7 @@ class CommunityCreationMenu(
     playerEntity: ServerPlayerEntity,
     runBack : ((ServerPlayerEntity) -> Unit)? = null
 ) : AbstractMenu(
-    syncId,
+    syncId = syncId,
     menuTitle = createMenuTitle(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity),
     runBack = runBack
 ) {

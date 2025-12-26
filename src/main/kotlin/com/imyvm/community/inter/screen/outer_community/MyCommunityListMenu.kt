@@ -3,12 +3,19 @@ package com.imyvm.community.inter.screen.outer_community
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.AbstractCommunityListMenu
 import com.imyvm.community.util.Translator
+import net.minecraft.server.network.ServerPlayerEntity
 
 class MyCommunityListMenu(
     syncId: Int,
     private val joinedCommunities: List<Community>,
-    page: Int = 0
-) : AbstractCommunityListMenu(syncId, Translator.tr("ui.my_communities.title"), page) {
+    page: Int = 0,
+    runBack: ((ServerPlayerEntity) -> Unit)? = null
+) : AbstractCommunityListMenu(
+    syncId = syncId,
+    menuTitle = Translator.tr("ui.my_communities.title"),
+    page = page,
+    runBack = runBack
+) {
 
     init {
         addCommunityButtons()

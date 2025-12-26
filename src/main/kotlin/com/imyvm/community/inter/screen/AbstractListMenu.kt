@@ -9,10 +9,12 @@ import net.minecraft.text.Text
 abstract class AbstractListMenu(
     syncId: Int,
     menuTitle: Text?,
-    val page: Int = 0
+    val page: Int = 0,
+    runBack: ((ServerPlayerEntity) -> Unit)? = null
 ) : AbstractMenu(
     syncId,
-    menuTitle = menuTitle
+    menuTitle = menuTitle,
+    runBack = runBack
 ) {
     fun handlePage(listSize: Int) {
         val totalPages = calculateTotalPages(listSize)
