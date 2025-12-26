@@ -6,6 +6,7 @@ import com.imyvm.community.application.interaction.screen.outer_community.runSwi
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.inter.screen.AbstractCommunityListMenu
+import com.imyvm.community.inter.screen.inner_community.CommunityMenu
 import com.imyvm.community.util.Translator
 import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
@@ -29,7 +30,7 @@ class CommunityListMenu(
     override fun getCommunities(): List<Community> = filterCommunitiesByType(mode)
 
     override fun onCommunityButtonClick(player: ServerPlayerEntity, community: Community) {
-        CommunityMenuOpener.openCommunityMenu(player, community)
+        CommunityMenuOpener.open(player) { syncId -> CommunityMenu(syncId, player, community) { CommunityMenuOpener.open(player) { MainMenu(syncId = syncId) } } }
     }
 
     private fun addModeButtons() {

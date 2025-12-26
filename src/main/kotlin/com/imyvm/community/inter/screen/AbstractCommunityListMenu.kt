@@ -3,6 +3,8 @@ package com.imyvm.community.inter.screen
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.component.getPlayerHeadButtonItemStackCommunity
+import com.imyvm.community.inter.screen.inner_community.CommunityMenu
+import com.imyvm.community.inter.screen.outer_community.MainMenu
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
@@ -35,7 +37,7 @@ abstract class AbstractCommunityListMenu(
     }
 
     protected open fun onCommunityButtonClick(player: ServerPlayerEntity, community: Community) {
-        CommunityMenuOpener.openCommunityMenu(player, community)
+        CommunityMenuOpener.open(player) { syncId -> CommunityMenu(syncId, player, community) { CommunityMenuOpener.open(player) { MainMenu(syncId = syncId) } } }
     }
 
     override fun calculateTotalPages(listSize: Int): Int {

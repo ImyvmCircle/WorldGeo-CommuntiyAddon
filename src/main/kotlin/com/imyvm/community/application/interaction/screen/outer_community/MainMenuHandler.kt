@@ -6,6 +6,7 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.community.CommunityListFilterType
 import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.infra.CommunityDatabase
+import com.imyvm.community.inter.screen.inner_community.CommunityMenu
 import com.imyvm.community.inter.screen.outer_community.CommunityCreationMenu
 import com.imyvm.community.inter.screen.outer_community.CommunityListMenu
 import com.imyvm.community.inter.screen.outer_community.MainMenu
@@ -49,7 +50,7 @@ fun runMyCommunity(player: ServerPlayerEntity) {
 
         joinedCommunities.size == 1 -> {
             val community = joinedCommunities.first()
-            CommunityMenuOpener.openCommunityMenu(player, community)
+            CommunityMenuOpener.open(player) { syncId -> CommunityMenu(syncId, player, community) { CommunityMenuOpener.open(player) { MainMenu(syncId = syncId) } } }
         }
 
         else -> {
