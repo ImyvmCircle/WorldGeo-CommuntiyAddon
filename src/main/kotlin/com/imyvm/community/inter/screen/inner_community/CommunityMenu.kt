@@ -12,10 +12,12 @@ import net.minecraft.server.network.ServerPlayerEntity
 class CommunityMenu(
     syncId: Int,
     val player: ServerPlayerEntity,
-    val community: Community
+    val community: Community,
+    runBack : ((ServerPlayerEntity) -> Unit)? = null
 ) : AbstractMenu(
     syncId,
-    menuTitle = community.getRegion()?.let { Translator.tr("ui.community.title", it.name , it.numberID)}
+    menuTitle = community.getRegion()?.let { Translator.tr("ui.community.title", it.name , it.numberID)},
+    runBack = runBack
 ) {
     init {
         addOwnerHeadButton()

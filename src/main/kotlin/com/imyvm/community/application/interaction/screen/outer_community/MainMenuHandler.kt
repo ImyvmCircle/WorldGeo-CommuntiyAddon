@@ -8,6 +8,7 @@ import com.imyvm.community.domain.community.MemberRoleType
 import com.imyvm.community.infra.CommunityDatabase
 import com.imyvm.community.inter.screen.outer_community.CommunityCreationMenu
 import com.imyvm.community.inter.screen.outer_community.CommunityListMenu
+import com.imyvm.community.inter.screen.outer_community.MainMenu
 import com.imyvm.community.inter.screen.outer_community.MyCommunityListMenu
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.ImyvmWorldGeo
@@ -24,7 +25,12 @@ fun runCreate(player: ServerPlayerEntity){
     if (!checkPlayerMembershipPreCreation(player)) return
     val defaultTitle = generateNewCommunityTitle()
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityCreationMenu(syncId, currentName = defaultTitle, playerEntity = player)
+        CommunityCreationMenu(
+            syncId,
+            currentName = defaultTitle,
+            playerEntity = player,
+            runBack = { runBackMainMenu(it) }
+        )
     }
 }
 
@@ -71,4 +77,10 @@ private fun generateNewCommunityTitle(): String {
     return generateSequence(index) { it + 1 }
         .map { "$defaultTitle$it" }
         .first { title -> CommunityDatabase.communities.none { it.getRegion()?.name == title } }
+}
+
+private fun runBackMainMenu(player: ServerPlayerEntity) {
+    CommunityMenuOpener.open(player) { syncId ->
+        MainMenu(syncId)
+    }
 }

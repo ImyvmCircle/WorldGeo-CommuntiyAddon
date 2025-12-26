@@ -20,7 +20,8 @@ abstract class AbstractMenu(
     rows: Int = 6,
     private val defaultBackground: Item = Items.GRAY_STAINED_GLASS_PANE,
     private val defaultBackgroundName: String = " ",
-    val menuTitle: Text? = Text.literal("Menu")
+    val menuTitle: Text? = Text.literal("Menu"),
+    private val runBack: ((ServerPlayerEntity) -> Unit)? = null
 ) : ScreenHandler(ScreenHandlerType.GENERIC_9X6, syncId) {
 
     private val inventory = SimpleInventory(rows * 9)
@@ -30,6 +31,7 @@ abstract class AbstractMenu(
         fillBackground()
         setupSlots()
         addDefaultCloseButton()
+        setupOptionalBackButton()
     }
 
     private fun fillBackground() {
@@ -79,6 +81,18 @@ abstract class AbstractMenu(
             item = Items.BARRIER
         ) { player ->
             runClose(player)
+        }
+    }
+
+    private fun setupOptionalBackButton() {
+        runBack?.let { backLogic ->
+            addButton(
+                slot = 44,
+                name = Translator.tr("ui.general.button.back")?.string ?: "Back",
+                item = Items.ARROW
+            ) { player ->
+                backLogic(player)
+            }
         }
     }
 

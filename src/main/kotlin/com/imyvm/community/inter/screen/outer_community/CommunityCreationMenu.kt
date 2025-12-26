@@ -17,10 +17,12 @@ class CommunityCreationMenu(
     currentName: String = Translator.tr("ui.create.title")?.string ?: "New-Creating-Community",
     currentShape: GeoShapeType = GeoShapeType.RECTANGLE,
     isCurrentCommunityTypeManor: Boolean = true,
-    playerEntity: ServerPlayerEntity
+    playerEntity: ServerPlayerEntity,
+    runBack : ((ServerPlayerEntity) -> Unit)? = null
 ) : AbstractMenu(
     syncId,
     menuTitle = createMenuTitle(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity),
+    runBack = runBack
 ) {
     init {
         addButton(

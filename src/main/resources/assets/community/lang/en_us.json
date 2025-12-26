@@ -168,6 +168,7 @@
   "ui.general.list.next": "Next Page",
   "ui.general.button.close": "Close",
   "ui.general.button.close.feedback": "Closed the community management interface.",
+  "ui.general.button.back": "Back",
 
   "mail.notification.community.message": "[UNREAD]({0})[{1}:[2]]: {3}",
   "mail.notification.header.single": "[Community Notification]: you have an unread message.",
