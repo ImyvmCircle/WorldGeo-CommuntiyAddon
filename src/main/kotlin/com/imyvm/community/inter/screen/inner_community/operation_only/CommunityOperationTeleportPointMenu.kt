@@ -14,10 +14,12 @@ class CommunityOperationTeleportPointMenu(
     syncId: Int,
     playerExecutor: ServerPlayerEntity,
     community: Community,
-    scope: GeoScope
+    scope: GeoScope,
+    runBack: (ServerPlayerEntity) -> Unit
 ): AbstractMenu(
     syncId = syncId,
-    menuTitle = generateTeleportPointManagingMenuTitle(community, scope)
+    menuTitle = generateTeleportPointManagingMenuTitle(community, scope),
+    runBack = runBack
 ) {
     init {
         addButton(
@@ -34,7 +36,7 @@ class CommunityOperationTeleportPointMenu(
             } else {
                 Items.RED_WOOL
             }
-        ) { runToggleTeleportPointAccessibility(playerExecutor, community, scope) }
+        ) { runToggleTeleportPointAccessibility(playerExecutor, community, scope, runBack) }
 
         addButton(
             slot = 19,

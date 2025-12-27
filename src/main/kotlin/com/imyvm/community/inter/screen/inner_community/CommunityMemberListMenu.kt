@@ -15,11 +15,13 @@ class CommunityMemberListMenu(
     syncId: Int,
     val community: Community,
     val playerExecutor: ServerPlayerEntity,
-    page: Int = 0
+    page: Int = 0,
+    val runBack : ((ServerPlayerEntity) -> Unit)
 ) : AbstractListMenu(
-    syncId,
+    syncId = syncId,
     menuTitle = generateCommunityMemberListMenuTitle(community),
-    page
+    page = page,
+    runBack = runBack
 ) {
 
     private val playersPerPage = 35
@@ -71,7 +73,7 @@ class CommunityMemberListMenu(
                 slot = slotIndex,
                 name = adminName,
                 itemStack = createPlayerHeadItemStack(adminName, uuid)
-            ) { runCommunityOpenMember(community, uuid, playerExecutor) }
+            ) { runCommunityOpenMember(community, uuid, playerExecutor, runBack) }
         }
 
     }
@@ -98,7 +100,7 @@ class CommunityMemberListMenu(
                 slot = slotIndex,
                 name = memberName,
                 itemStack = createPlayerHeadItemStack(memberName, uuid)
-            ) { runCommunityOpenMember(community, uuid, playerExecutor) }
+            ) { runCommunityOpenMember(community, uuid, playerExecutor, runBack) }
 
             slotIndex = super.incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -110,7 +112,9 @@ class CommunityMemberListMenu(
     }
 
     override fun openNewPage(player: ServerPlayerEntity, newPage: Int) {
-        CommunityMenuOpener.open(player) { syncId -> CommunityMemberListMenu(syncId, community, player, newPage) }
+        CommunityMenuOpener.open(player) { syncId ->
+            CommunityMemberListMenu(syncId, community, player, newPage, runBack)
+        }
     }
 
     companion object {

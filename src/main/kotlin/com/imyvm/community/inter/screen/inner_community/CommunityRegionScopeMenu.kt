@@ -18,11 +18,13 @@ class CommunityRegionScopeMenu(
     val community: Community,
     private val geographicFunctionType: GeographicFunctionType,
     val playerObject: GameProfile? = null,
-    page: Int = 0
+    page: Int = 0,
+    val runBack: ((ServerPlayerEntity) -> Unit)
 ): AbstractListMenu(
     syncId,
     menuTitle = generateMenuTitle(community, geographicFunctionType, playerObject),
-    page = page
+    page = page,
+    runBack = runBack
 ) {
 
     private val unitsPerPage = 35
@@ -41,7 +43,7 @@ class CommunityRegionScopeMenu(
             slot = 10,
             name = Translator.tr("ui.community.operation.region.global")?.string ?: "Region Global",
             item = Items.ELYTRA
-        ) { runExecuteRegion(playerExecutor, community, geographicFunctionType, playerObject) }
+        ) { runExecuteRegion(playerExecutor, community, geographicFunctionType, playerObject, runBack) }
     }
 
     private fun addLocalButton() {
@@ -71,7 +73,7 @@ class CommunityRegionScopeMenu(
                 slot = slotIndex,
                 name = scope.scopeName,
                 item = item
-            ) { runExecuteScope(playerExecutor, community, scope, geographicFunctionType, playerObject) }
+            ) { runExecuteScope(playerExecutor, community, scope, geographicFunctionType, playerObject, runBack) }
 
             slotIndex = incrementSlotIndex(slotIndex)
             if (slotIndex > endSlot) break
@@ -90,7 +92,8 @@ class CommunityRegionScopeMenu(
                 community = community,
                 geographicFunctionType = geographicFunctionType,
                 playerObject = playerObject,
-                page = newPage
+                page = newPage,
+                runBack = runBack
             )
         }
     }

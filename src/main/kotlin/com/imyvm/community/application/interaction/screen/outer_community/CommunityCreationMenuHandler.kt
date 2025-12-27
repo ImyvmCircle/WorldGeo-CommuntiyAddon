@@ -11,16 +11,18 @@ fun runRenameNewCommunity(
     player: ServerPlayerEntity,
     currentName: String,
     currentShape: GeoShapeType,
-    isManor: Boolean
+    isManor: Boolean,
+    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
 ) {
-    CommunityCreationRenameMenuAnvil(player, currentName, currentShape, isManor).open()
+    CommunityCreationRenameMenuAnvil(player, currentName, currentShape, isManor, runBackGrandfatherMenu).open()
 }
 
 fun runSwitchCommunityShape(
     player: ServerPlayerEntity,
     communityName: String,
     geoShapeType: GeoShapeType,
-    isManor: Boolean
+    isManor: Boolean,
+    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
 ){
     val newType = when(geoShapeType){
         GeoShapeType.CIRCLE -> GeoShapeType.RECTANGLE
@@ -30,7 +32,7 @@ fun runSwitchCommunityShape(
     }
 
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityCreationMenu(syncId, communityName, newType, isManor, player)
+        CommunityCreationMenu(syncId, communityName, newType, isManor, player, runBackGrandfatherMenu)
     }
 }
 
@@ -38,10 +40,11 @@ fun runSwitchCommunityType(
     player: ServerPlayerEntity,
     communityName: String,
     geoShapeType: GeoShapeType,
-    isManor: Boolean
+    isManor: Boolean,
+    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
 ){
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor, player)
+        CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor, player, runBackGrandfatherMenu)
     }
 }
 

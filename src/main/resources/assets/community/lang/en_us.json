@@ -123,6 +123,7 @@
   "ui.community.operation.button.region.geometry": "Region Geometry Modification",
   "ui.community.operation.button.region.setting": "Region Setting Items Modification",
   "ui.community.operation.button.join_policy": "Join Policy: ",
+  "ui.community.operation.button.teleport": "Manage Teleport Point",
 
   "ui.community.operation.rename.title": "Community Rename",
 

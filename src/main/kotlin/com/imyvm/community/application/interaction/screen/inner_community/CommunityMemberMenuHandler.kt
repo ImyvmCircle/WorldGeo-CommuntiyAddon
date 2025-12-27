@@ -5,6 +5,7 @@ import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.MemberRoleType
+import com.imyvm.community.inter.screen.inner_community.CommunityMemberMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityRegionScopeMenu
 import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityNotificationMenuAnvil
 import com.imyvm.community.util.Translator
@@ -15,15 +16,18 @@ import net.minecraft.server.network.ServerPlayerEntity
 fun runOpenPlayerRegionScopeChoice(
     community: Community,
     playerExecutor: ServerPlayerEntity,
-    playerObject: GameProfile
+    playerObject: GameProfile,
+    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
 ) {
-    CommunityMenuOpener.open(playerExecutor) { syncId ->  CommunityRegionScopeMenu(
-        syncId = syncId,
-        playerExecutor = playerExecutor,
-        community = community,
-        geographicFunctionType = GeographicFunctionType.SETTING_ADJUSTMENT,
-        playerObject = playerObject
-    ) }
+    CommunityMenuOpener.open(playerExecutor) { syncId ->
+        CommunityRegionScopeMenu(
+            syncId = syncId,
+            playerExecutor = playerExecutor,
+            community = community,
+            geographicFunctionType = GeographicFunctionType.SETTING_ADJUSTMENT,
+            playerObject = playerObject
+        ) { runBackToMemberMenu(playerExecutor, community, playerObject, runBackGrandfatherMenu) }
+    }
 }
 
 fun runRemoveMember(
@@ -164,4 +168,21 @@ private fun getMemberOrNotify(
         )
     }
     return memberValue
+}
+
+private fun runBackToMemberMenu(
+    playerExecutor: ServerPlayerEntity,
+    community: Community,
+    playerObject: GameProfile,
+    runBack: (ServerPlayerEntity) -> Unit
+) {
+    CommunityMenuOpener.open(playerExecutor) { syncId ->
+        CommunityMemberMenu(
+            syncId = syncId,
+            community = community,
+            playerObject = playerObject,
+            playerExecutor = playerExecutor,
+            runBack = runBack
+        )
+    }
 }

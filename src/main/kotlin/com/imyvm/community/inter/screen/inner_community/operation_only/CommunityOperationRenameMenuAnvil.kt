@@ -13,7 +13,8 @@ import net.minecraft.text.Text
 
 class CommunityOperationRenameMenuAnvil(
     player: ServerPlayerEntity,
-    private val community: Community
+    private val community: Community,
+    private val runBackToCommunity: ((ServerPlayerEntity) -> Unit)
 ): AbstractRenameMenuAnvil(
     player = player,
     initialName = community.regionNumberId?.let { RegionDataApi.getRegion(it)?.name } ?: "Unknown Name"
@@ -38,7 +39,7 @@ class CommunityOperationRenameMenuAnvil(
 
     private fun reopenOperationMenuWithNewName(player: ServerPlayerEntity, community: Community) {
         CommunityMenuOpener.open(player) { newSyncId ->
-            CommunityOperationMenu(newSyncId, community, player)
+            CommunityOperationMenu(newSyncId, community, player, runBackCommunity = runBackToCommunity)
         }
     }
 

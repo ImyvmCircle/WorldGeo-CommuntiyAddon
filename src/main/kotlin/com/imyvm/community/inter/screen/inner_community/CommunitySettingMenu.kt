@@ -14,10 +14,12 @@ import net.minecraft.text.Text
 class CommunitySettingMenu(
     syncId: Int,
     playerExecutor: ServerPlayerEntity,
-    community: Community
+    community: Community,
+    runBack: (ServerPlayerEntity) -> Unit
 ) : AbstractMenu(
-    syncId,
-    menuTitle = generateCommunitySettingMenuTitle(community)
+    syncId = syncId,
+    menuTitle = generateCommunitySettingMenuTitle(community),
+    runBack = runBack
 ) {
     init {
         addButton(
@@ -30,13 +32,13 @@ class CommunitySettingMenu(
             slot = 19,
             name = Translator.tr("ui.community.setting.button.regional")?.string ?: "Regional Settings",
             item = Items.GRASS_BLOCK
-        ) { runOpenSettingRegional(playerExecutor, community) }
+        ) { runOpenSettingRegional(playerExecutor, community, runBack) }
 
         addButton(
             slot = 21,
             name = Translator.tr("ui.community.setting.button.player")?.string ?: "Player-targeting Settings",
             itemStack = createPlayerHeadItemStack(playerExecutor.name.string, playerExecutor.uuid)
-        ) { runOpenSettingPlayerTargeted(playerExecutor, community) }
+        ) { runOpenSettingPlayerTargeted(playerExecutor, community, runBack) }
     }
 
     companion object {

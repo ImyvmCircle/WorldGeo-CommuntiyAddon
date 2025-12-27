@@ -13,7 +13,7 @@ class CommunityMenu(
     syncId: Int,
     val player: ServerPlayerEntity,
     val community: Community,
-    runBack : ((ServerPlayerEntity) -> Unit)? = null
+    val runBack : ((ServerPlayerEntity) -> Unit)
 ) : AbstractMenu(
     syncId,
     menuTitle = community.getRegion()?.let { Translator.tr("ui.community.title", it.name , it.numberID)},
@@ -41,7 +41,7 @@ class CommunityMenu(
                 slot = 12,
                 name = Translator.tr("ui.community.button.interaction.operations")?.string ?: "Community Operations",
                 item = Items.ANVIL
-            ) { runOpenOperationMenu(player, community) }
+            ) { runOpenOperationMenu(player, community, runBack) }
         }
     }
 
@@ -63,7 +63,7 @@ class CommunityMenu(
             slot = 22,
             name = Translator.tr("ui.community.button.description.members")?.string ?: "Member",
             item = Items.ARMOR_STAND
-        ) { runOpenMemberListMenu(player, community) }
+        ) { runOpenMemberListMenu(player, community, runBack) }
 
         addButton(
             slot = 21,
@@ -77,7 +77,7 @@ class CommunityMenu(
             slot = 23,
             name = Translator.tr("ui.community.button.interaction.settings")?.string ?: "Settings",
             item = Items.HEART_OF_THE_SEA
-        ) { runOpenSettingMenu(player, community) }
+        ) { runOpenSettingMenu(player, community, runBack) }
 
         addButton(
             slot = 24,
@@ -89,7 +89,7 @@ class CommunityMenu(
             slot = 25,
             Translator.tr("ui.community.button.interaction.teleport.scope")?.string ?: "Teleportation Scope",
             item = Items.COMPASS
-        ) { runTeleportToScope(player, community) }
+        ) { runTeleportToScope(player, community, runBack) }
 
         addButton(
             slot = 28,

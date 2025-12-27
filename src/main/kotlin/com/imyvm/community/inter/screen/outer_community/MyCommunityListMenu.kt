@@ -9,7 +9,7 @@ class MyCommunityListMenu(
     syncId: Int,
     private val joinedCommunities: List<Community>,
     page: Int = 0,
-    runBack: ((ServerPlayerEntity) -> Unit)? = null
+    override val runBack: (ServerPlayerEntity) -> Unit
 ) : AbstractCommunityListMenu(
     syncId = syncId,
     menuTitle = Translator.tr("ui.my_communities.title"),
@@ -23,7 +23,7 @@ class MyCommunityListMenu(
     }
 
     override fun createNewMenu(syncId: Int,newPage: Int): AbstractCommunityListMenu {
-        return MyCommunityListMenu(syncId, joinedCommunities, newPage)
+        return MyCommunityListMenu(syncId, joinedCommunities, newPage, runBack)
     }
 
     override fun getCommunities(): List<Community> {

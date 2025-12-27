@@ -14,7 +14,8 @@ fun runExecuteRegion(
     playerExecutor: ServerPlayerEntity,
     community: Community,
     geographicFunctionType: GeographicFunctionType,
-    playerObject: GameProfile? = null
+    playerObject: GameProfile? = null,
+    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
 ) {
     if (geographicFunctionType == GeographicFunctionType.SETTING_ADJUSTMENT) {
         CommunityMenuOpener.open(playerExecutor) { syncId ->
@@ -22,7 +23,8 @@ fun runExecuteRegion(
                 syncId = syncId,
                 playerExecutor = playerExecutor,
                 community = community,
-                playerObject = playerObject
+                playerObject = playerObject,
+                runBack = runBackGrandfatherMenu
             )
         }
     } else if (geographicFunctionType == GeographicFunctionType.TELEPORT_POINT_EXECUTION) {
@@ -35,7 +37,8 @@ fun runExecuteScope(
     community: Community,
     scope: GeoScope,
     geographicFunctionType: GeographicFunctionType,
-    playerObject: GameProfile? = null
+    playerObject: GameProfile? = null,
+    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
 ) {
     when (geographicFunctionType){
         GeographicFunctionType.GEOMETRY_MODIFICATION -> {
@@ -50,7 +53,8 @@ fun runExecuteScope(
                     playerExecutor = playerExecutor,
                     community = community,
                     scope = scope,
-                    playerObject = playerObject
+                    playerObject = playerObject,
+                    runBack = runBackGrandfatherMenu
                 )
             }
         }
@@ -60,7 +64,8 @@ fun runExecuteScope(
                     syncId = syncId,
                     playerExecutor = playerExecutor,
                     community = community,
-                    scope = scope
+                    scope = scope,
+                    runBack = runBackGrandfatherMenu
                 )
             }
         }

@@ -17,11 +17,13 @@ class CommunityOperationAuditListMenu(
     syncId: Int,
     private val community: Community,
     private val playerExecutor: ServerPlayerEntity,
-    page: Int
+    page: Int,
+    private val runBackCommunityOperationMenu: ((ServerPlayerEntity) -> Unit)
 ): AbstractListMenu(
     syncId,
     menuTitle = generateMenuTitle(community),
-    page
+    page = page,
+    runBackCommunityOperationMenu
 ) {
 
     private val playersPerPage = 35
@@ -53,7 +55,8 @@ class CommunityOperationAuditListMenu(
                 syncId,
                 community = community,
                 playerExecutor = playerExecutor,
-                page = newPage
+                page = newPage,
+                runBackCommunityOperationMenu = runBackCommunityOperationMenu
             )
         }
     }
@@ -84,7 +87,17 @@ class CommunityOperationAuditListMenu(
                 community = community,
                 playerExecutor = playerExecutor,
                 playerObject = objectProfile
-            )
+            ) {
+                CommunityMenuOpener.open(playerExecutor) { newSyncId ->
+                    CommunityOperationAuditListMenu(
+                        newSyncId,
+                        community = community,
+                        playerExecutor = playerExecutor,
+                        page = page,
+                        runBackCommunityOperationMenu = runBackCommunityOperationMenu
+                    )
+                }
+            }
         }
     }
 

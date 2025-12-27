@@ -17,19 +17,19 @@ class CommunityCreationMenu(
     currentName: String = Translator.tr("ui.create.title")?.string ?: "New-Creating-Community",
     currentShape: GeoShapeType = GeoShapeType.RECTANGLE,
     isCurrentCommunityTypeManor: Boolean = true,
-    playerEntity: ServerPlayerEntity,
-    runBack : ((ServerPlayerEntity) -> Unit)? = null
+    playerExecutor: ServerPlayerEntity,
+    runBackMain : ((ServerPlayerEntity) -> Unit)
 ) : AbstractMenu(
     syncId = syncId,
-    menuTitle = createMenuTitle(currentName, currentShape, isCurrentCommunityTypeManor, playerEntity),
-    runBack = runBack
+    menuTitle = createMenuTitle(currentName, currentShape, isCurrentCommunityTypeManor, playerExecutor),
+    runBack = runBackMain
 ) {
     init {
         addButton(
             slot = 10,
             name = currentName,
             item = Items.NAME_TAG
-        ) { runRenameNewCommunity(it, currentName, currentShape, isCurrentCommunityTypeManor) }
+        ) { runRenameNewCommunity(it, currentName, currentShape, isCurrentCommunityTypeManor, runBackMain) }
 
         addButton(
             slot = 13,
@@ -41,14 +41,14 @@ class CommunityCreationMenu(
                 GeoShapeType.POLYGON -> Items.NETHER_STAR
                 GeoShapeType.UNKNOWN -> Items.STRUCTURE_BLOCK
             }
-        ) { runSwitchCommunityShape(it, currentName, currentShape, isCurrentCommunityTypeManor) }
+        ) { runSwitchCommunityShape(it, currentName, currentShape, isCurrentCommunityTypeManor, runBackMain) }
 
         addButton(
             slot = 16,
             name = if (isCurrentCommunityTypeManor) Translator.tr("ui.create.button.type.manor")?.string ?: "Manor"
             else Translator.tr("ui.create.button.type.realm")?.string ?: "Realm",
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
-        ) { runSwitchCommunityType(it, currentName, currentShape, isCurrentCommunityTypeManor) }
+        ) { runSwitchCommunityType(it, currentName, currentShape, isCurrentCommunityTypeManor, runBackMain) }
 
         addButton(
             slot = 35,

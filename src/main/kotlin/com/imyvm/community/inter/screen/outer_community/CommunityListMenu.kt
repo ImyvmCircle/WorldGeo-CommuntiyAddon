@@ -15,7 +15,7 @@ class CommunityListMenu(
     syncId: Int,
     private val mode: CommunityListFilterType = CommunityListFilterType.JOIN_ABLE,
     page: Int = 0,
-    runBack: ((ServerPlayerEntity) -> Unit)? = null
+    override val runBack: ((ServerPlayerEntity) -> Unit)
 ) : AbstractCommunityListMenu(
     syncId = syncId,
     menuTitle = Translator.tr("ui.list.title"),
@@ -30,25 +30,23 @@ class CommunityListMenu(
     }
 
     override fun createNewMenu(syncId: Int, newPage: Int): AbstractCommunityListMenu {
-        return CommunityListMenu(syncId, mode, newPage) { player ->
-            CommunityMenuOpener.open(player) {
-                MainMenu(
-                    syncId = syncId,
-                    playerExecutor = player
-                )
-            }
-        }
+        return CommunityListMenu(syncId, mode, newPage, runBack)
     }
 
     override fun getCommunities(): List<Community> = filterCommunitiesByType(mode)
 
-    override fun onCommunityButtonClick(player: ServerPlayerEntity, community: Community) {
+    override fun onCommunityButtonClick(
+        player: ServerPlayerEntity,
+        community: Community,
+        runBack: (ServerPlayerEntity) -> Unit
+    ) {
         CommunityMenuOpener.open(player) { syncId ->
             CommunityMenu(syncId, player, community) {
-                CommunityMenuOpener.open(player) {
-                    MainMenu(
-                        syncId = syncId,
-                        playerExecutor = player
+                CommunityMenuOpener.open(player) { newSyncId ->
+                    CommunityListMenu(
+                        syncId = newSyncId,
+                        mode = mode,
+                        runBack = runBack
                     )
                 }
             }
@@ -78,7 +76,7 @@ class CommunityListMenu(
                 slot = 47 + index,
                 name = filterType.name,
                 item = modeColorMap[filterType] ?: Items.WHITE_WOOL
-            ) { runSwitchFilterMode(it, filterType) }
+            ) { runSwitchFilterMode(it, filterType, runBack) }
         }
     }
 }

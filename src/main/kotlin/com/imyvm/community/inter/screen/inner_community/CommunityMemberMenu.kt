@@ -18,10 +18,12 @@ class CommunityMemberMenu(
     syncId: Int,
     val community: Community,
     private val playerObject: GameProfile,
-    private val playerExecutor: ServerPlayerEntity
+    private val playerExecutor: ServerPlayerEntity,
+    private val runBack: (ServerPlayerEntity) -> Unit
 ) : AbstractMenu(
     syncId,
-    menuTitle = generateCommunityMemberListMemberMenuTitle(community, playerObject)
+    menuTitle = generateCommunityMemberListMemberMenuTitle(community, playerObject),
+    runBack = runBack
 ) {
 
     init {
@@ -44,10 +46,12 @@ class CommunityMemberMenu(
             item = Items.MAP
         ) {
             runOpenPlayerRegionScopeChoice(
-            community = community,
-            playerExecutor = playerExecutor,
-            playerObject = playerObject
-        ) }
+                community = community,
+                playerExecutor = playerExecutor,
+                playerObject = playerObject,
+                runBackGrandfatherMenu = runBack
+            )
+        }
 
         addButton(
             slot = 21,

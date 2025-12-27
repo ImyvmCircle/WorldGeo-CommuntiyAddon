@@ -17,14 +17,16 @@ class TargetSettingMenu(
     val playerExecutor: ServerPlayerEntity,
     val community: Community,
     val scope: GeoScope? = null,
-    private val playerObject: GameProfile? = null
+    private val playerObject: GameProfile? = null,
+    val runBack: (ServerPlayerEntity) -> Unit
 ) : AbstractMenu(
-    syncId,
+    syncId = syncId,
     menuTitle = generateRegionSettingMenuTitle(
         community = community,
         scope = scope,
         playerProfile = playerObject
-    )
+    ),
+    runBack = runBack
 ) {
     init {
         addPermissionSettingButtons()
@@ -45,19 +47,19 @@ class TargetSettingMenu(
             slot = 12,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.build_break")?.string ?: "Build/Break Permission",
             itemStack = getPermissionButtonItemStack(Items.DIAMOND_PICKAXE, community, scope, playerObject, PermissionKey.BUILD_BREAK)
-        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.BUILD_BREAK) }
+        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.BUILD_BREAK, runBack) }
 
         addButton(
             slot = 13,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.fly")?.string ?: "Fly Permission",
             itemStack = getPermissionButtonItemStack(Items.ELYTRA, community, scope, playerObject, PermissionKey.FLY)
-        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.FLY)  }
+        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.FLY, runBack)  }
 
         addButton(
             slot = 14,
             name = Translator.tr("ui.community.operation.region.setting.list.permission.container")?.string ?: "Container Permission",
             itemStack = getPermissionButtonItemStack(Items.CHEST, community, scope, playerObject, PermissionKey.CONTAINER)
-        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.CONTAINER) }
+        ) { if (isManageable) runTogglingPermissionSetting(playerExecutor, community, scope, playerObject, PermissionKey.CONTAINER, runBack) }
     }
 
     private fun addEffectSettingButtons(){

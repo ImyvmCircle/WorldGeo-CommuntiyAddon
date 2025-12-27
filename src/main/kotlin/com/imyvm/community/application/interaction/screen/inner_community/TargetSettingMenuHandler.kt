@@ -51,10 +51,11 @@ fun runTogglingPermissionSetting(
     community: Community,
     scope: GeoScope?,
     playerObject: GameProfile?,
-    permissionKey: PermissionKey
+    permissionKey: PermissionKey,
+    runBack: (ServerPlayerEntity) -> Unit
 ) {
     togglePermissionSettingInRegion(playerExecutor, community, scope, playerObject, permissionKey)
-    refreshSettingInMenu(playerExecutor, community, scope, playerObject)
+    refreshSettingInMenu(playerExecutor, community, scope, playerObject, runBack)
 }
 
 private fun togglePermissionSettingInRegion(
@@ -87,10 +88,11 @@ private fun refreshSettingInMenu(
     playerExecutor: ServerPlayerEntity,
     community: Community,
     scope: GeoScope?,
-    playerProfile: GameProfile?
+    playerProfile: GameProfile?,
+    runBack: (ServerPlayerEntity) -> Unit
 ) {
     CommunityMenuOpener.open(playerExecutor) { syncId ->
-        TargetSettingMenu(syncId, playerExecutor, community, scope, playerProfile)
+        TargetSettingMenu(syncId, playerExecutor, community, scope, playerProfile, runBack)
     }
 }
 

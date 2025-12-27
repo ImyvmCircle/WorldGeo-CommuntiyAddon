@@ -4,7 +4,6 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.inter.screen.component.getPlayerHeadButtonItemStackCommunity
 import com.imyvm.community.inter.screen.inner_community.CommunityMenu
-import com.imyvm.community.inter.screen.outer_community.MainMenu
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
@@ -12,7 +11,7 @@ abstract class AbstractCommunityListMenu(
     syncId: Int,
     menuTitle: Text?,
     page: Int = 0,
-    runBack: ((ServerPlayerEntity) -> Unit)? = null
+    open val runBack: (ServerPlayerEntity) -> Unit
 ) : AbstractListMenu(
     syncId,
     menuTitle = menuTitle,
@@ -31,25 +30,24 @@ abstract class AbstractCommunityListMenu(
         var slot = startSlot
 
         for (community in communityList) {
-            if (!addPlayerHeadButton(slot, community) { player -> onCommunityButtonClick(player, community) }) continue
+            if (!addPlayerHeadButton(slot, community) { player -> onCommunityButtonClick(player, community, runBack) }) continue
 
             slot = super.incrementSlotIndex(slot)
             if (slot > endSlot) break
         }
     }
 
-    protected open fun onCommunityButtonClick(player: ServerPlayerEntity, community: Community) {
+    protected open fun onCommunityButtonClick(player: ServerPlayerEntity, community: Community, runBack: (ServerPlayerEntity) -> Unit) {
         CommunityMenuOpener.open(player) { syncId ->
-            CommunityMenu(syncId, player, community) {
-                CommunityMenuOpener.open(player) {
-                    MainMenu(
-                        syncId = syncId,
-                        playerExecutor = player
-                    )
-                }
-            }
+            CommunityMenu(
+                syncId = syncId,
+                player = player,
+                community = community,
+                runBack = runBack
+            )
         }
     }
+
 
     override fun calculateTotalPages(listSize: Int): Int {
         return ((listSize + communitiesPerPage - 1) / communitiesPerPage)

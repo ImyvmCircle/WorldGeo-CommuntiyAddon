@@ -8,15 +8,19 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 
 class CommunityCreationRenameMenuAnvil(
-    player: ServerPlayerEntity,
+    val playerExecutor: ServerPlayerEntity,
     initialName: String,
     private val currentShape: GeoShapeType,
     private val isManor: Boolean,
-) : AbstractRenameMenuAnvil(player, initialName) {
+    private val runBackGrandfather: ((ServerPlayerEntity) -> Unit)
+) : AbstractRenameMenuAnvil(
+    playerExecutor,
+    initialName
+) {
 
     override fun processRenaming(finalName: String) {
-        CommunityMenuOpener.open(player) { newSyncId ->
-            CommunityCreationMenu(newSyncId, finalName, currentShape, isManor, player)
+        CommunityMenuOpener.open(playerExecutor) { newSyncId ->
+            CommunityCreationMenu(newSyncId, finalName, currentShape, isManor, playerExecutor, runBackGrandfather)
         }
     }
 

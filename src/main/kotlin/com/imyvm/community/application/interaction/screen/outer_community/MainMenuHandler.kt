@@ -38,8 +38,8 @@ fun runCreate(player: ServerPlayerEntity){
         CommunityCreationMenu(
             syncId,
             currentName = defaultTitle,
-            playerEntity = player,
-            runBack = { runBackMainMenu(it) }
+            playerExecutor = player,
+            runBackMain = { runBackMainMenu(it) }
         )
     }
 }
@@ -74,7 +74,14 @@ fun runMyCommunity(player: ServerPlayerEntity) {
         else -> {
             val content: List<Community> = joinedCommunities.toList()
             CommunityMenuOpener.open(player) { syncId ->
-                MyCommunityListMenu(syncId, content)
+                MyCommunityListMenu(syncId, content) {
+                    CommunityMenuOpener.open(player) { newSyncId ->
+                        MainMenu(
+                            syncId = newSyncId,
+                            playerExecutor = player
+                        )
+                    }
+                }
             }
         }
     }

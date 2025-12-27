@@ -13,18 +13,16 @@ import net.minecraft.text.Text
 class CommunityOperationMenu(
     syncId: Int,
     community: Community,
-    player: ServerPlayerEntity
+    playerExecutor: ServerPlayerEntity,
+    val runBackCommunity : ((ServerPlayerEntity) -> Unit)
 ): AbstractMenu(
     syncId,
-    menuTitle = Text.of(
-        community.generateCommunityMark()
-                + " - " + Translator.tr("ui.community.operation.title")?.string
-                + ":" + player.name.string
-    )
+    menuTitle = generateCommunityOperationMenuTitle(community, playerExecutor),
+    runBack = runBackCommunity
 ){
     init {
-        addStaticButtons(player, community)
-        addChangeableButtons(player, community)
+        addStaticButtons(playerExecutor, community)
+        addChangeableButtons(playerExecutor, community)
     }
 
     private fun addStaticButtons(player: ServerPlayerEntity, community: Community) {
@@ -32,19 +30,19 @@ class CommunityOperationMenu(
             slot = 10,
             name = Translator.tr("ui.community.operation.button.name")?.string ?: "Community Name",
             item = Items.NAME_TAG
-        ) { runOPRenameCommunity(player, community) }
+        ) { runOPRenameCommunity(player, community, runBackCommunity) }
 
         addButton(
             slot = 11,
             name = Translator.tr("ui.community.operation.button.members")?.string ?: "Manage Members",
             item = Items.PLAYER_HEAD
-        ) { runOpManageMembers(player, community) }
+        ) { runOpManageMembers(player, community, runBackCommunity) }
 
         addButton(
             slot = 12,
             name = Translator.tr("ui.community.operation.button.audit")?.string ?: "Community Audit",
             item = Items.REDSTONE_TORCH
-        ){ runOPAuditRequests(player, community) }
+        ){ runOPAuditRequests(player, community, runBackCommunity) }
 
         addButton(
             slot = 13,
@@ -56,7 +54,7 @@ class CommunityOperationMenu(
             slot = 14,
             name = Translator.tr("ui.community.operation.button.advancement")?.string ?: "Advancement",
             item = Items.ITEM_FRAME
-        ) { runOPAdvancement(player, community) }
+        ) { runOPAdvancement(player, community, runBackCommunity) }
 
         addButton(
             slot = 15,
@@ -68,19 +66,19 @@ class CommunityOperationMenu(
             slot = 19,
             name = Translator.tr("ui.community.operation.button.region.geometry")?.string ?: "Region Geometry Modification",
             item = Items.MAP
-        ){ runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.GEOMETRY_MODIFICATION) }
+        ){ runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.GEOMETRY_MODIFICATION, runBackCommunity) }
 
         addButton(
             slot = 20,
             name = Translator.tr("ui.community.operation.button.region.setting")?.string ?: "Region Settings",
             item = Items.HEART_OF_THE_SEA
-        ){ runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.SETTING_ADJUSTMENT) }
+        ){ runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.SETTING_ADJUSTMENT, runBackCommunity) }
 
         addButton(
             slot = 21,
             name = Translator.tr("ui.community.operation.button.teleport")?.string ?: "Teleport Point Management",
             item = Items.ENDER_PEARL
-        ) { runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.TELEPORT_POINT_LOCATING)}
+        ) { runOPRegion(player, community, geographicFunctionType = GeographicFunctionType.TELEPORT_POINT_LOCATING, runBackCommunity)}
     }
 
     private fun addChangeableButtons(player: ServerPlayerEntity, community: Community) {
@@ -93,6 +91,16 @@ class CommunityOperationMenu(
                 CommunityJoinPolicy.APPLICATION -> Items.YELLOW_WOOL
                 CommunityJoinPolicy.INVITE_ONLY -> Items.RED_WOOL
             }
-        ) { runOPChangeJoinPolicy(player, community, community.joinPolicy) }
+        ) { runOPChangeJoinPolicy(player, community, community.joinPolicy, runBackCommunity) }
+    }
+
+    companion object {
+        private fun generateCommunityOperationMenuTitle(community: Community, playerExecutor: ServerPlayerEntity): Text {
+            return Text.of(
+                community.generateCommunityMark()
+                        + " - " + Translator.tr("ui.community.operation.title")?.string
+                        + ":" + playerExecutor.name.string
+            )
+        }
     }
 }

@@ -54,7 +54,12 @@ fun runInquiryTeleportPoint(playerExecutor: ServerPlayerEntity, community: Commu
     }
 }
 
-fun runToggleTeleportPointAccessibility(playerExecutor: ServerPlayerEntity, community: Community, scope: GeoScope) {
+fun runToggleTeleportPointAccessibility(
+    playerExecutor: ServerPlayerEntity,
+    community: Community,
+    scope: GeoScope,
+    runBack: (ServerPlayerEntity) -> Unit
+) {
     val region = community.getRegion()
     if (region != null) {
         PlayerInteractionApi.toggleTeleportPointAccessibility(scope)
@@ -63,7 +68,8 @@ fun runToggleTeleportPointAccessibility(playerExecutor: ServerPlayerEntity, comm
                 syncId = syncId,
                 playerExecutor = playerExecutor,
                 community = community,
-                scope = scope
+                scope = scope,
+                runBack = runBack
             )
         }
     } else {

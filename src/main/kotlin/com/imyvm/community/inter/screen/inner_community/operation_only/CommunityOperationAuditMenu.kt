@@ -14,10 +14,12 @@ class CommunityOperationAuditMenu(
     syncId: Int,
     community: Community,
     private val playerExecutor: ServerPlayerEntity,
-    playerObject: GameProfile
+    playerObject: GameProfile,
+    runBack: (ServerPlayerEntity) -> Unit
 ): AbstractMenu(
     syncId,
-    menuTitle = generateCommunityOperationAuditMenuTitle()
+    menuTitle = generateCommunityOperationAuditMenuTitle(),
+    runBack = runBack
 ) {
     init {
         addButton(

@@ -8,10 +8,12 @@ import net.minecraft.text.Text
 class CommunityOperationAdvancementMenu(
     syncId: Int,
     community: Community,
-    playerExecutor: ServerPlayerEntity
+    playerExecutor: ServerPlayerEntity,
+    runBackCommunityOperationMenu: ((ServerPlayerEntity) -> Unit)
 ): AbstractMenu(
     syncId,
-    menuTitle = generateCommunityAdvancementMenuTitle(community)
+    menuTitle = generateCommunityAdvancementMenuTitle(community),
+    runBack = runBackCommunityOperationMenu
 ) {
     companion object {
         private fun generateCommunityAdvancementMenuTitle(community: Community): Text {

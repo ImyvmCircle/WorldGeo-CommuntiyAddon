@@ -10,7 +10,7 @@ abstract class AbstractListMenu(
     syncId: Int,
     menuTitle: Text?,
     val page: Int = 0,
-    runBack: ((ServerPlayerEntity) -> Unit)? = null
+    runBack: (ServerPlayerEntity) -> Unit
 ) : AbstractMenu(
     syncId,
     menuTitle = menuTitle,
