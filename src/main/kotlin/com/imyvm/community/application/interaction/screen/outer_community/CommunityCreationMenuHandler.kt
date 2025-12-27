@@ -3,6 +3,7 @@ package com.imyvm.community.application.interaction.screen.outer_community
 import com.imyvm.community.application.interaction.common.onCreateCommunity
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.inter.screen.outer_community.CommunityCreationMenu
+import com.imyvm.community.inter.screen.outer_community.CommunityCreationRenameMenuAnvil
 import com.imyvm.iwg.domain.component.GeoShapeType
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -12,7 +13,7 @@ fun runRenameNewCommunity(
     currentShape: GeoShapeType,
     isManor: Boolean
 ) {
-    CommunityMenuOpener.openCreationRenameAnvilMenu(player, currentName, currentShape, isManor)
+    CommunityCreationRenameMenuAnvil(player, currentName, currentShape, isManor).open()
 }
 
 fun runSwitchCommunityShape(

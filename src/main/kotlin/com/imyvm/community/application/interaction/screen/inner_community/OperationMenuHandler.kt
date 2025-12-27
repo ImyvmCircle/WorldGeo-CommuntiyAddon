@@ -4,15 +4,16 @@ import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.domain.community.CommunityJoinPolicy
+import com.imyvm.community.inter.screen.inner_community.CommunityMemberListMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityOperationMenu
 import com.imyvm.community.inter.screen.inner_community.CommunityRegionScopeMenu
 import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityOperationAdvancementMenu
 import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityOperationAuditListMenu
-import com.imyvm.community.inter.screen.inner_community.CommunityMemberListMenu
+import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityOperationRenameMenuAnvil
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun runOPRenameCommunity(player: ServerPlayerEntity, community: Community){
-    CommunityMenuOpener.openCommunityRenameAnvilMenu(player, community)
+    CommunityOperationRenameMenuAnvil(player, community = community).open()
 }
 
 fun runOpManageMembers(player: ServerPlayerEntity, community: Community){
