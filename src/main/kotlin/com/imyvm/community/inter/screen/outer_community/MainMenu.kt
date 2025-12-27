@@ -3,6 +3,7 @@ package com.imyvm.community.inter.screen.outer_community
 import com.imyvm.community.application.interaction.screen.outer_community.runCreate
 import com.imyvm.community.application.interaction.screen.outer_community.runList
 import com.imyvm.community.application.interaction.screen.outer_community.runMyCommunity
+import com.imyvm.community.application.interaction.screen.outer_community.runToggleActionBar
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.ImyvmWorldGeo
@@ -61,6 +62,6 @@ class MainMenu(
                 Translator.tr("ui.main.button.action_bar.disable")?.string ?: "Action Bar: Disabled"
             },
             item = if (isRegionActionBarEnabled) Items.LIME_DYE else Items.GRAY_DYE
-        ) {}
+        ) { runToggleActionBar(playerExecutor)}
     }
 }
