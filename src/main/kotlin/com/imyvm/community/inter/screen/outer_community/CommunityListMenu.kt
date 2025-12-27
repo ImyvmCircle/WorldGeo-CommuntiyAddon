@@ -30,13 +30,29 @@ class CommunityListMenu(
     }
 
     override fun createNewMenu(syncId: Int, newPage: Int): AbstractCommunityListMenu {
-        return CommunityListMenu(syncId, mode, newPage) { CommunityMenuOpener.open(it) { MainMenu(syncId)} }
+        return CommunityListMenu(syncId, mode, newPage) { player ->
+            CommunityMenuOpener.open(player) {
+                MainMenu(
+                    syncId = syncId,
+                    playerExecutor = player
+                )
+            }
+        }
     }
 
     override fun getCommunities(): List<Community> = filterCommunitiesByType(mode)
 
     override fun onCommunityButtonClick(player: ServerPlayerEntity, community: Community) {
-        CommunityMenuOpener.open(player) { syncId -> CommunityMenu(syncId, player, community) { CommunityMenuOpener.open(player) { MainMenu(syncId = syncId) } } }
+        CommunityMenuOpener.open(player) { syncId ->
+            CommunityMenu(syncId, player, community) {
+                CommunityMenuOpener.open(player) {
+                    MainMenu(
+                        syncId = syncId,
+                        playerExecutor = player
+                    )
+                }
+            }
+        }
     }
 
     private fun addModeButtons() {

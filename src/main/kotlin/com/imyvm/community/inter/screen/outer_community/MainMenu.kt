@@ -5,18 +5,62 @@ import com.imyvm.community.application.interaction.screen.outer_community.runLis
 import com.imyvm.community.application.interaction.screen.outer_community.runMyCommunity
 import com.imyvm.community.inter.screen.AbstractMenu
 import com.imyvm.community.util.Translator
+import com.imyvm.iwg.ImyvmWorldGeo
 import net.minecraft.item.Items
+import net.minecraft.server.network.ServerPlayerEntity
 
-class MainMenu(syncId: Int) :
-    AbstractMenu(
+class MainMenu(
+    syncId: Int,
+    val playerExecutor: ServerPlayerEntity
+) : AbstractMenu(
         syncId,
         menuTitle = Translator.tr("ui.main.title")
     ) {
 
     init {
-        addButton(slot = 10, name = Translator.tr("ui.main.button.list")?.string ?: "List", item = Items.WRITABLE_BOOK) { runList(it) }
-        addButton(slot = 13, name = Translator.tr("ui.main.button.create")?.string ?: "Create", item = Items.DIAMOND_PICKAXE) { runCreate(it) }
-        addButton(slot = 16, name = Translator.tr("ui.main.button.my")?.string ?: "My Village", item = Items.RED_BED) { runMyCommunity(it) }
-        addButton(slot = 19, name = Translator.tr("ui.main.button.op")?.string ?: "OP", item = Items.COMMAND_BLOCK ) {}
+        addGeneralButtons()
+        if (playerExecutor.hasPermissionLevel(2)) { addServerOperatorButton() }
+        addActionBarToggleButton()
+    }
+
+    private fun addGeneralButtons() {
+        addButton(
+            slot = 10,
+            name = Translator.tr("ui.main.button.list")?.string ?: "List",
+            item = Items.WRITABLE_BOOK
+        ) { runList(it) }
+
+        addButton(
+            slot = 13,
+            name = Translator.tr("ui.main.button.create")?.string ?: "Create",
+            item = Items.DIAMOND_PICKAXE
+        ) { runCreate(it) }
+
+        addButton(
+            slot = 16,
+            name = Translator.tr("ui.main.button.my")?.string ?: "My Village",
+            item = Items.RED_BED
+        ) { runMyCommunity(it) }
+    }
+
+    private fun addServerOperatorButton() {
+        addButton(
+            slot = 19,
+            name = Translator.tr("ui.main.button.op")?.string ?: "OP",
+            item = Items.COMMAND_BLOCK
+        ) {}
+    }
+
+    private fun addActionBarToggleButton() {
+        val isRegionActionBarEnabled = ImyvmWorldGeo.locationActionBarEnabledPlayers.contains(playerExecutor.uuid)
+        addButton(
+            slot = 44,
+            name = if (isRegionActionBarEnabled) {
+                Translator.tr("ui.main.button.action_bar.enable")?.string ?: "Action Bar : Enabled"
+            } else {
+                Translator.tr("ui.main.button.action_bar.disable")?.string ?: "Action Bar: Disabled"
+            },
+            item = if (isRegionActionBarEnabled) Items.LIME_DYE else Items.GRAY_DYE
+        ) {}
     }
 }

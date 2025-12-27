@@ -7,5 +7,14 @@ import com.imyvm.community.inter.screen.outer_community.MainMenu
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun runSwitchFilterMode(player: ServerPlayerEntity, mode: CommunityListFilterType) {
-    CommunityMenuOpener.open(player) { syncId -> CommunityListMenu(syncId, mode) { CommunityMenuOpener.open(player) { MainMenu(syncId) } } }
+    CommunityMenuOpener.open(player) { syncId ->
+        CommunityListMenu(syncId, mode) {
+            CommunityMenuOpener.open(player) {
+                MainMenu(
+                    syncId = syncId,
+                    playerExecutor = player
+                )
+            }
+        }
+    }
 }

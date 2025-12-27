@@ -79,9 +79,7 @@ abstract class AbstractMenu(
             slot = 53,
             name = Translator.tr("ui.general.button.close")?.string ?: "Close",
             item = Items.BARRIER
-        ) { player ->
-            runClose(player)
-        }
+        ) { playerExecutor -> runClose(playerExecutor) }
     }
 
     private fun setupOptionalBackButton() {
@@ -90,27 +88,25 @@ abstract class AbstractMenu(
                 slot = 44,
                 name = Translator.tr("ui.general.button.back")?.string ?: "Back",
                 item = Items.ARROW
-            ) { player ->
-                backLogic(player)
-            }
+            ) { playerExecutor -> backLogic(playerExecutor) }
         }
     }
 
-    private fun runClose(player: ServerPlayerEntity) {
-        player.closeHandledScreen()
-        player.sendMessage(Translator.tr("ui.general.button.close.feedback"))
+    private fun runClose(playerExecutor: ServerPlayerEntity) {
+        playerExecutor.closeHandledScreen()
+        playerExecutor.sendMessage(Translator.tr("ui.general.button.close.feedback"))
     }
 
-    override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, player: PlayerEntity) {
-        super.onSlotClick(slotIndex, button, actionType, player)
+    override fun onSlotClick(slotIndex: Int, button: Int, actionType: SlotActionType, playerExecutor: PlayerEntity) {
+        super.onSlotClick(slotIndex, button, actionType, playerExecutor)
         if (slotIndex < 0 || slotIndex >= inventory.size()) return
 
-        (player as? ServerPlayerEntity)?.let { p ->
+        (playerExecutor as? ServerPlayerEntity)?.let { p ->
             val clickedName = inventory.getStack(slotIndex).get(DataComponentTypes.CUSTOM_NAME)?.string
             buttons.find { it.slot == slotIndex && it.name == clickedName }?.onClick?.invoke(p)
         }
     }
 
-    override fun canUse(player: PlayerEntity) = true
-    override fun quickMove(player: PlayerEntity, slotIndex: Int): ItemStack = ItemStack.EMPTY
+    override fun canUse(playerExecutor: PlayerEntity) = true
+    override fun quickMove(playerExecutor: PlayerEntity, slotIndex: Int): ItemStack = ItemStack.EMPTY
 }

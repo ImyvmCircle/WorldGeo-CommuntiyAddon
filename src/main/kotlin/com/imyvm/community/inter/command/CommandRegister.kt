@@ -126,7 +126,12 @@ fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
 
 private fun runInitialUI(context: CommandContext<ServerCommandSource>): Int {
     val player = context.source.player ?: return 0
-    CommunityMenuOpener.open(player) { syncId -> MainMenu(syncId) }
+    CommunityMenuOpener.open(player) { syncId ->
+        MainMenu(
+            syncId,
+            player
+        )
+    }
     return 1
 }
 

@@ -39,7 +39,16 @@ abstract class AbstractCommunityListMenu(
     }
 
     protected open fun onCommunityButtonClick(player: ServerPlayerEntity, community: Community) {
-        CommunityMenuOpener.open(player) { syncId -> CommunityMenu(syncId, player, community) { CommunityMenuOpener.open(player) { MainMenu(syncId = syncId) } } }
+        CommunityMenuOpener.open(player) { syncId ->
+            CommunityMenu(syncId, player, community) {
+                CommunityMenuOpener.open(player) {
+                    MainMenu(
+                        syncId = syncId,
+                        playerExecutor = player
+                    )
+                }
+            }
+        }
     }
 
     override fun calculateTotalPages(listSize: Int): Int {

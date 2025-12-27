@@ -13,11 +13,21 @@ import com.imyvm.community.inter.screen.outer_community.MainMenu
 import com.imyvm.community.inter.screen.outer_community.MyCommunityListMenu
 import com.imyvm.community.util.Translator
 import com.imyvm.iwg.ImyvmWorldGeo
+import com.imyvm.iwg.application.interaction.onToggleActionBar
 import net.minecraft.server.network.ServerPlayerEntity
 
 fun runList(player: ServerPlayerEntity) {
     val mode = CommunityListFilterType.JOIN_ABLE
-    CommunityMenuOpener.open(player) { syncId -> CommunityListMenu(syncId, mode) { CommunityMenuOpener.open(player) { MainMenu(syncId)} } }
+    CommunityMenuOpener.open(player) { syncId ->
+        CommunityListMenu(syncId, mode) {
+            CommunityMenuOpener.open(player) {
+                MainMenu(
+                    syncId = syncId,
+                    playerExecutor = player
+                )
+            }
+        }
+    }
 }
 
 fun runCreate(player: ServerPlayerEntity){
@@ -49,14 +59,36 @@ fun runMyCommunity(player: ServerPlayerEntity) {
 
         joinedCommunities.size == 1 -> {
             val community = joinedCommunities.first()
-            CommunityMenuOpener.open(player) { syncId -> CommunityMenu(syncId, player, community) { CommunityMenuOpener.open(player) { MainMenu(syncId = syncId) } } }
+            CommunityMenuOpener.open(player) { syncId ->
+                CommunityMenu(syncId, player, community) {
+                    CommunityMenuOpener.open(player) {
+                        MainMenu(
+                            syncId = syncId,
+                            playerExecutor = player
+                        )
+                    }
+                }
+            }
         }
 
         else -> {
             val content: List<Community> = joinedCommunities.toList()
-            CommunityMenuOpener.open(player) { syncId -> MyCommunityListMenu(syncId, content)
+            CommunityMenuOpener.open(player) { syncId ->
+                MyCommunityListMenu(syncId, content)
             }
         }
+    }
+}
+
+@Deprecated("Temporary function call inside before the function being added to PlayerInteractionApi",
+    replaceWith = ReplaceWith("PlayerInteractionApi.toggleActionBar(player)"))
+fun runToggleActionBar(player: ServerPlayerEntity) {
+    onToggleActionBar(player)
+    CommunityMenuOpener.open(player) { syncId ->
+        MainMenu(
+            syncId = syncId,
+            playerExecutor = player
+        )
     }
 }
 
@@ -81,6 +113,9 @@ private fun generateNewCommunityTitle(): String {
 
 private fun runBackMainMenu(player: ServerPlayerEntity) {
     CommunityMenuOpener.open(player) { syncId ->
-        MainMenu(syncId)
+        MainMenu(
+            syncId = syncId,
+            playerExecutor = player
+        )
     }
 }
