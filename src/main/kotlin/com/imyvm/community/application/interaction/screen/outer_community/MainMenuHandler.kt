@@ -19,14 +19,11 @@ import net.minecraft.server.network.ServerPlayerEntity
 fun runList(player: ServerPlayerEntity) {
     val mode = CommunityListFilterType.JOIN_ABLE
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityListMenu(syncId, mode) {
-            CommunityMenuOpener.open(player) {
-                MainMenu(
-                    syncId = syncId,
-                    playerExecutor = player
-                )
-            }
-        }
+        CommunityListMenu(
+            syncId = syncId,
+            mode = mode,
+            runBack = { runBackOrRefreshMainMenu(it) }
+        )
     }
 }
 
@@ -39,7 +36,7 @@ fun runCreate(player: ServerPlayerEntity){
             syncId,
             currentName = defaultTitle,
             playerExecutor = player,
-            runBackMain = { runBackMainMenu(it) }
+            runBack = { runBackOrRefreshMainMenu(it) }
         )
     }
 }
@@ -60,28 +57,23 @@ fun runMyCommunity(player: ServerPlayerEntity) {
         joinedCommunities.size == 1 -> {
             val community = joinedCommunities.first()
             CommunityMenuOpener.open(player) { syncId ->
-                CommunityMenu(syncId, player, community) {
-                    CommunityMenuOpener.open(player) {
-                        MainMenu(
-                            syncId = syncId,
-                            playerExecutor = player
-                        )
-                    }
-                }
+                CommunityMenu(
+                    syncId = syncId,
+                    player = player,
+                    community = community,
+                    runBack = { runBackOrRefreshMainMenu(it) }
+                )
             }
         }
 
         else -> {
-            val content: List<Community> = joinedCommunities.toList()
+            val joinedCommunities: List<Community> = joinedCommunities.toList()
             CommunityMenuOpener.open(player) { syncId ->
-                MyCommunityListMenu(syncId, content) {
-                    CommunityMenuOpener.open(player) { newSyncId ->
-                        MainMenu(
-                            syncId = newSyncId,
-                            playerExecutor = player
-                        )
-                    }
-                }
+                MyCommunityListMenu(
+                    syncId = syncId,
+                    joinedCommunities = joinedCommunities,
+                    runBack = { runBackOrRefreshMainMenu(it) }
+                )
             }
         }
     }
@@ -91,12 +83,7 @@ fun runMyCommunity(player: ServerPlayerEntity) {
     replaceWith = ReplaceWith("PlayerInteractionApi.toggleActionBar(player)"))
 fun runToggleActionBar(player: ServerPlayerEntity) {
     onToggleActionBar(player)
-    CommunityMenuOpener.open(player) { syncId ->
-        MainMenu(
-            syncId = syncId,
-            playerExecutor = player
-        )
-    }
+    runBackOrRefreshMainMenu(player)
 }
 
 private fun checkPointSelectingCreating(player: ServerPlayerEntity): Boolean {
@@ -118,7 +105,7 @@ private fun generateNewCommunityTitle(): String {
         .first { title -> CommunityDatabase.communities.none { it.getRegion()?.name == title } }
 }
 
-private fun runBackMainMenu(player: ServerPlayerEntity) {
+private fun runBackOrRefreshMainMenu(player: ServerPlayerEntity) {
     CommunityMenuOpener.open(player) { syncId ->
         MainMenu(
             syncId = syncId,

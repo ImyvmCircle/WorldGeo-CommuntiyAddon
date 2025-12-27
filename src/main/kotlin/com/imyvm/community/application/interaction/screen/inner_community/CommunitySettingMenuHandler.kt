@@ -2,31 +2,32 @@ package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
-import com.imyvm.community.inter.screen.inner_community.CommunityMemberListMenu
-import com.imyvm.community.inter.screen.inner_community.CommunityRegionScopeMenu
+import com.imyvm.community.domain.GeographicFunctionType
+import com.imyvm.community.inter.screen.inner_community.multi_parent.CommunityMemberListMenu
+import com.imyvm.community.inter.screen.inner_community.multi_parent.CommunityRegionScopeMenu
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun runOpenSettingRegional(playerExecutor: ServerPlayerEntity, community: Community, runBackCommunity: (ServerPlayerEntity) -> Unit) {
+fun runOpenSettingRegional(playerExecutor: ServerPlayerEntity, community: Community, runBackGrandfather: (ServerPlayerEntity) -> Unit) {
     CommunityMenuOpener.open(playerExecutor) { syncId ->
         CommunityRegionScopeMenu(
             syncId = syncId,
             playerExecutor = playerExecutor,
             community = community,
-            geographicFunctionType = com.imyvm.community.domain.GeographicFunctionType.SETTING_ADJUSTMENT
-        ) { runBackToSettingMenu(playerExecutor,community,runBackCommunity) }
+            geographicFunctionType = GeographicFunctionType.SETTING_ADJUSTMENT
+        ) { runBackToSettingMenu(playerExecutor,community,runBackGrandfather) }
     }
 }
 
-fun runOpenSettingPlayerTargeted(playerExecutor: ServerPlayerEntity, community: Community, runBackCommunity: (ServerPlayerEntity) -> Unit) {
+fun runOpenSettingPlayerTargeted(playerExecutor: ServerPlayerEntity, community: Community, runBackGrandfather: (ServerPlayerEntity) -> Unit) {
     CommunityMenuOpener.open(playerExecutor) {syncId ->
-        CommunityMemberListMenu(syncId, community, playerExecutor) { runBackToSettingMenu(playerExecutor, community, runBackCommunity) }
+        CommunityMemberListMenu(syncId, community, playerExecutor) { runBackToSettingMenu(playerExecutor, community, runBackGrandfather) }
     }
 }
 
 private fun runBackToSettingMenu(
     player: ServerPlayerEntity,
     community: Community,
-    runBackCommunity: (ServerPlayerEntity) -> Unit
+    runBack: (ServerPlayerEntity) -> Unit
 ) {
-    runOpenSettingMenu(player, community, runBackCommunity)
+    runOpenSettingMenu(player, community, runBack)
 }

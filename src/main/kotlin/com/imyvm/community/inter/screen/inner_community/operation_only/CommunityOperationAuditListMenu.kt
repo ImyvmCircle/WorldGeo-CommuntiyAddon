@@ -102,6 +102,7 @@ class CommunityOperationAuditListMenu(
     }
 
     companion object {
-        fun generateMenuTitle(community: Community): Text = Text.of(community.generateCommunityMark() + " - Audit Requests:")
+        fun generateMenuTitle(community: Community): Text =
+            Text.of(community.generateCommunityMark() + "ui.community.operation.audit_list.title.component")
     }
 }

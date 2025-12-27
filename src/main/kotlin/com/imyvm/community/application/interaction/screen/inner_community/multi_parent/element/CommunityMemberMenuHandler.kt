@@ -1,12 +1,12 @@
-package com.imyvm.community.application.interaction.screen.inner_community
+package com.imyvm.community.application.interaction.screen.inner_community.multi_parent.element
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.domain.MemberAccount
 import com.imyvm.community.domain.community.MemberRoleType
-import com.imyvm.community.inter.screen.inner_community.CommunityMemberMenu
-import com.imyvm.community.inter.screen.inner_community.CommunityRegionScopeMenu
+import com.imyvm.community.inter.screen.inner_community.multi_parent.element.CommunityMemberMenu
+import com.imyvm.community.inter.screen.inner_community.multi_parent.CommunityRegionScopeMenu
 import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityNotificationMenuAnvil
 import com.imyvm.community.util.Translator
 import com.imyvm.community.util.Translator.trMenu
@@ -17,7 +17,7 @@ fun runOpenPlayerRegionScopeChoice(
     community: Community,
     playerExecutor: ServerPlayerEntity,
     playerObject: GameProfile,
-    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
+    runBackGrandfather: (ServerPlayerEntity) -> Unit
 ) {
     CommunityMenuOpener.open(playerExecutor) { syncId ->
         CommunityRegionScopeMenu(
@@ -26,7 +26,7 @@ fun runOpenPlayerRegionScopeChoice(
             community = community,
             geographicFunctionType = GeographicFunctionType.SETTING_ADJUSTMENT,
             playerObject = playerObject
-        ) { runBackToMemberMenu(playerExecutor, community, playerObject, runBackGrandfatherMenu) }
+        ) { runBackToMemberMenu(playerExecutor, community, playerObject, runBackGrandfather) }
     }
 }
 

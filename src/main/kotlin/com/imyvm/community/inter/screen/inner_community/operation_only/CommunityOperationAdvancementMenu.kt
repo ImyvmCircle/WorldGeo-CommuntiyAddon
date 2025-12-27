@@ -9,11 +9,11 @@ class CommunityOperationAdvancementMenu(
     syncId: Int,
     community: Community,
     playerExecutor: ServerPlayerEntity,
-    runBackCommunityOperationMenu: ((ServerPlayerEntity) -> Unit)
+    runBack: ((ServerPlayerEntity) -> Unit)
 ): AbstractMenu(
     syncId,
     menuTitle = generateCommunityAdvancementMenuTitle(community),
-    runBack = runBackCommunityOperationMenu
+    runBack = runBack
 ) {
     companion object {
         private fun generateCommunityAdvancementMenuTitle(community: Community): Text {

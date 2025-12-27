@@ -18,7 +18,7 @@ class CommunityOperationAuditMenu(
     runBack: (ServerPlayerEntity) -> Unit
 ): AbstractMenu(
     syncId,
-    menuTitle = generateCommunityOperationAuditMenuTitle(),
+    menuTitle = generateCommunityOperationAuditMenuTitle(playerObject),
     runBack = runBack
 ) {
     init {
@@ -35,6 +35,7 @@ class CommunityOperationAuditMenu(
         ) { runRefuse(community, playerExecutor, playerObject) }
     }
     companion object {
-        fun generateCommunityOperationAuditMenuTitle(): Text = Translator.tr("ui.community.operation.audit.title") ?: Text.of("Audit")
+        fun generateCommunityOperationAuditMenuTitle(playerObject: GameProfile): Text =
+            Text.of((Translator.tr("ui.community.operation.audit.title")?.string ?: "Audit") + playerObject.name)
     }
 }

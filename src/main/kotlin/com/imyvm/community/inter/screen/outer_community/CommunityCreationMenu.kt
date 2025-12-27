@@ -18,18 +18,18 @@ class CommunityCreationMenu(
     currentShape: GeoShapeType = GeoShapeType.RECTANGLE,
     isCurrentCommunityTypeManor: Boolean = true,
     playerExecutor: ServerPlayerEntity,
-    runBackMain : ((ServerPlayerEntity) -> Unit)
+    runBack : ((ServerPlayerEntity) -> Unit)
 ) : AbstractMenu(
     syncId = syncId,
     menuTitle = createMenuTitle(currentName, currentShape, isCurrentCommunityTypeManor, playerExecutor),
-    runBack = runBackMain
+    runBack = runBack
 ) {
     init {
         addButton(
             slot = 10,
             name = currentName,
             item = Items.NAME_TAG
-        ) { runRenameNewCommunity(it, currentName, currentShape, isCurrentCommunityTypeManor, runBackMain) }
+        ) { runRenameNewCommunity(it, currentName, currentShape, isCurrentCommunityTypeManor, runBack) }
 
         addButton(
             slot = 13,
@@ -41,14 +41,14 @@ class CommunityCreationMenu(
                 GeoShapeType.POLYGON -> Items.NETHER_STAR
                 GeoShapeType.UNKNOWN -> Items.STRUCTURE_BLOCK
             }
-        ) { runSwitchCommunityShape(it, currentName, currentShape, isCurrentCommunityTypeManor, runBackMain) }
+        ) { runSwitchCommunityShape(it, currentName, currentShape, isCurrentCommunityTypeManor, runBack) }
 
         addButton(
             slot = 16,
             name = if (isCurrentCommunityTypeManor) Translator.tr("ui.create.button.type.manor")?.string ?: "Manor"
             else Translator.tr("ui.create.button.type.realm")?.string ?: "Realm",
             item = if (isCurrentCommunityTypeManor) Items.BIRCH_PLANKS else Items.CHERRY_PLANKS
-        ) { runSwitchCommunityType(it, currentName, currentShape, isCurrentCommunityTypeManor, runBackMain) }
+        ) { runSwitchCommunityType(it, currentName, currentShape, isCurrentCommunityTypeManor, runBack) }
 
         addButton(
             slot = 35,

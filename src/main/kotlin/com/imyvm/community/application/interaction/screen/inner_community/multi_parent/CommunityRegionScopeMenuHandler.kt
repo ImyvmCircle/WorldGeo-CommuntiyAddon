@@ -1,9 +1,11 @@
-package com.imyvm.community.application.interaction.screen.inner_community
+package com.imyvm.community.application.interaction.screen.inner_community.multi_parent
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
+import com.imyvm.community.application.interaction.screen.inner_community.runTeleportCommunity
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.GeographicFunctionType
-import com.imyvm.community.inter.screen.inner_community.TargetSettingMenu
+import com.imyvm.community.inter.screen.inner_community.multi_parent.CommunityRegionScopeMenu
+import com.imyvm.community.inter.screen.inner_community.multi_parent.element.TargetSettingMenu
 import com.imyvm.community.inter.screen.inner_community.operation_only.CommunityOperationTeleportPointMenu
 import com.imyvm.iwg.domain.component.GeoScope
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
@@ -23,9 +25,8 @@ fun runExecuteRegion(
                 syncId = syncId,
                 playerExecutor = playerExecutor,
                 community = community,
-                playerObject = playerObject,
-                runBack = runBackGrandfatherMenu
-            )
+                playerObject = playerObject
+            ) { runBackRegionScopeMenu(playerExecutor, community, geographicFunctionType, runBackGrandfatherMenu) }
         }
     } else if (geographicFunctionType == GeographicFunctionType.TELEPORT_POINT_EXECUTION) {
         runTeleportCommunity(playerExecutor, community)
@@ -53,9 +54,8 @@ fun runExecuteScope(
                     playerExecutor = playerExecutor,
                     community = community,
                     scope = scope,
-                    playerObject = playerObject,
-                    runBack = runBackGrandfatherMenu
-                )
+                    playerObject = playerObject
+                ) { runBackRegionScopeMenu(playerExecutor, community, geographicFunctionType, runBackGrandfatherMenu) }
             }
         }
         GeographicFunctionType.TELEPORT_POINT_LOCATING -> {
@@ -64,9 +64,8 @@ fun runExecuteScope(
                     syncId = syncId,
                     playerExecutor = playerExecutor,
                     community = community,
-                    scope = scope,
-                    runBack = runBackGrandfatherMenu
-                )
+                    scope = scope
+                ) { runBackRegionScopeMenu(playerExecutor, community, geographicFunctionType, runBackGrandfatherMenu) }
             }
         }
         GeographicFunctionType.TELEPORT_POINT_EXECUTION -> {
@@ -74,5 +73,22 @@ fun runExecuteScope(
             communityRegion?.let { PlayerInteractionApi.teleportPlayerToScope(playerExecutor, it, scope) }
             playerExecutor.closeHandledScreen()
         }
+    }
+}
+
+private fun runBackRegionScopeMenu(
+    playerExecutor: ServerPlayerEntity,
+    community: Community,
+    geographicFunctionType: GeographicFunctionType,
+    runBack: (ServerPlayerEntity) -> Unit
+) {
+    CommunityMenuOpener.open(playerExecutor) { syncId ->
+        CommunityRegionScopeMenu(
+            syncId = syncId,
+            playerExecutor = playerExecutor,
+            community = community,
+            geographicFunctionType = geographicFunctionType,
+            runBack = runBack
+        )
     }
 }

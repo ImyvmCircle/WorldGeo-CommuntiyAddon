@@ -22,7 +22,7 @@ fun runSwitchCommunityShape(
     communityName: String,
     geoShapeType: GeoShapeType,
     isManor: Boolean,
-    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
+    runBack: (ServerPlayerEntity) -> Unit
 ){
     val newType = when(geoShapeType){
         GeoShapeType.CIRCLE -> GeoShapeType.RECTANGLE
@@ -32,7 +32,7 @@ fun runSwitchCommunityShape(
     }
 
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityCreationMenu(syncId, communityName, newType, isManor, player, runBackGrandfatherMenu)
+        CommunityCreationMenu(syncId, communityName, newType, isManor, player, runBack)
     }
 }
 
@@ -41,10 +41,10 @@ fun runSwitchCommunityType(
     communityName: String,
     geoShapeType: GeoShapeType,
     isManor: Boolean,
-    runBackGrandfatherMenu: (ServerPlayerEntity) -> Unit
+    runBack: (ServerPlayerEntity) -> Unit
 ){
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor, player, runBackGrandfatherMenu)
+        CommunityCreationMenu(syncId, communityName, geoShapeType, !isManor, player, runBack)
     }
 }
 

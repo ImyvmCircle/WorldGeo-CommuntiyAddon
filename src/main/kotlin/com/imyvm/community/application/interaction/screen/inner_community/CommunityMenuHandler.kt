@@ -2,16 +2,17 @@ package com.imyvm.community.application.interaction.screen.inner_community
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
 import com.imyvm.community.domain.Community
+import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.inter.screen.inner_community.*
+import com.imyvm.community.inter.screen.inner_community.multi_parent.CommunityMemberListMenu
+import com.imyvm.community.inter.screen.inner_community.multi_parent.CommunityRegionScopeMenu
 import com.imyvm.iwg.inter.api.PlayerInteractionApi
 import com.imyvm.iwg.util.text.Translator
 import net.minecraft.server.network.ServerPlayerEntity
 
-fun runOpenOperationMenu(player: ServerPlayerEntity, community: Community, runBackMain : ((ServerPlayerEntity) -> Unit)) {
+fun runOpenOperationMenu(player: ServerPlayerEntity, community: Community, runBackGrandfather : ((ServerPlayerEntity) -> Unit)) {
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityOperationMenu(syncId, community, player) {
-            runBackToCommunityMenu(player, community, runBackMain)
-        }
+        CommunityOperationMenu(syncId, community, player) { runBackToCommunityMenu(player, community, runBackGrandfather) }
     }
 }
 
@@ -20,19 +21,15 @@ fun runSendingCommunityDescription(player: ServerPlayerEntity, community: Commun
     player.closeHandledScreen()
 }
 
-fun runOpenMemberListMenu(player: ServerPlayerEntity, community: Community, runBackMain : ((ServerPlayerEntity) -> Unit)) {
+fun runOpenMemberListMenu(player: ServerPlayerEntity, community: Community, runBackGrandfather : ((ServerPlayerEntity) -> Unit)) {
     CommunityMenuOpener.open(player) { syncId ->
-        CommunityMemberListMenu(syncId, community, player) {
-            runBackToCommunityMenu(player, community, runBackMain)
-        }
+        CommunityMemberListMenu(syncId, community, player) { runBackToCommunityMenu(player, community, runBackGrandfather) }
     }
 }
 
-fun runOpenSettingMenu(player: ServerPlayerEntity, community: Community, runBackMain: (ServerPlayerEntity) -> Unit) {
+fun runOpenSettingMenu(player: ServerPlayerEntity, community: Community, runBackGrandfather: (ServerPlayerEntity) -> Unit) {
     CommunityMenuOpener.open(player) { syncId ->
-        CommunitySettingMenu(syncId, player, community) {
-            runBackToCommunityMenu(player, community, runBackMain)
-        }
+        CommunitySettingMenu(syncId, player, community) { runBackToCommunityMenu(player, community, runBackGrandfather) }
     }
 }
 
@@ -54,24 +51,24 @@ fun runTeleportCommunity(player: ServerPlayerEntity, community: Community) {
     PlayerInteractionApi.teleportPlayerToScope(player, region, mainScope)
 }
 
-fun runTeleportToScope(player: ServerPlayerEntity, community: Community, runBackMain: (ServerPlayerEntity) -> Unit) {
+fun runTeleportToScope(player: ServerPlayerEntity, community: Community, runBackGrandfather: (ServerPlayerEntity) -> Unit) {
     CommunityMenuOpener.open(player) { syncId ->
         CommunityRegionScopeMenu(
             syncId = syncId,
             playerExecutor = player,
             community = community,
-            geographicFunctionType = com.imyvm.community.domain.GeographicFunctionType.TELEPORT_POINT_EXECUTION,
-        ) { runBackToCommunityMenu(player, community, runBackMain) }
+            geographicFunctionType = GeographicFunctionType.TELEPORT_POINT_EXECUTION,
+        ) { runBackToCommunityMenu(player, community, runBackGrandfather) }
     }
 }
 
-private fun runBackToCommunityMenu(player: ServerPlayerEntity, community: Community, runBackMain : ((ServerPlayerEntity) -> Unit)) {
+private fun runBackToCommunityMenu(player: ServerPlayerEntity, community: Community, runBackGrandfather : ((ServerPlayerEntity) -> Unit)) {
     CommunityMenuOpener.open(player) { syncId ->
         CommunityMenu(
             syncId = syncId,
             player = player,
             community = community,
-            runBack = runBackMain
+            runBack = runBackGrandfather
         )
     }
 }

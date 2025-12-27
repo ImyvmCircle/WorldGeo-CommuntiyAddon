@@ -1,8 +1,8 @@
-package com.imyvm.community.inter.screen.inner_community
+package com.imyvm.community.inter.screen.inner_community.multi_parent
 
 import com.imyvm.community.application.interaction.screen.CommunityMenuOpener
-import com.imyvm.community.application.interaction.screen.inner_community.runExecuteRegion
-import com.imyvm.community.application.interaction.screen.inner_community.runExecuteScope
+import com.imyvm.community.application.interaction.screen.inner_community.multi_parent.runExecuteRegion
+import com.imyvm.community.application.interaction.screen.inner_community.multi_parent.runExecuteScope
 import com.imyvm.community.domain.Community
 import com.imyvm.community.domain.GeographicFunctionType
 import com.imyvm.community.inter.screen.AbstractListMenu

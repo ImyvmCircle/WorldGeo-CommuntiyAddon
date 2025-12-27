@@ -135,6 +135,11 @@
 
   "ui.community.operation.member.title.component": "- Member Management",
 
+  "ui.community.operation.audit_list.title.component": " - Audit Requests",
+  "ui.community.operation.audit_list.no_requests": "No pending member applications.",
+
+  "ui.community.operation.audit.title": "- Audit Member Application",
+
   "ui.community.operation.region.geometry.title.component": "Choose scale modifying geometry shape",
   "ui.community.operation.region.setting.manage.title.component": "Choose scale modifying region settings",
   "ui.community.operation.region.teleport_point.component": "Choose scale managing teleport point",
@@ -150,7 +155,7 @@
   "ui.community.operation.region.setting.list.rule.header": "Rules",
   "ui.community.operation.region.setting.list.permission.build_break": "Allow Building/Breaking",
   "ui.community.operation.region.setting.list.permission.fly": "Allow Flying",
-  "ui.community.operation.region.setting.list.permission.container": "Allow PvP",
+  "ui.community.operation.region.setting.list.permission.container": "Allow Container Access",
 
   "ui.community.operation.teleport_point.title": "Teleport Point - community {0} Scope {1}",
 
