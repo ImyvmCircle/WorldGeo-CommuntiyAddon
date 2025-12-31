@@ -55,7 +55,7 @@ class CommunityMemberListMenu(
             slot = 12,
             name = ownerName,
             itemStack = createPlayerHeadItemStack(ownerName, ownerUUID!!)
-        ) {}
+        ) { runCommunityOpenMember(community, ownerUUID, playerExecutor, runBack) }
     }
 
     private fun addAdminButtons() {

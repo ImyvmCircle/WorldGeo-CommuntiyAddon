@@ -76,7 +76,7 @@ class Community(
 
     private fun analyzeByRole(executorRole: MemberRoleType, targetRole: MemberRoleType): Boolean {
         return when (executorRole) {
-            MemberRoleType.OWNER -> targetRole != MemberRoleType.OWNER
+            MemberRoleType.OWNER -> true
             MemberRoleType.ADMIN -> targetRole == MemberRoleType.MEMBER
             MemberRoleType.MEMBER -> false
             MemberRoleType.APPLICANT -> false
