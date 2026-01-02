@@ -80,8 +80,8 @@ class CommunityMemberMenu(
         fun generateCommunityMemberListMemberMenuTitle(community: Community, playerObject: GameProfile): Text {
             return Text.of(
                 "${community.getRegion()?.name}" +
-                        " - ${playerObject.name}" +
-                        Translator.tr("ui.community.operation.member.title.component")
+                        " - ${playerObject.name} " +
+                        Translator.tr("ui.community.operation.member.title.component")!!.string
             )
         }
     }
