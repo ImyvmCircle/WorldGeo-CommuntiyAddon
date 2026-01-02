@@ -134,6 +134,10 @@
   "ui.community.member_list.error.member_not_found": "Managing member not found.",
 
   "ui.community.operation.member.title.component": "- Member Management",
+  "ui.community.operation.member.member_page.button.setting": "Setting",
+  "ui.community.operation.member.member_page.button.remove": "Remove from Community",
+  "ui.community.operation.member.member_page.button.message": "Send Message",
+  "ui.community.operation.member.member_page.button.promote.admin": "Promote to Admin",
 
   "ui.community.operation.audit_list.title.component": " - Audit Requests",
   "ui.community.operation.audit_list.no_requests": "No pending member applications.",
