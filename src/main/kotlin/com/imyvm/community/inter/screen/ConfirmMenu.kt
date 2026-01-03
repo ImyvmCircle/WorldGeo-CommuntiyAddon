@@ -15,7 +15,7 @@ class ConfirmMenu(
     syncId = syncId,
     menuTitle = getConfirmMenuTitle(
         cautions.firstOrNull()
-        ?: Translator.tr("ui.confirm.default")?.string ?: "<>"),
+        ?: Translator.tr("ui.confirm.default")?.string ?: "<Error When Getting Target Operation>"),
     runBack = runBack
 ) {
 
