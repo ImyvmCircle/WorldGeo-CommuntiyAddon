@@ -57,6 +57,10 @@
   "ui.main.button.action_bar.enable": "Action Bar : Enabled",
   "ui.main.button.action_bar.disable": "Action Bar : Disabled",
 
+  "ui.confirm.title": "Confirm: {0}",
+  "ui.confirm.default": "<Error When Getting Target Operation>",
+  "ui.confirm.button.confirm": "Confirm",
+
   "ui.create.error.name_empty": "NameEmpty",
   "ui.create.error.name_duplicated": "NameDuplicated",
   "ui.create.error.shape_unknown": "ShapeUnknown",
